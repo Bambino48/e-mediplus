@@ -703,3 +703,4 @@ function ResultCard({ item }) {
     </div>
   );
 }
+

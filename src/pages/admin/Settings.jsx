@@ -520,3 +520,4 @@ export default function AdminSettings() {
         </main>
     );
 }
+

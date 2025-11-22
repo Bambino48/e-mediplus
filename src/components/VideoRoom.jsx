@@ -155,3 +155,4 @@ function VideoPane({ title, stream, muted }) {
         </div>
     );
 }
+

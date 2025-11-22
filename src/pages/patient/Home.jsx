@@ -1,5 +1,4 @@
-/* eslint-disable no-unused-vars */
-import { motion } from "framer-motion";
+ 
 import {
   AlertTriangle,
   MapPin,
@@ -119,7 +118,7 @@ export default function PatientHome() {
                 </span>
               </motion.h1>
               {/* Badge de confiance */}
-              <motion.div
+              <div
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.2 }}
@@ -129,7 +128,7 @@ export default function PatientHome() {
                   <Shield className="w-4 h-4 mr-2" />
                   Plateforme certifiée & sécurisée
                 </span>
-              </motion.div>
+              </div>
               <p className="text-xl text-slate-600 dark:text-slate-300 max-w-2xl leading-relaxed">
                 Plateforme e‑Santé intelligente pour patients et professionnels
                 : RDV, téléconsultation, ordonnances numériques et rappels
@@ -205,7 +204,7 @@ export default function PatientHome() {
               </div>
             </div>
 
-            <motion.div
+            <div
               initial={{ opacity: 0, scale: 0.98 }}
               animate={{ opacity: 1, scale: 1 }}
               className="relative"
@@ -225,7 +224,7 @@ export default function PatientHome() {
                 </div>
               </div>
               <div className="absolute inset-6 rounded-3xl border border-dashed border-cyan-300/50 dark:border-cyan-700/40 pointer-events-none" />
-            </motion.div>
+            </div>
           </div>
         </div>
       </section>
@@ -233,7 +232,7 @@ export default function PatientHome() {
       {/* Trust indicators */}
       <section className="py-16 bg-slate-50 dark:bg-slate-900/50">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <motion.div
+          <div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -246,10 +245,10 @@ export default function PatientHome() {
               Des milliers de patients trouvent chaque jour les soins dont ils
               ont besoin grâce à notre plateforme
             </p>
-          </motion.div>
+          </div>
 
           <div className="grid md:grid-cols-4 gap-8">
-            <motion.div
+            <div
               initial={{ opacity: 0, scale: 0.9 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
@@ -265,9 +264,9 @@ export default function PatientHome() {
                 </div>
                 <div className="text-sm text-slate-500 mt-1">Ce mois-ci</div>
               </div>
-            </motion.div>
+            </div>
 
-            <motion.div
+            <div
               initial={{ opacity: 0, scale: 0.9 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
@@ -285,9 +284,9 @@ export default function PatientHome() {
                   Taux de recommandation
                 </div>
               </div>
-            </motion.div>
+            </div>
 
-            <motion.div
+            <div
               initial={{ opacity: 0, scale: 0.9 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
@@ -305,9 +304,9 @@ export default function PatientHome() {
                   Disponible en permanence
                 </div>
               </div>
-            </motion.div>
+            </div>
 
-            <motion.div
+            <div
               initial={{ opacity: 0, scale: 0.9 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
@@ -325,7 +324,7 @@ export default function PatientHome() {
                   Partenaires certifiés
                 </div>
               </div>
-            </motion.div>
+            </div>
           </div>
         </div>
       </section>
@@ -333,7 +332,7 @@ export default function PatientHome() {
       {/* Testimonials section */}
       <section className="py-16 bg-white dark:bg-slate-900">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <motion.div
+          <div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -346,10 +345,10 @@ export default function PatientHome() {
               Découvrez les expériences de patients satisfaits qui ont trouvé
               les soins dont ils avaient besoin
             </p>
-          </motion.div>
+          </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            <motion.div
+            <div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -381,9 +380,9 @@ export default function PatientHome() {
                   </div>
                 </div>
               </div>
-            </motion.div>
+            </div>
 
-            <motion.div
+            <div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -413,9 +412,9 @@ export default function PatientHome() {
                   <div className="text-sm text-slate-500">Suivi diabète</div>
                 </div>
               </div>
-            </motion.div>
+            </div>
 
-            <motion.div
+            <div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -449,7 +448,7 @@ export default function PatientHome() {
                   </div>
                 </div>
               </div>
-            </motion.div>
+            </div>
           </div>
         </div>
       </section>
@@ -536,3 +535,4 @@ function CTA({ icon, title, to, variant }) {
     </Link>
   );
 }
+

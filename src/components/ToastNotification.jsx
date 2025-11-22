@@ -1,5 +1,4 @@
-/* eslint-disable no-unused-vars */
-import { AnimatePresence, motion } from "framer-motion";
+ 
 import { AlertCircle, AlertTriangle, CheckCircle, Info, X } from "lucide-react";
 import { useEffect } from "react";
 
@@ -37,7 +36,7 @@ const ToastNotification = ({
     };
 
     return (
-        <motion.div
+        <div
             initial={{ opacity: 0, x: 300, scale: 0.3 }}
             animate={{ opacity: 1, x: 0, scale: 1 }}
             exit={{ opacity: 0, x: 300, scale: 0.5, transition: { duration: 0.2 } }}
@@ -60,7 +59,7 @@ const ToastNotification = ({
                     <X className="h-4 w-4" />
                 </button>
             </div>
-        </motion.div>
+        </div>
     );
 };
 
@@ -77,3 +76,4 @@ const ToastContainer = ({ toasts, onClose }) => {
 };
 
 export { ToastContainer, ToastNotification };
+

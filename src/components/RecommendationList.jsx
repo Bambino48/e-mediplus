@@ -21,3 +21,4 @@ export default function RecommendationList({ items, type }) {
         </div>
     );
 }
+

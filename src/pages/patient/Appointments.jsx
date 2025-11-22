@@ -1,6 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-// eslint-disable-next-line no-unused-vars
-import { motion } from "framer-motion";
+ 
 import {
   Calendar,
   Clock,
@@ -55,7 +54,7 @@ function AppointmentCard({ appointment, onView, onCancel }) {
   };
 
   return (
-    <motion.div
+    <div
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       className={`bg-white dark:bg-slate-800 rounded-lg shadow-sm border p-4 ${isPast ? "opacity-75" : ""
@@ -150,7 +149,7 @@ function AppointmentCard({ appointment, onView, onCancel }) {
           )}
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 }
 
@@ -162,14 +161,14 @@ function AppointmentDetailsModal({ appointment, onClose, onCancel }) {
   const isPast = date < new Date();
 
   return (
-    <motion.div
+    <div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
       onClick={onClose}
     >
-      <motion.div
+      <div
         initial={{ scale: 0.9, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         exit={{ scale: 0.9, opacity: 0 }}
@@ -313,8 +312,8 @@ function AppointmentDetailsModal({ appointment, onClose, onCancel }) {
             Fermer
           </button>
         </div>
-      </motion.div>
-    </motion.div>
+      </div>
+    </div>
   );
 }
 
@@ -518,7 +517,7 @@ export default function Appointments({ useLayout = true }) {
 
       {/* ✅ Section Prochain Rendez-vous avec Statut */}
       {nextAppointment && (
-        <motion.div
+        <div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="bg-linear-to-r from-cyan-50 to-blue-50 dark:from-cyan-900/20 dark:to-blue-900/20 border border-cyan-200 dark:border-cyan-800 rounded-xl p-6 shadow-sm mb-6"
@@ -610,7 +609,7 @@ export default function Appointments({ useLayout = true }) {
               ></div>
             </div>
           </div>
-        </motion.div>
+        </div>
       )}
 
       {/* Liste des rendez-vous */}
@@ -661,4 +660,5 @@ export default function Appointments({ useLayout = true }) {
     mainContent
   );
 }
+
 

@@ -1,6 +1,5 @@
 // src/pages/patient/Prescriptions.jsx
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { AnimatePresence, motion as Motion } from "framer-motion";
 import {
   AlertCircle,
   Calendar,
@@ -242,7 +241,7 @@ export default function PatientPrescriptions() {
             </span>
           </span>
           {activeTab === "active" && (
-            <Motion.div
+            <div
               layoutId="activeTab"
               className="absolute bottom-0 left-0 right-0 h-0.5 bg-cyan-500"
             />
@@ -264,7 +263,7 @@ export default function PatientPrescriptions() {
             </span>
           </span>
           {activeTab === "history" && (
-            <Motion.div
+            <div
               layoutId="activeTab"
               className="absolute bottom-0 left-0 right-0 h-0.5 bg-cyan-500"
             />
@@ -303,7 +302,7 @@ export default function PatientPrescriptions() {
 
       <AnimatePresence mode="wait">
         {filteredPrescriptions.length === 0 ? (
-          <Motion.div
+          <div
             key="empty"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -324,9 +323,9 @@ export default function PatientPrescriptions() {
                 Consulter un médecin
               </button>
             )}
-          </Motion.div>
+          </div>
         ) : (
-          <Motion.div
+          <div
             key="list"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -336,7 +335,7 @@ export default function PatientPrescriptions() {
             {filteredPrescriptions.map((prescription, index) => {
               const statusBadge = getStatusBadge(prescription.status);
               return (
-                <Motion.div
+                <div
                   key={prescription.id}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -405,13 +404,14 @@ export default function PatientPrescriptions() {
                   </div>
 
                   <PrescriptionCard prescription={prescription} />
-                </Motion.div>
+                </div>
               );
             })}
-          </Motion.div>
+          </div>
         )}
       </AnimatePresence>
     </main>
   );
 }
+
 

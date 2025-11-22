@@ -30,6 +30,7 @@ import { Line } from "react-chartjs-2";
 import { Link } from "react-router-dom";
 import { getReports, listPharmacies, listUsers } from "../../api/admin.js";
 import AdminCard from "../../components/AdminCard.jsx";
+import CSSMotionDiv from "../../components/CSSMotionDiv";
 import { useToastContext } from "../../context/ToastProvider.jsx";
 
 // Enregistrer les éléments Chart.js
@@ -662,7 +663,7 @@ export default function AdminDashboard() {
               ))
             ) : (
               shortcuts.map((item, i) => (
-                <motion.div
+                <CSSMotionDiv
                   key={i}
                   whileHover={{ scale: 1.04, translateY: -4 }}
                   transition={{ duration: 0.25 }}
@@ -689,7 +690,7 @@ export default function AdminDashboard() {
                       </a>
                     </div>
                   </div>
-                </motion.div>
+                </CSSMotionDiv>
               ))
             )}
           </div>
@@ -809,3 +810,4 @@ export default function AdminDashboard() {
     </>
   );
 }
+

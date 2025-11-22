@@ -395,3 +395,4 @@ function getGroupsBySection(section) {
     },
   ];
 }
+

@@ -33,3 +33,4 @@ export default function ProLayout({ children, title }) {
     </div>
   );
 }
+

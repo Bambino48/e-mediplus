@@ -209,3 +209,4 @@ export const renderStars = (rating) => {
   }
   return <span className="flex items-center gap-0.5">{stars}</span>;
 };
+

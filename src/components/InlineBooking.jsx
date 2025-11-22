@@ -1,6 +1,5 @@
 /* eslint-disable no-unused-vars */
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { motion } from "framer-motion";
 import { X } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -83,14 +82,14 @@ const InlineBooking = ({ doctor, onClose, onSuccess }) => {
   if (!isVisible) return null;
 
   return (
-    <motion.div
+    <div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
       onClick={handleClose}
     >
-      <motion.div
+      <div
         initial={{ scale: 0.9, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         exit={{ scale: 0.9, opacity: 0 }}
@@ -178,10 +177,11 @@ const InlineBooking = ({ doctor, onClose, onSuccess }) => {
             )}
           </button>
         </div>
-      </motion.div>
-    </motion.div>
+      </div>
+    </div>
   );
 };
 
 export default InlineBooking;
+
 

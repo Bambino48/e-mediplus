@@ -36,3 +36,4 @@ export default function ProtectedRoute({ roles = [], children }) {
   // ✅ Sinon, on autorise l'accès à la page protégée
   return children;
 }
+

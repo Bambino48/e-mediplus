@@ -23,3 +23,4 @@ export default function Toast({ type = "success", message, onClose }) {
         </div>
     );
 }
+

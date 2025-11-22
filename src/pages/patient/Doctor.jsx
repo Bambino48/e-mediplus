@@ -253,7 +253,7 @@ export default function Doctor() {
   return (
     <main className="max-w-5xl mx-auto px-4 py-8 space-y-6">
       {/* Header avec photo et informations principales */}
-      <motion.div
+      <div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
@@ -370,10 +370,10 @@ export default function Doctor() {
             </div>
           </div>
         </div>
-      </motion.div>
+      </div>
 
       {/* Biographie */}
-      <motion.div
+      <div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.1 }}
@@ -386,10 +386,10 @@ export default function Doctor() {
             </p>
           </CardContent>
         </Card>
-      </motion.div>
+      </div>
 
       {/* Contact et localisation */}
-      <motion.div
+      <div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.2 }}
@@ -423,10 +423,10 @@ export default function Doctor() {
             </div>
           </CardContent>
         </Card>
-      </motion.div>
+      </div>
 
       {/* Disponibilités */}
-      <motion.div
+      <div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.3 }}
@@ -495,10 +495,10 @@ export default function Doctor() {
             )}
           </CardContent>
         </Card>
-      </motion.div>
+      </div>
 
       {/* Avis patients */}
-      <motion.div
+      <div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.4 }}
@@ -534,7 +534,7 @@ export default function Doctor() {
                 {d.reviews
                   .slice(0, showAllReviews ? d.reviews.length : 2)
                   .map((review) => (
-                    <motion.div
+                    <div
                       key={review.id}
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
@@ -555,7 +555,7 @@ export default function Doctor() {
                       <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
                         {review.comment}
                       </p>
-                    </motion.div>
+                    </div>
                   ))}
               </div>
             ) : (
@@ -569,7 +569,8 @@ export default function Doctor() {
             )}
           </CardContent>
         </Card>
-      </motion.div>
+      </div>
     </main>
   );
 }
+

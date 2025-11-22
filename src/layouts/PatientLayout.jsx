@@ -39,3 +39,4 @@ export default function PatientLayout({ children, title }) {
     </div>
   );
 }
+

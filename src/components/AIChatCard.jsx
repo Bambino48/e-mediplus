@@ -16,3 +16,4 @@ export default function AIChatCard({ messages }) {
         </div>
     );
 }
+

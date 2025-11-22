@@ -1,5 +1,4 @@
 /* eslint-disable no-unused-vars */
-import { motion, useMotionValueEvent, useScroll } from "framer-motion";
 import {
   Globe,
   LayoutDashboard,
@@ -37,11 +36,11 @@ export default function Navbar() {
     location.pathname.startsWith("/pro/") ||
     location.pathname.startsWith("/admin/");
 
-  // Animation de compactage au scroll
-  const { scrollY } = useScroll();
-  useMotionValueEvent(scrollY, "change", (latest) => {
-    setIsScrolled(latest > 30);
-  });
+  // Animation de compactage au scroll - Désactivée (framer-motion supprimé)
+  // const { scrollY } = useScroll();
+  // useMotionValueEvent(scrollY, "change", (latest) => {
+  //   setIsScrolled(latest > 30);
+  // });
 
   // Thème clair/sombre
   const toggleTheme = () => {
@@ -88,8 +87,8 @@ export default function Navbar() {
             ? "darkScrolled"
             : "darkInitial"
           : isScrolled
-          ? "scrolled"
-          : "initial"
+            ? "scrolled"
+            : "initial"
       }
       variants={variants}
     >
@@ -112,18 +111,18 @@ export default function Navbar() {
             to="/"
             className="font-semibold text-xl tracking-tight hover:opacity-90 transition"
           >
-            <motion.span
+            <span
               animate={{ color: darkMode ? "#06b6d4" : "#0ea5e9" }}
               transition={{ duration: 0.5 }}
             >
               Medi
-            </motion.span>
-            <motion.span
+            </span>
+            <span
               animate={{ color: darkMode ? "#14b8a6" : "#06b6d4" }}
               transition={{ duration: 0.5 }}
             >
               Plus
-            </motion.span>
+            </span>
           </Link>
 
           {/* === NAVIGATION PRINCIPALE === */}
@@ -187,8 +186,8 @@ export default function Navbar() {
                     {user.role === "admin"
                       ? "Administrateur"
                       : user.role === "patient"
-                      ? "Patient"
-                      : "Professionnel"}
+                        ? "Patient"
+                        : "Professionnel"}
                   </span>
                 </div>
               )}
@@ -198,8 +197,8 @@ export default function Navbar() {
                     user.role === "admin"
                       ? "/admin/dashboard"
                       : user.role === "patient"
-                      ? "/patient/dashboard"
-                      : "/pro/dashboard"
+                        ? "/patient/dashboard"
+                        : "/pro/dashboard"
                   }
                   className="btn-secondary flex items-center gap-1"
                 >
@@ -234,7 +233,7 @@ export default function Navbar() {
 
       {/* === MENU MOBILE === */}
       {menuOpen && (
-        <motion.div
+        <div
           initial={{ height: 0, opacity: 0 }}
           animate={{ height: "auto", opacity: 1 }}
           exit={{ height: 0, opacity: 0 }}
@@ -299,8 +298,8 @@ export default function Navbar() {
                       {user.role === "admin"
                         ? "Administrateur"
                         : user.role === "patient"
-                        ? "Patient"
-                        : "Professionnel"}
+                          ? "Patient"
+                          : "Professionnel"}
                     </span>
                   </div>
                 )}
@@ -330,7 +329,7 @@ export default function Navbar() {
               </div>
             )}
           </div>
-        </motion.div>
+        </div>
       )}
     </motion.header>
   );
@@ -361,10 +360,9 @@ function MobileItem({ to, label, onClick }) {
       to={to}
       onClick={onClick}
       className={({ isActive }) =>
-        `block text-sm px-3 py-2 rounded-md transition-colors duration-200 ${
-          isActive
-            ? "bg-cyan-50 text-cyan-700 dark:bg-cyan-900/30 dark:text-cyan-200"
-            : "text-slate-700 dark:text-slate-200 hover:text-cyan-600"
+        `block text-sm px-3 py-2 rounded-md transition-colors duration-200 ${isActive
+          ? "bg-cyan-50 text-cyan-700 dark:bg-cyan-900/30 dark:text-cyan-200"
+          : "text-slate-700 dark:text-slate-200 hover:text-cyan-600"
         }`
       }
     >
@@ -372,3 +370,4 @@ function MobileItem({ to, label, onClick }) {
     </NavLink>
   );
 }
+

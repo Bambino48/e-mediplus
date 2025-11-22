@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-vars */
+ 
 import {
   addDays,
   addMonths,
@@ -13,7 +13,6 @@ import {
   startOfWeek,
   subMonths,
 } from "date-fns";
-import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useMemo, useState } from "react";
 
@@ -108,7 +107,7 @@ export default function SchedulePicker({
           const isPastDate = isPast(date) && !isToday(date);
 
           return (
-            <motion.button
+            <button
               key={date.toISOString()}
               whileTap={{ scale: 0.95 }}
               onClick={() => handleDateSelect(date)}
@@ -149,7 +148,7 @@ export default function SchedulePicker({
                   <div className="w-1 h-1 bg-cyan-500 rounded-full"></div>
                 </div>
               )}
-            </motion.button>
+            </button>
           );
         })}
       </div>
@@ -168,7 +167,7 @@ export default function SchedulePicker({
 
       {/* Sélection du mode de consultation */}
       {currentMode !== undefined && currentOnModeChange && (
-        <motion.div
+        <div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="mt-6 p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl"
@@ -212,12 +211,12 @@ export default function SchedulePicker({
               </div>
             </button>
           </div>
-        </motion.div>
+        </div>
       )}
 
       {/* Section des créneaux horaires pour le jour sélectionné */}
       {selectedDate && hasSlots(selectedDate) && (
-        <motion.div
+        <div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="mt-6 p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl"
@@ -227,7 +226,7 @@ export default function SchedulePicker({
           </h4>
           <div className="grid grid-cols-4 gap-2">
             {slots[format(selectedDate, "yyyy-MM-dd")].map((time) => (
-              <motion.button
+              <button
                 key={time}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => currentOnChange?.({ date: selectedDate, time })}
@@ -240,11 +239,12 @@ export default function SchedulePicker({
                 }`}
               >
                 {time}
-              </motion.button>
+              </button>
             ))}
           </div>
-        </motion.div>
+        </div>
       )}
     </div>
   );
 }
+

@@ -1,5 +1,4 @@
 /* eslint-disable no-unused-vars */
-import { motion, useMotionValueEvent, useScroll } from "framer-motion";
 import {
   ChevronDown,
   Globe,
@@ -42,11 +41,11 @@ export default function Navbar() {
     location.pathname.startsWith("/pro/") ||
     location.pathname.startsWith("/admin/");
 
-  // Animation de compactage au scroll
-  const { scrollY } = useScroll();
-  useMotionValueEvent(scrollY, "change", (latest) => {
-    setIsScrolled(latest > 30);
-  });
+  // Animation de compactage au scroll - Désactivée (framer-motion supprimé)
+  // const { scrollY } = useScroll();
+  // useMotionValueEvent(scrollY, "change", (latest) => {
+  //   setIsScrolled(latest > 30);
+  // });
 
   // Thème clair/sombre
   const toggleTheme = () => {
@@ -93,7 +92,7 @@ export default function Navbar() {
   };
 
   return (
-    <motion.header
+    <header
       className="fixed top-0 left-0 w-full z-50 backdrop-blur border-b border-slate-200 dark:border-slate-800"
       animate={
         theme === "dark"
@@ -125,18 +124,18 @@ export default function Navbar() {
             to="/"
             className="font-semibold text-xl tracking-tight hover:opacity-90 transition"
           >
-            <motion.span
+            <span
               animate={{ color: theme === "dark" ? "#06b6d4" : "#0ea5e9" }}
               transition={{ duration: 0.5 }}
             >
               Medi
-            </motion.span>
-            <motion.span
+            </span>
+            <span
               animate={{ color: theme === "dark" ? "#14b8a6" : "#06b6d4" }}
               transition={{ duration: 0.5 }}
             >
               Plus
-            </motion.span>
+            </span>
           </Link>
 
           {/* === NAVIGATION PRINCIPALE === */}
@@ -240,7 +239,7 @@ export default function Navbar() {
 
                     {/* Dropdown menu */}
                     {userMenuOpen && (
-                      <motion.div
+                      <div
                         initial={{ opacity: 0, y: -10, scale: 0.95 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         transition={{ duration: 0.2 }}
@@ -309,7 +308,7 @@ export default function Navbar() {
                             <span>Déconnexion</span>
                           </button>
                         </div>
-                      </motion.div>
+                      </div>
                     )}
                   </div>
                 </>
@@ -347,7 +346,7 @@ export default function Navbar() {
 
       {/* === MENU MOBILE === */}
       {menuOpen && (
-        <motion.div
+        <div
           initial={{ height: 0, opacity: 0 }}
           animate={{ height: "auto", opacity: 1 }}
           exit={{ height: 0, opacity: 0 }}
@@ -484,9 +483,9 @@ export default function Navbar() {
               </div>
             )}
           </div>
-        </motion.div>
+        </div>
       )}
-    </motion.header>
+    </header>
   );
 }
 
@@ -525,3 +524,4 @@ function MobileItem({ to, label, onClick }) {
     </NavLink>
   );
 }
+

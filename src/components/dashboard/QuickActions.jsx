@@ -1,6 +1,4 @@
 // src/components/dashboard/QuickActions.jsx
-import { motion as Motion } from "framer-motion";
-
 /**
  * Composant pour afficher les actions rapides / raccourcis
  *
@@ -26,7 +24,7 @@ export default function QuickActions({ actions = [], onActionClick }) {
         {actions.map((action, index) => {
           const IconComponent = action.icon;
           return (
-            <Motion.div
+            <div
               key={action.title}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
@@ -59,10 +57,11 @@ export default function QuickActions({ actions = [], onActionClick }) {
                   <div className="absolute inset-0 bg-white/0 group-hover:bg-white/10 transition-colors" />
                 </div>
               </button>
-            </Motion.div>
+            </div>
           );
         })}
       </div>
     </div>
   );
 }
+

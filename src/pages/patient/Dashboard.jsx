@@ -1,6 +1,5 @@
 /* eslint-disable no-unused-vars */
 // src/pages/patient/Dashboard.jsx
-import { motion } from "framer-motion";
 import {
   AlertCircle,
   CalendarDays,
@@ -212,7 +211,7 @@ export default function PatientDashboard() {
     <>
       <section className="w-full px-4 sm:px-6 lg:px-8 py-8">
         {/* Message de bienvenue personnalisé */}
-        <motion.div
+        <div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           className="mb-6 p-6 bg-linear-to-r from-cyan-50 to-teal-50 dark:from-slate-800 dark:to-slate-700 rounded-xl border border-cyan-100 dark:border-slate-600"
@@ -229,10 +228,10 @@ export default function PatientDashboard() {
             Votre tableau de bord personnel pour gérer vos rendez-vous,
             médicaments et consultations médicales.
           </p>
-        </motion.div>
+        </div>
 
         {/* === Section Aujourd'hui - Priorité haute === */}
-        <motion.div
+        <div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
@@ -385,7 +384,7 @@ export default function PatientDashboard() {
             {/* Actions rapides du jour */}
             <div className="mt-4 flex flex-wrap gap-2">
               {isAuthenticated && (
-                <motion.button
+                <button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={() => setShowPrescriptionsView(true)}
@@ -393,11 +392,11 @@ export default function PatientDashboard() {
                 >
                   <Pill className="h-3 w-3" />
                   Voir médicaments
-                </motion.button>
+                </button>
               )}
 
               {isAuthenticated && nextAppointmentData?.appointment && (
-                <motion.button
+                <button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={() => setShowAppointmentView(true)}
@@ -405,11 +404,11 @@ export default function PatientDashboard() {
                 >
                   <CalendarDays className="h-3 w-3" />
                   Mon RDV
-                </motion.button>
+                </button>
               )}
 
               {isAuthenticated && notificationsData?.count > 0 && (
-                <motion.button
+                <button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={() => navigate("/notifications")}
@@ -417,15 +416,15 @@ export default function PatientDashboard() {
                 >
                   <AlertCircle className="h-3 w-3" />
                   Notifications ({notificationsData.count})
-                </motion.button>
+                </button>
               )}
             </div>
           </div>
-        </motion.div>
+        </div>
 
         {/* === Vue intégrée - Prescriptions === */}
         {showPrescriptionsView && (
-          <motion.div
+          <div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
@@ -468,12 +467,12 @@ export default function PatientDashboard() {
                 </button>
               </div>
             </div>
-          </motion.div>
+          </div>
         )}
 
         {/* === Vue intégrée - Rendez-vous === */}
         {showAppointmentView && nextAppointmentData?.appointment && (
-          <motion.div
+          <div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
@@ -554,7 +553,7 @@ export default function PatientDashboard() {
                 </div>
               </div>
             </div>
-          </motion.div>
+          </div>
         )}
 
         {/* === Statistiques principales === */}
@@ -575,7 +574,7 @@ export default function PatientDashboard() {
                 Erreur de chargement des rendez-vous
               </div>
             ) : !isAuthenticated ? (
-              <motion.div
+              <div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 className="mt-4 text-center py-6"
@@ -586,15 +585,15 @@ export default function PatientDashboard() {
                 <p className="text-sm text-slate-500 dark:text-slate-400 mb-3">
                   Connectez-vous pour voir vos rendez-vous
                 </p>
-                <motion.button
+                <button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={() => navigate("/auth/login")}
                   className="inline-flex items-center gap-2 px-4 py-2 bg-linear-to-r from-cyan-500 to-teal-500 text-white rounded-lg text-sm font-medium hover:from-cyan-600 hover:to-teal-600 transition-all duration-200 shadow-sm"
                 >
                   Se connecter
-                </motion.button>
-              </motion.div>
+                </button>
+              </div>
             ) : nextAppointmentData?.appointment ? (
               <>
                 <div className="mt-1 font-medium">
@@ -619,7 +618,7 @@ export default function PatientDashboard() {
                 </div>
               </>
             ) : (
-              <motion.div
+              <div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 className="mt-4 text-center py-6"
@@ -630,7 +629,7 @@ export default function PatientDashboard() {
                 <p className="text-sm text-slate-500 dark:text-slate-400 mb-3">
                   Aucun rendez-vous prévu pour le moment
                 </p>
-                <motion.button
+                <button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={() => navigate("/search")}
@@ -638,10 +637,10 @@ export default function PatientDashboard() {
                 >
                   <Stethoscope className="h-4 w-4" />
                   Prendre RDV maintenant
-                </motion.button>
-              </motion.div>
+                </button>
+              </div>
             )}
-            <motion.button
+            <button
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               onClick={handleAppointmentsClick}
@@ -649,7 +648,7 @@ export default function PatientDashboard() {
             >
               <CalendarDays className="h-4 w-4" />
               Voir mes rendez-vous
-            </motion.button>
+            </button>
           </div>
 
           {/* 💊 Médicaments du jour */}
@@ -668,7 +667,7 @@ export default function PatientDashboard() {
                 Erreur de chargement des médicaments
               </div>
             ) : !isAuthenticated ? (
-              <motion.div
+              <div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 className="mt-4 text-center py-4"
@@ -679,7 +678,7 @@ export default function PatientDashboard() {
                 <p className="text-sm text-slate-500 dark:text-slate-400">
                   Connectez-vous pour voir vos médicaments
                 </p>
-              </motion.div>
+              </div>
             ) : todayMedications?.items && todayMedications.items.length > 0 ? (
               <div className="mt-3 space-y-3">
                 {todayMedications.items.slice(0, 3).map((med, idx) => {
@@ -700,7 +699,7 @@ export default function PatientDashboard() {
                     })();
 
                   return (
-                    <motion.div
+                    <div
                       key={med.id || idx}
                       initial={{ opacity: 0, x: -10 }}
                       animate={{ opacity: 1, x: 0 }}
@@ -744,12 +743,12 @@ export default function PatientDashboard() {
                           </div>
                         )}
                       </div>
-                    </motion.div>
+                    </div>
                   );
                 })}
               </div>
             ) : (
-              <motion.div
+              <div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 className="mt-4 text-center py-4"
@@ -763,9 +762,9 @@ export default function PatientDashboard() {
                 <p className="text-xs text-green-600 dark:text-green-400 mt-1">
                   Profitez de votre journée !
                 </p>
-              </motion.div>
+              </div>
             )}
-            <motion.button
+            <button
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               onClick={handlePrescriptionsClick}
@@ -773,7 +772,7 @@ export default function PatientDashboard() {
             >
               <Pill className="h-4 w-4" />
               Voir mes ordonnances
-            </motion.button>
+            </button>
           </div>
 
           {/* 🔔 Notifications */}
@@ -792,7 +791,7 @@ export default function PatientDashboard() {
                 Erreur de chargement des notifications
               </div>
             ) : !isAuthenticated ? (
-              <motion.div
+              <div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 className="mt-4 text-center py-6"
@@ -803,11 +802,11 @@ export default function PatientDashboard() {
                 <p className="text-sm text-slate-500 dark:text-slate-400">
                   Connectez-vous pour voir vos notifications
                 </p>
-              </motion.div>
+              </div>
             ) : notificationsData?.count > 0 ? (
               <div className="mt-3 space-y-3">
                 {/* Notification prioritaire - Résultats d'examens */}
-                <motion.div
+                <div
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
                   className="p-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg"
@@ -832,7 +831,7 @@ export default function PatientDashboard() {
                       </p>
                     </div>
                   </div>
-                </motion.div>
+                </div>
 
                 {/* Autres notifications */}
                 <div className="text-center py-2">
@@ -845,7 +844,7 @@ export default function PatientDashboard() {
                 </div>
               </div>
             ) : (
-              <motion.div
+              <div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 className="mt-4 text-center py-6"
@@ -871,9 +870,9 @@ export default function PatientDashboard() {
                 <p className="text-xs text-green-600 dark:text-green-400 mt-1">
                   Tout est à jour !
                 </p>
-              </motion.div>
+              </div>
             )}
-            <motion.button
+            <button
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               onClick={handleNotificationsClick}
@@ -881,7 +880,7 @@ export default function PatientDashboard() {
             >
               <AlertCircle className="h-4 w-4" />
               Voir toutes les notifications
-            </motion.button>
+            </button>
           </div>
         </div>
 
@@ -896,7 +895,7 @@ export default function PatientDashboard() {
             {/* Grille des métriques principales */}
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
               {/* 📅 Rendez-vous à venir */}
-              <motion.div
+              <div
                 whileHover={{ scale: 1.02 }}
                 className="card group bg-linear-to-br from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 border-blue-200 dark:border-blue-800"
               >
@@ -917,10 +916,10 @@ export default function PatientDashboard() {
                     </div>
                   </div>
                 </div>
-              </motion.div>
+              </div>
 
               {/* 💊 Prescriptions actives */}
-              <motion.div
+              <div
                 whileHover={{ scale: 1.02 }}
                 className="card group bg-linear-to-br from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 border-green-200 dark:border-green-800"
               >
@@ -941,10 +940,10 @@ export default function PatientDashboard() {
                     </div>
                   </div>
                 </div>
-              </motion.div>
+              </div>
 
               {/* 💰 Paiements en attente */}
-              <motion.div
+              <div
                 whileHover={{ scale: 1.02 }}
                 className="card group bg-linear-to-br from-amber-50 to-orange-50 dark:from-amber-900/20 dark:to-orange-900/20 border-amber-200 dark:border-amber-800"
               >
@@ -965,10 +964,10 @@ export default function PatientDashboard() {
                     </div>
                   </div>
                 </div>
-              </motion.div>
+              </div>
 
               {/* 📹 Téléconsultations actives */}
-              <motion.div
+              <div
                 whileHover={{ scale: 1.02 }}
                 className="card group bg-linear-to-br from-purple-50 to-violet-50 dark:from-purple-900/20 dark:to-violet-900/20 border-purple-200 dark:border-purple-800"
               >
@@ -989,13 +988,13 @@ export default function PatientDashboard() {
                     </div>
                   </div>
                 </div>
-              </motion.div>
+              </div>
             </div>
 
             {/* Section détaillée des rendez-vous à venir */}
             {upcomingAppointments?.items &&
               upcomingAppointments.items.length > 0 && (
-                <motion.div
+                <div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   className="card mb-6"
@@ -1008,7 +1007,7 @@ export default function PatientDashboard() {
                     {upcomingAppointments.items
                       .slice(0, 3)
                       .map((appointment, idx) => (
-                        <motion.div
+                        <div
                           key={appointment.id}
                           initial={{ opacity: 0, x: -20 }}
                           animate={{ opacity: 1, x: 0 }}
@@ -1054,24 +1053,24 @@ export default function PatientDashboard() {
                                 ? "En attente"
                                 : appointment.status}
                           </div>
-                        </motion.div>
+                        </div>
                       ))}
                   </div>
-                  <motion.button
+                  <button
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={() => navigate("/patient/appointments")}
                     className="mt-4 w-full btn-secondary"
                   >
                     Voir tous mes rendez-vous
-                  </motion.button>
-                </motion.div>
+                  </button>
+                </div>
               )}
 
             {/* Section des prescriptions actives */}
             {activePrescriptions?.items &&
               activePrescriptions.items.length > 0 && (
-                <motion.div
+                <div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   className="card mb-6"
@@ -1084,7 +1083,7 @@ export default function PatientDashboard() {
                     {activePrescriptions.items
                       .slice(0, 3)
                       .map((prescription, idx) => (
-                        <motion.div
+                        <div
                           key={prescription.id}
                           initial={{ opacity: 0, x: -20 }}
                           animate={{ opacity: 1, x: 0 }}
@@ -1110,23 +1109,23 @@ export default function PatientDashboard() {
                               prescription.created_at
                             ).toLocaleDateString("fr-FR")}
                           </div>
-                        </motion.div>
+                        </div>
                       ))}
                   </div>
-                  <motion.button
+                  <button
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={() => navigate("/patient/prescriptions")}
                     className="mt-4 w-full btn-secondary"
                   >
                     Voir toutes mes prescriptions
-                  </motion.button>
-                </motion.div>
+                  </button>
+                </div>
               )}
 
             {/* Section des paiements en attente */}
             {pendingPayments?.items && pendingPayments.items.length > 0 && (
-              <motion.div
+              <div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 className="card"
@@ -1137,7 +1136,7 @@ export default function PatientDashboard() {
                 </h3>
                 <div className="space-y-3">
                   {pendingPayments.items.slice(0, 3).map((payment, idx) => (
-                    <motion.div
+                    <div
                       key={payment.id}
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
@@ -1168,24 +1167,24 @@ export default function PatientDashboard() {
                       >
                         {payment.status === "pending" ? "En attente" : "Échoué"}
                       </div>
-                    </motion.div>
+                    </div>
                   ))}
                 </div>
-                <motion.button
+                <button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={() => navigate("/patient/payments")}
                   className="mt-4 w-full btn-primary"
                 >
                   Gérer mes paiements
-                </motion.button>
-              </motion.div>
+                </button>
+              </div>
             )}
 
             {/* Section des téléconsultations actives */}
             {activeTeleconsults?.items &&
               activeTeleconsults.items.length > 0 && (
-                <motion.div
+                <div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   className="card"
@@ -1196,7 +1195,7 @@ export default function PatientDashboard() {
                   </h3>
                   <div className="space-y-3">
                     {activeTeleconsults.items.map((teleconsult, idx) => (
-                      <motion.div
+                      <div
                         key={teleconsult.id}
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
@@ -1240,18 +1239,18 @@ export default function PatientDashboard() {
                               ? "En attente"
                               : teleconsult.status}
                         </div>
-                      </motion.div>
+                      </div>
                     ))}
                   </div>
-                  <motion.button
+                  <button
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={() => navigate("/patient/teleconsult")}
                     className="mt-4 w-full btn-secondary"
                   >
                     Accéder aux téléconsultations
-                  </motion.button>
-                </motion.div>
+                  </button>
+                </div>
               )}
           </div>
         )}
@@ -1305,7 +1304,7 @@ export default function PatientDashboard() {
         </div>
 
         {/* === Historique des consultations récentes === */}
-        <motion.div
+        <div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
@@ -1326,14 +1325,14 @@ export default function PatientDashboard() {
                   </p>
                 </div>
               </div>
-              <motion.button
+              <button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => navigate("/patient/history")}
                 className="text-sm text-indigo-600 dark:text-indigo-400 font-medium hover:text-indigo-700 dark:hover:text-indigo-300 transition-colors"
               >
                 Voir tout →
-              </motion.button>
+              </button>
             </div>
 
             {/* Liste des consultations récentes */}
@@ -1382,7 +1381,7 @@ export default function PatientDashboard() {
                 {consultationsData.items
                   .slice(0, 3)
                   .map((consultation, index) => (
-                    <motion.div
+                    <div
                       key={consultation.id || index}
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
@@ -1460,13 +1459,13 @@ export default function PatientDashboard() {
                           />
                         </svg>
                       </div>
-                    </motion.div>
+                    </div>
                   ))}
               </div>
             )}
 
             <div className="mt-4 text-center">
-              <motion.button
+              <button
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={() => navigate("/patient/history")}
@@ -1474,10 +1473,10 @@ export default function PatientDashboard() {
               >
                 <ClipboardList className="h-4 w-4" />
                 Voir l'historique complet
-              </motion.button>
+              </button>
             </div>
           </div>
-        </motion.div>
+        </div>
 
         {/* === Profil Médical === */}
         <div className="mt-10">
@@ -1510,7 +1509,7 @@ export default function PatientDashboard() {
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {/* Téléconsultation - Priorité si médicaments actifs */}
-            <motion.div
+            <div
               whileHover={{ scale: 1.03 }}
               transition={{ duration: 0.2 }}
               className={`card border-t-4 bg-white dark:bg-slate-900 cursor-pointer ${todayMedications?.items && todayMedications.items.length > 0
@@ -1550,10 +1549,10 @@ export default function PatientDashboard() {
                   </div>
                 </div>
               </div>
-            </motion.div>
+            </div>
 
             {/* Triage IA - Priorité si symptômes ou première visite */}
-            <motion.div
+            <div
               whileHover={{ scale: 1.03 }}
               transition={{ duration: 0.2 }}
               className="card border-t-4 border-t-emerald-400 bg-white dark:bg-slate-900 cursor-pointer"
@@ -1576,10 +1575,10 @@ export default function PatientDashboard() {
                   </div>
                 </div>
               </div>
-            </motion.div>
+            </div>
 
             {/* Mes ordonnances - Priorité si médicaments actifs */}
-            <motion.div
+            <div
               whileHover={{ scale: 1.03 }}
               transition={{ duration: 0.2 }}
               className={`card border-t-4 bg-white dark:bg-slate-900 cursor-pointer ${todayMedications?.items && todayMedications.items.length > 0
@@ -1620,10 +1619,10 @@ export default function PatientDashboard() {
                   </div>
                 </div>
               </div>
-            </motion.div>
+            </div>
 
             {/* Rendez-vous - Priorité si RDV proche */}
-            <motion.div
+            <div
               whileHover={{ scale: 1.03 }}
               transition={{ duration: 0.2 }}
               className={`card border-t-4 bg-white dark:bg-slate-900 cursor-pointer ${nextAppointmentData?.appointment
@@ -1665,10 +1664,10 @@ export default function PatientDashboard() {
                   </div>
                 </div>
               </div>
-            </motion.div>
+            </div>
 
             {/* Profil médical - Toujours disponible */}
-            <motion.div
+            <div
               whileHover={{ scale: 1.03 }}
               transition={{ duration: 0.2 }}
               className="card border-t-4 border-t-purple-400 bg-white dark:bg-slate-900 cursor-pointer"
@@ -1690,10 +1689,10 @@ export default function PatientDashboard() {
                   </div>
                 </div>
               </div>
-            </motion.div>
+            </div>
 
             {/* Résultats - Priorité si notifications de résultats */}
-            <motion.div
+            <div
               whileHover={{ scale: 1.03 }}
               transition={{ duration: 0.2 }}
               className="card border-t-4 border-t-amber-400 bg-white dark:bg-slate-900 cursor-pointer"
@@ -1727,7 +1726,7 @@ export default function PatientDashboard() {
                   </div>
                 </div>
               </div>
-            </motion.div>
+            </div>
           </div>
         </div>
       </section>
@@ -1747,4 +1746,5 @@ export default function PatientDashboard() {
     </>
   );
 }
+
 

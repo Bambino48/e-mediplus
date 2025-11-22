@@ -85,7 +85,7 @@ export default function Notifications() {
     return (
         <PatientLayout title="Mes notifications">
             <div className="max-w-4xl mx-auto">
-                <motion.div
+                <div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     className="mb-6"
@@ -103,7 +103,7 @@ export default function Notifications() {
                             </p>
                         </div>
                     </div>
-                </motion.div>
+                </div>
 
                 {isLoading ? (
                     <div className="card grid place-items-center py-16">
@@ -136,7 +136,7 @@ export default function Notifications() {
                 ) : (
                     <div className="space-y-4">
                         {notifications.map((notification) => (
-                            <motion.div
+                            <div
                                 key={notification.id}
                                 initial={{ opacity: 0, y: 10 }}
                                 animate={{ opacity: 1, y: 0 }}
@@ -203,7 +203,7 @@ export default function Notifications() {
                                         </div>
                                     </div>
                                 </div>
-                            </motion.div>
+                            </div>
                         ))}
                     </div>
                 )}
@@ -211,4 +211,5 @@ export default function Notifications() {
         </PatientLayout>
     );
 }
+
 

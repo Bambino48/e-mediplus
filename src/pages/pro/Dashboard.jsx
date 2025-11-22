@@ -1,5 +1,4 @@
 /* eslint-disable no-unused-vars */
-import { motion } from "framer-motion";
 import {
   Bell,
   CalendarDays,
@@ -283,7 +282,7 @@ export default function ProDashboard() {
   return (
     <ProLayout title="Tableau de bord professionnel 🩺">
       {/* === Salutation personnalisée === */}
-      <motion.div
+      <div
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
         className="mb-6 p-4 bg-linear-to-r from-cyan-500/10 to-teal-500/10 rounded-xl border border-cyan-200/50 dark:border-cyan-800/50"
@@ -319,10 +318,10 @@ export default function ProDashboard() {
             </p>
           </div>
         </div>
-      </motion.div>
+      </div>
       {/* === Statistiques principales === */}
       <div className="grid md:grid-cols-3 gap-4">
-        <motion.div whileHover={{ scale: 1.02 }} className="card group">
+        <div whileHover={{ scale: 1.02 }} className="card group">
           <div className="flex items-center gap-2 mb-2">
             <CalendarDays className="h-5 w-5 text-cyan-500" />
             <span className="text-sm text-slate-500">RDV du jour</span>
@@ -340,9 +339,9 @@ export default function ProDashboard() {
           >
             Voir le calendrier
           </Link>
-        </motion.div>
+        </div>
 
-        <motion.div whileHover={{ scale: 1.02 }} className="card group">
+        <div whileHover={{ scale: 1.02 }} className="card group">
           <div className="flex items-center gap-2 mb-2">
             <TrendingUp className="h-5 w-5 text-emerald-500" />
             <span className="text-sm text-slate-500">Revenus du mois</span>
@@ -360,9 +359,9 @@ export default function ProDashboard() {
           >
             Voir la facturation
           </Link>
-        </motion.div>
+        </div>
 
-        <motion.div whileHover={{ scale: 1.02 }} className="card group">
+        <div whileHover={{ scale: 1.02 }} className="card group">
           <div className="flex items-center gap-2 mb-2">
             <ClipboardCheck className="h-5 w-5 text-amber-500" />
             <span className="text-sm text-slate-500">Tâches à faire</span>
@@ -389,11 +388,11 @@ export default function ProDashboard() {
           >
             Voir les tâches
           </Link>
-        </motion.div>
+        </div>
       </div>
 
       {/* === Mes Disponibilités === */}
-      <motion.div
+      <div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.2 }}
@@ -449,7 +448,7 @@ export default function ProDashboard() {
           availabilities.length > 0 ? (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
             {availabilities.slice(0, 6).map((availability) => (
-              <motion.div
+              <div
                 key={`availability-${availability.id}-${availability.day_of_week || availability.date
                   }`}
                 whileHover={{ scale: 1.02 }}
@@ -594,7 +593,7 @@ export default function ProDashboard() {
                     </div>
                   </>
                 )}
-              </motion.div>
+              </div>
             ))}
           </div>
         ) : (
@@ -612,10 +611,10 @@ export default function ProDashboard() {
             </Link>
           </div>
         )}
-      </motion.div>
+      </div>
 
       {/* === Profil professionnel === */}
-      <motion.div
+      <div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.3 }}
@@ -767,7 +766,7 @@ export default function ProDashboard() {
             </div>
           )}
         </div>
-      </motion.div>
+      </div>
 
       {/* === Raccourcis rapides === */}
       <div className="mt-10">
@@ -777,7 +776,7 @@ export default function ProDashboard() {
         </h2>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {shortcuts.map((item, i) => (
-            <motion.div
+            <div
               key={i}
               whileHover={{ scale: 1.03, y: -2 }}
               whileTap={{ scale: 0.98 }}
@@ -806,20 +805,21 @@ export default function ProDashboard() {
                     className="text-cyan-600 dark:text-cyan-400 text-sm font-medium hover:underline inline-flex items-center gap-1 group/link"
                   >
                     Ouvrir →
-                    <motion.span
+                    <span
                       className="inline-block"
                       whileHover={{ x: 2 }}
                       transition={{ duration: 0.2 }}
                     >
                       →
-                    </motion.span>
+                    </span>
                   </Link>
                 </div>
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>
     </ProLayout>
   );
 }
+

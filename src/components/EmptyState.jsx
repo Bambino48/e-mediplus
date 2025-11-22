@@ -9,3 +9,4 @@ export default function EmptyState({ icon, title, message, action }) {
         </div>
     );
 }
+

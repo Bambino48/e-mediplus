@@ -111,7 +111,7 @@ export default function AdminCard({
   }
 
   return (
-    <motion.div
+    <div
       whileHover={{ scale: 1.02, y: -2 }}
       transition={{ duration: 0.2 }}
       className={`rounded-2xl border ${colors.border} p-6 shadow-sm hover:shadow-lg transition-all duration-300 bg-white dark:bg-slate-900 cursor-pointer`}
@@ -157,6 +157,7 @@ export default function AdminCard({
           </div>
         )}
       </div>
-    </motion.div>
+    </div>
   );
 }
+

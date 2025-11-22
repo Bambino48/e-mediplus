@@ -1,5 +1,4 @@
-/* eslint-disable no-unused-vars */
-import { motion } from "framer-motion";
+ 
 import {
   Activity,
   Bone,
@@ -120,7 +119,7 @@ const DoctorCard = ({ doctor, user, userLocation, onBooking }) => {
   const SpecialtyIcon = iconMap[specialtyInfo.icon] || Stethoscope;
 
   return (
-    <motion.div
+    <div
       className="card group hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ease-out cursor-pointer w-full max-w-sm mx-auto sm:max-w-none"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
@@ -341,8 +340,9 @@ const DoctorCard = ({ doctor, user, userLocation, onBooking }) => {
           </Link>
         )}
       </div>
-    </motion.div>
+    </div>
   );
 };
 
 export default DoctorCard;
+

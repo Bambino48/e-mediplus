@@ -9,3 +9,4 @@ export default function LoadingOverlay({ message = "Chargement en cours..." }) {
         </div>
     );
 }
+

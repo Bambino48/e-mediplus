@@ -1,6 +1,5 @@
-/* eslint-disable no-unused-vars */
+ 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { AnimatePresence, motion } from "framer-motion";
 import {
   Activity,
   AlertCircle,
@@ -113,7 +112,7 @@ export default function Triage() {
       {/* Tab Content */}
       <AnimatePresence mode="wait">
         {activeTab === "new" ? (
-          <motion.div
+          <div
             key="new-analysis"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -175,9 +174,9 @@ export default function Triage() {
                 onTeleconsult={handleNavigateToTeleconsult}
               />
             )}
-          </motion.div>
+          </div>
         ) : (
-          <motion.div
+          <div
             key="history"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -210,7 +209,7 @@ export default function Triage() {
                 <HistoryCard key={session.id} session={session} />
               ))
             )}
-          </motion.div>
+          </div>
         )}
       </AnimatePresence>
     </div>
@@ -226,7 +225,7 @@ function AnalysisResult({ analysis, onBooking, onTeleconsult }) {
   const urgency = result.urgency || "basse";
 
   return (
-    <motion.div
+    <div
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
       className="bg-linear-to-br from-white to-purple-50 dark:from-gray-800 dark:to-purple-900/20 rounded-xl shadow-lg border border-purple-200 dark:border-purple-700 p-6 space-y-6"
@@ -296,7 +295,7 @@ function AnalysisResult({ analysis, onBooking, onTeleconsult }) {
           </button>
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 }
 
@@ -309,7 +308,7 @@ function HistoryCard({ session }) {
   const urgency = parseUrgencyLevel(session.result);
 
   return (
-    <motion.div
+    <div
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-5 hover:shadow-md transition-shadow"
@@ -343,6 +342,7 @@ function HistoryCard({ session }) {
           {result.recommendation}
         </p>
       </div>
-    </motion.div>
+    </div>
   );
 }
+

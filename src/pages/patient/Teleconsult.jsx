@@ -1,6 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-// eslint-disable-next-line no-unused-vars
-import { AnimatePresence, motion } from "framer-motion";
+ 
 import {
   AlertCircle,
   Calendar,
@@ -141,7 +140,7 @@ export default function Teleconsult() {
       ) : (
         <AnimatePresence mode="wait">
           {activeTab === "active" ? (
-            <motion.div
+            <div
               key="active"
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
@@ -169,9 +168,9 @@ export default function Teleconsult() {
                   ))}
                 </div>
               )}
-            </motion.div>
+            </div>
           ) : (
-            <motion.div
+            <div
               key="history"
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
@@ -190,7 +189,7 @@ export default function Teleconsult() {
                   ))}
                 </div>
               )}
-            </motion.div>
+            </div>
           )}
         </AnimatePresence>
       )}
@@ -205,7 +204,7 @@ function TeleconsultCard({ session, onJoin }) {
   const scheduledDate = new Date(session.scheduled_at);
 
   return (
-    <motion.div
+    <div
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
       className="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700 p-6"
@@ -264,7 +263,7 @@ function TeleconsultCard({ session, onJoin }) {
           <span>Rejoindre</span>
         </button>
       </div>
-    </motion.div>
+    </div>
   );
 }
 
@@ -339,4 +338,5 @@ function EmptyState({ icon, title, description, action }) {
     </div>
   );
 }
+
 

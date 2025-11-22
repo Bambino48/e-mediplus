@@ -1,6 +1,5 @@
 // src/pages/pro/Availabilities.jsx
-// eslint-disable-next-line no-unused-vars
-import { motion } from "framer-motion";
+ 
 import { Calendar, Clock, Edit, Plus, Save, Trash2, X } from "lucide-react";
 import { useState } from "react";
 import { useAppToast } from "../../hooks/useAppToast";
@@ -248,7 +247,7 @@ export default function Availabilities() {
 
         {/* Formulaire d'ajout/édition */}
         {(isAdding || editingId) && (
-          <motion.div
+          <div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
@@ -390,7 +389,7 @@ export default function Availabilities() {
                 </button>
               </div>
             </form>
-          </motion.div>
+          </div>
         )}
 
         {/* Liste des disponibilités */}
@@ -482,4 +481,5 @@ export default function Availabilities() {
     </ProLayout>
   );
 }
+
 
