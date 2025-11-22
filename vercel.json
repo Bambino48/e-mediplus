@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "https://lightsalmon-elk-292300.hostingersite.com/backend/public/api/:path*"
+    }
+  ]
+}

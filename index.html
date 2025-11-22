@@ -1,25 +1,28 @@
 <!doctype html>
 <html lang="en" class="light">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/frontend-mediplus/public/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>MediPlus — Plateforme e-Santé</title>
-    <script>
-      // ✅ S’exécute avant le rendu React
-      const saved = localStorage.getItem('theme');
-      if (
-        saved === 'dark' ||
-        (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)
-      ) {
-        document.documentElement.classList.add('dark');
-      } else {
-        document.documentElement.classList.remove('dark');
-      }
-    </script>
-  </head>
-  <body class="antialiased">
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MediPlus — Plateforme e-Santé</title>
+  <script>
+    // ✅ S’exécute avant le rendu React
+    const saved = localStorage.getItem('theme');
+    if (
+      saved === 'dark' ||
+      (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)
+    ) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  </script>
+</head>
+
+<body class="antialiased">
+  <div id="root"></div>
+  <script type="module" src="/src/main.jsx"></script>
+</body>
+
 </html>

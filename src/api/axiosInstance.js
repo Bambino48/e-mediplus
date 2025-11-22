@@ -2,7 +2,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: `${import.meta.env.VITE_API_URL}api`, // ✅ Utilise la variable d'environnement
+  baseURL: "/api", // ✅ Utilise le proxy Vercel pour éviter CORS
   withCredentials: false, // ❌ pas besoin de cookie Sanctum car on utilise Bearer token
   headers: {
     Accept: "application/json",
