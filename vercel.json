@@ -1,10 +1,6 @@
 {
   "rewrites": [
     {
-      "source": "/api/(.*)",
-      "destination": "https://lightsalmon-elk-292300.hostingersite.com/backend/public/api/$1"
-    },
-    {
       "source": "/(.*)",
       "destination": "/index.html"
     }
