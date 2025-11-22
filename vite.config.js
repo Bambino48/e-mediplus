@@ -6,16 +6,19 @@ import { defineConfig } from "vite";
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react(), tailwindcss()],
+
   test: {
     globals: true,
     environment: "jsdom",
     setupFiles: "./src/test/setup.js",
   },
+
   define: {
     global: "globalThis", // important pour randombytes
-    "process.env": {}, // ✅ évite "process is not defined"
+    "process.env": {}, // évite "process is not defined"
     "process.browser": "true",
   },
+
   resolve: {
     alias: {
       util: "util/",
@@ -23,19 +26,30 @@ export default defineConfig({
     },
     extensions: [".js", ".jsx", ".ts", ".tsx", ".json"],
   },
+
   build: {
     rollupOptions: {
       plugins: [nodePolyfills()],
-      external: [],
+      output: {
+        // Split intelligent des chunks pour supprimer les warnings
+        manualChunks: {
+          react: ["react", "react-dom"],
+          vendor: ["axios", "@tanstack/react-query"],
+          motion: ["framer-motion"],
+          ui: ["lucide-react"],
+          charts: ["recharts"],
+        },
+      },
     },
-    // Optimisations pour la production
-    minify: "esbuild", // Utiliser esbuild au lieu de terser pour éviter les problèmes de mémoire
+
+    minify: "esbuild", // Plus rapide et plus léger
     sourcemap: false,
-    chunkSizeWarningLimit: 1000,
+    chunkSizeWarningLimit: 1600, // Évite les warnings de taille de bundle
     commonjsOptions: {
-      include: [/framer-motion/, /node_modules/],
+      include: [/node_modules/],
     },
   },
+
   optimizeDeps: {
     include: [
       "axios",
@@ -47,6 +61,5 @@ export default defineConfig({
       "react-hot-toast",
       "react-router-dom",
     ],
-    exclude: [],
   },
 });
