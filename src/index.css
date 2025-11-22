@@ -1,0 +1,79 @@
+@import "tailwindcss";
+@import "leaflet/dist/leaflet.css";
+@import "./styles/theme.css";
+
+/* === Base structure === */
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  @apply flex flex-col min-h-screen transition-colors duration-300;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+}
+
+/* === Fond & texte === */
+.bg-background {
+  background-color: var(--color-bg);
+}
+
+.text-foreground {
+  color: var(--color-text);
+}
+
+/* === Cartes === */
+.card {
+  background-color: var(--color-card-bg);
+  border: 1px solid var(--color-border);
+  color: var(--color-text);
+  @apply rounded-2xl p-4 shadow-sm transition-colors duration-300;
+}
+
+/* === Champs de saisie === */
+.input {
+  background-color: var(--color-input-bg);
+  border: 1px solid var(--color-border);
+  color: var(--color-text);
+  @apply w-full px-3 py-2 rounded-xl outline-none text-sm focus:ring-2 focus:ring-cyan-500/30 transition-colors duration-300;
+}
+
+/* === Bouton principal === */
+.btn-primary {
+  background: var(--color-btn-primary-bg);
+  color: var(--color-btn-primary-text);
+  @apply inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-sm font-medium shadow hover:opacity-90 active:opacity-85 transition;
+}
+
+/* === Bouton secondaire === */
+.btn-secondary {
+  background-color: var(--color-btn-secondary-bg);
+  color: var(--color-btn-secondary-text);
+  border: 1px solid var(--color-btn-border);
+  @apply inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-sm font-medium hover:opacity-90 transition;
+}
+
+/* === Bouton neutre (ghost) === */
+.btn-ghost {
+  color: var(--color-muted);
+  @apply inline-flex items-center justify-center gap-2 px-3 py-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition;
+}
+
+/* === Sections principales === */
+main {
+  @apply flex-1;
+  min-height: calc(100vh - 200px);
+  padding-top: 5rem;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* === Utilitaires divers === */
+.text-muted {
+  color: var(--color-muted);
+}
+
+.border-default {
+  border-color: var(--color-border);
+}

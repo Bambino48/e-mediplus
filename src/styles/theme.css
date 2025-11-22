@@ -1,0 +1,47 @@
+:root {
+    color-scheme: light dark;
+
+    /* Couleurs principales (clair) */
+    --color-bg: #f1f5f9;
+    /* slate-100 */
+    --color-surface: #ffffff;
+    --color-text: #0f172a;
+    /* slate-900 */
+    --color-muted: #475569;
+    /* slate-600 */
+    --color-border: #d1d5db;
+    /* slate-300 */
+
+    /* Boutons */
+    --color-btn-primary-bg: linear-gradient(to right, #06b6d4, #0ea5e9);
+    --color-btn-primary-text: #ffffff;
+    --color-btn-secondary-bg: #f8fafc;
+    --color-btn-secondary-text: #0f172a;
+    --color-btn-border: #e2e8f0;
+
+    /* Cartes & champs */
+    --color-card-bg: #ffffff;
+    --color-input-bg: #ffffff;
+}
+
+/* === Mode sombre === */
+.dark {
+    --color-bg: #0f172a;
+    /* slate-900 */
+    --color-surface: #1e293b;
+    --color-text: #f1f5f9;
+    /* slate-100 */
+    --color-muted: #94a3b8;
+    /* slate-400 */
+    --color-border: #334155;
+    /* slate-700 */
+
+    --color-btn-primary-bg: linear-gradient(to right, #0ea5e9, #06b6d4);
+    --color-btn-primary-text: #f1f5f9;
+    --color-btn-secondary-bg: #1e293b;
+    --color-btn-secondary-text: #e2e8f0;
+    --color-btn-border: #475569;
+
+    --color-card-bg: #1e293b;
+    --color-input-bg: #1e293b;
+}
