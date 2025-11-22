@@ -13,7 +13,7 @@ import {
   User,
 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
-import { useDoctorAvailabilitiesById } from "/src/hooks/useDoctorAvailabilities";
+import { useDoctorAvailabilities } from "../../hooks/useDoctorAvailabilities";
 import {
   calculateDistance,
   correctText,
@@ -21,7 +21,7 @@ import {
   getSpecialtyInfo,
   renderStars,
   resolvePhotoUrl,
-} from "/src/utils/doctorCardUtils.jsx";
+} from "../../utils/doctorCardUtils.jsx";
 
 const DoctorCard = ({ doctor, user, userLocation, onBooking }) => {
   const navigate = useNavigate();
@@ -45,7 +45,7 @@ const DoctorCard = ({ doctor, user, userLocation, onBooking }) => {
     data: availabilityData,
     isLoading: availabilityLoading,
     error: availabilityError,
-  } = useDoctorAvailabilitiesById(doctor.id);
+  } = useDoctorAvailabilities(doctor.id);
 
   // Résoudre l'URL de la photo
   const photoUrl = resolvePhotoUrl(doctor?.photo || doctor?.profile?.photo);
@@ -58,11 +58,11 @@ const DoctorCard = ({ doctor, user, userLocation, onBooking }) => {
   const distance =
     userLocation && doctorLat && doctorLng
       ? calculateDistance(
-          userLocation.lat,
-          userLocation.lng,
-          doctorLat,
-          doctorLng
-        )
+        userLocation.lat,
+        userLocation.lng,
+        doctorLat,
+        doctorLng
+      )
       : null;
 
   const distanceText = distance
@@ -297,11 +297,10 @@ const DoctorCard = ({ doctor, user, userLocation, onBooking }) => {
         </Link>
         {onBooking ? (
           <button
-            className={`flex-1 text-sm sm:text-base py-2 px-3 sm:px-4 rounded-lg font-medium transition-all duration-200 hover:scale-105 hover:shadow-md active:scale-95 group ${
-              nextSlot
+            className={`flex-1 text-sm sm:text-base py-2 px-3 sm:px-4 rounded-lg font-medium transition-all duration-200 hover:scale-105 hover:shadow-md active:scale-95 group ${nextSlot
                 ? "btn-primary hover:bg-cyan-600 dark:hover:bg-cyan-500"
                 : "bg-slate-300 dark:bg-slate-600 text-slate-500 dark:text-slate-400 cursor-not-allowed"
-            }`}
+              }`}
             onClick={handleBookingClick}
             disabled={!nextSlot}
             title={
@@ -320,11 +319,10 @@ const DoctorCard = ({ doctor, user, userLocation, onBooking }) => {
           </button>
         ) : (
           <Link
-            className={`flex-1 text-sm sm:text-base py-2 px-3 sm:px-4 rounded-lg font-medium transition-all duration-200 hover:scale-105 hover:shadow-md active:scale-95 group ${
-              nextSlot
+            className={`flex-1 text-sm sm:text-base py-2 px-3 sm:px-4 rounded-lg font-medium transition-all duration-200 hover:scale-105 hover:shadow-md active:scale-95 group ${nextSlot
                 ? "btn-primary hover:bg-cyan-600 dark:hover:bg-cyan-500"
                 : "bg-slate-300 dark:bg-slate-600 text-slate-500 dark:text-slate-400 cursor-not-allowed"
-            }`}
+              }`}
             to={nextSlot ? `/booking/${doctor.id}` : "#"}
             onClick={handleBookingClick}
             title={
