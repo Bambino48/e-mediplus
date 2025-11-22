@@ -3,6 +3,8 @@ import { useCallback, useEffect, useState } from "react";
 import DoctorCard from "../../components/DoctorCard.jsx";
 import MapWithMarkers from "../../components/MapWithMarkers.jsx";
 
+// Force redeploy - version 3
+
 import { getDoctorsList } from "../../api/doctors.js";
 import { useAuth } from "../../hooks/useAuth";
 import { useGeo } from "../../hooks/useGeo.js";
