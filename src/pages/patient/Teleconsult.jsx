@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
- 
+
 import {
   AlertCircle,
   Calendar,
@@ -109,8 +109,8 @@ export default function Teleconsult() {
         <button
           onClick={() => setActiveTab("active")}
           className={`px-4 py-2 font-medium transition ${activeTab === "active"
-              ? "text-cyan-600 border-b-2 border-cyan-600"
-              : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200"
+            ? "text-cyan-600 border-b-2 border-cyan-600"
+            : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200"
             }`}
         >
           <div className="flex items-center gap-2">
@@ -121,8 +121,8 @@ export default function Teleconsult() {
         <button
           onClick={() => setActiveTab("history")}
           className={`px-4 py-2 font-medium transition ${activeTab === "history"
-              ? "text-cyan-600 border-b-2 border-cyan-600"
-              : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200"
+            ? "text-cyan-600 border-b-2 border-cyan-600"
+            : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200"
             }`}
         >
           <div className="flex items-center gap-2">
@@ -137,61 +137,49 @@ export default function Teleconsult() {
         <div className="flex items-center justify-center h-64">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-cyan-600"></div>
         </div>
-      ) : (
-        <AnimatePresence mode="wait">
-          {activeTab === "active" ? (
-            <div
-              key="active"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-            >
-              {activeSessions.length === 0 ? (
-                <EmptyState
-                  icon={<Video className="h-16 w-16 text-slate-400" />}
-                  title="Aucune téléconsultation active"
-                  description="Créez une nouvelle session pour consulter un médecin en ligne"
-                  action={{
-                    label: "Démarrer une consultation",
-                    onClick: () => createRoomMutation.mutate(),
-                    loading: createRoomMutation.isPending,
-                  }}
-                />
-              ) : (
-                <div className="grid gap-4">
-                  {activeSessions.map((session) => (
-                    <TeleconsultCard
-                      key={session.id}
-                      session={session}
-                      onJoin={() => joinRoom(session.room_id)}
-                    />
-                  ))}
-                </div>
-              )}
-            </div>
+      ) : activeTab === "active" ? (
+        <div
+        >
+          {activeSessions.length === 0 ? (
+            <EmptyState
+              icon={<Video className="h-16 w-16 text-slate-400" />}
+              title="Aucune téléconsultation active"
+              description="Créez une nouvelle session pour consulter un médecin en ligne"
+              action={{
+                label: "Démarrer une consultation",
+                onClick: () => createRoomMutation.mutate(),
+                loading: createRoomMutation.isPending,
+              }}
+            />
           ) : (
-            <div
-              key="history"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-            >
-              {history.length === 0 ? (
-                <EmptyState
-                  icon={<HistoryIcon className="h-16 w-16 text-slate-400" />}
-                  title="Aucune consultation passée"
-                  description="Votre historique de téléconsultations apparaîtra ici"
+            <div className="grid gap-4">
+              {activeSessions.map((session) => (
+                <TeleconsultCard
+                  key={session.id}
+                  session={session}
+                  onJoin={() => joinRoom(session.room_id)}
                 />
-              ) : (
-                <div className="grid gap-4">
-                  {history.map((session) => (
-                    <HistoryCard key={session.id} session={session} />
-                  ))}
-                </div>
-              )}
+              ))}
             </div>
           )}
-        </AnimatePresence>
+        </div>
+      ) : (
+        <div
+        >
+          {history.length === 0 ? (
+            <EmptyState
+              icon={<HistoryIcon className="h-16 w-16 text-slate-400" />}
+              title="Aucune consultation passée"
+              description="Votre historique de téléconsultations apparaîtra ici"
+            />
+          ) : (
+            <div className="grid gap-4">
+              {history.map((session) => (
+                <HistoryCard key={session.id} session={session} />
+              ))}
+            </div>
+          )}
+        </div>
       )}
     </div>
   );
@@ -204,57 +192,44 @@ function TeleconsultCard({ session, onJoin }) {
   const scheduledDate = new Date(session.scheduled_at);
 
   return (
-    <div
-      initial={{ opacity: 0, scale: 0.95 }}
-      animate={{ opacity: 1, scale: 1 }}
-      className="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700 p-6"
-    >
+    <div className="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700 p-6">
       <div className="flex items-start justify-between">
-        <div className="flex-1">
-          <div className="flex items-center gap-3">
-            <div className="p-3 bg-green-100 dark:bg-green-900/30 rounded-full">
-              <Video className="h-6 w-6 text-green-600 dark:text-green-400" />
-            </div>
-            <div>
-              <h3 className="text-lg font-semibold text-slate-900 dark:text-white">
-                {session.doctor?.name || "Médecin disponible"}
-              </h3>
-              <p className="text-sm text-slate-600 dark:text-slate-400">
-                {session.doctor?.specialization || "Médecine générale"}
-              </p>
-            </div>
+        <div className="flex items-start gap-4 flex-1">
+          <div className="p-3 bg-green-100 dark:bg-green-900/30 rounded-full">
+            <Video className="h-6 w-6 text-green-600 dark:text-green-400" />
           </div>
-
-          <div className="mt-4 grid grid-cols-2 gap-4 text-sm">
-            <div className="flex items-center gap-2 text-slate-600 dark:text-slate-400">
-              <Calendar size={16} />
-              <span>
-                {scheduledDate.toLocaleDateString("fr-FR", {
-                  day: "numeric",
-                  month: "short",
-                  year: "numeric",
-                })}
-              </span>
+          <div className="flex-1">
+            <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-1">
+              {session.doctor?.name || "Médecin"}
+            </h3>
+            <div className="flex items-center gap-4 text-sm text-slate-600 dark:text-slate-400 mb-3">
+              <div className="flex items-center gap-1.5">
+                <Calendar size={14} />
+                <span>
+                  {scheduledDate.toLocaleDateString("fr-FR", {
+                    day: "numeric",
+                    month: "short",
+                  })}
+                </span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <Clock size={14} />
+                <span>
+                  {scheduledDate.toLocaleTimeString("fr-FR", {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
+                </span>
+              </div>
             </div>
-            <div className="flex items-center gap-2 text-slate-600 dark:text-slate-400">
-              <Clock size={16} />
-              <span>
-                {scheduledDate.toLocaleTimeString("fr-FR", {
-                  hour: "2-digit",
-                  minute: "2-digit",
-                })}
-              </span>
-            </div>
+            {session.reason && (
+              <div className="flex items-center gap-2 text-sm text-slate-700 dark:text-slate-300 bg-slate-50 dark:bg-slate-800 px-3 py-2 rounded-lg">
+                <AlertCircle size={16} className="mt-0.5 shrink-0" />
+                <span>{session.reason}</span>
+              </div>
+            )}
           </div>
-
-          {session.reason && (
-            <div className="mt-3 flex items-start gap-2 text-sm text-slate-600 dark:text-slate-400">
-              <AlertCircle size={16} className="mt-0.5 shrink-0" />
-              <span>{session.reason}</span>
-            </div>
-          )}
         </div>
-
         <button
           onClick={onJoin}
           className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition"

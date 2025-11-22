@@ -145,7 +145,7 @@ export default function PatientPrescriptions() {
   }, [prescriptionsWithStatus]);
 
   const handleDownloadPDF = (prescriptionId) => {
-    const downloadUrl = `${import.meta.env.VITE_API_URL}api/patient/prescriptions/${prescriptionId}/download`;
+    const downloadUrl = `${import.meta.env.VITE_API_URL}/api/patient/prescriptions/${prescriptionId}/download`;
     window.open(downloadUrl, "_blank");
     toast.success("Téléchargement du PDF...");
   };
@@ -300,116 +300,110 @@ export default function PatientPrescriptions() {
         </div>
       </div>
 
-      <AnimatePresence mode="wait">
-        {filteredPrescriptions.length === 0 ? (
-          <div
-            key="empty"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="card bg-white dark:bg-slate-900 p-12 text-center"
-          >
-            <FileText className="h-12 w-12 text-slate-300 dark:text-slate-700 mx-auto mb-3" />
-            <p className="text-slate-600 dark:text-slate-400">
-              {activeTab === "active"
-                ? "Aucune ordonnance active pour le moment"
-                : "Aucune ordonnance dans l'historique"}
-            </p>
-            {activeTab === "active" && (
-              <button
-                onClick={() => navigate("/teleconsult")}
-                className="btn-primary mt-4"
+      {filteredPrescriptions.length === 0 ? (
+        <div
+          className="card bg-white dark:bg-slate-900 p-12 text-center"
+        >
+          <FileText className="h-12 w-12 text-slate-300 dark:text-slate-700 mx-auto mb-3" />
+          <p className="text-slate-600 dark:text-slate-400">
+            {activeTab === "active"
+              ? "Aucune ordonnance active pour le moment"
+              : "Aucune ordonnance dans l'historique"}
+          </p>
+          {activeTab === "active" && (
+            <button
+              onClick={() => navigate("/teleconsult")}
+              className="btn-primary mt-4"
+            >
+              Consulter un médecin
+            </button>
+          )}
+        </div>
+      ) : (
+        <div
+          key="list"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="space-y-6"
+        >
+          {filteredPrescriptions.map((prescription, index) => {
+            const statusBadge = getStatusBadge(prescription.status);
+            return (
+              <div
+                key={prescription.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.05 }}
+                className="card bg-white dark:bg-slate-900 p-6 space-y-4"
               >
-                Consulter un médecin
-              </button>
-            )}
-          </div>
-        ) : (
-          <div
-            key="list"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="space-y-6"
-          >
-            {filteredPrescriptions.map((prescription, index) => {
-              const statusBadge = getStatusBadge(prescription.status);
-              return (
-                <div
-                  key={prescription.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.05 }}
-                  className="card bg-white dark:bg-slate-900 p-6 space-y-4"
-                >
-                  <div className="flex items-start justify-between gap-4 pb-4 border-b border-slate-200 dark:border-slate-800">
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2 mb-2">
-                        <h3 className="font-semibold text-slate-800 dark:text-slate-100">
-                          Ordonnance #{String(prescription.id)?.slice(0, 8)}
-                        </h3>
-                        <span
-                          className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${statusBadge.className}`}
-                        >
-                          {statusBadge.icon}
-                          {statusBadge.label}
-                        </span>
-                      </div>
-                      <div className="text-sm text-slate-600 dark:text-slate-400 space-y-1">
-                        <div className="flex items-center gap-2">
-                          <Calendar className="h-4 w-4" />
-                          {new Date(prescription.created_at).toLocaleDateString(
-                            "fr-FR",
-                            {
-                              weekday: "long",
-                              day: "numeric",
-                              month: "long",
-                              year: "numeric",
-                            }
-                          )}
-                        </div>
-                        {prescription.doctor_name && (
-                          <div className="text-slate-500">
-                            Prescrit par {prescription.doctor_name}
-                          </div>
+                <div className="flex items-start justify-between gap-4 pb-4 border-b border-slate-200 dark:border-slate-800">
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-2">
+                      <h3 className="font-semibold text-slate-800 dark:text-slate-100">
+                        Ordonnance #{String(prescription.id)?.slice(0, 8)}
+                      </h3>
+                      <span
+                        className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${statusBadge.className}`}
+                      >
+                        {statusBadge.icon}
+                        {statusBadge.label}
+                      </span>
+                    </div>
+                    <div className="text-sm text-slate-600 dark:text-slate-400 space-y-1">
+                      <div className="flex items-center gap-2">
+                        <Calendar className="h-4 w-4" />
+                        {new Date(prescription.created_at).toLocaleDateString(
+                          "fr-FR",
+                          {
+                            weekday: "long",
+                            day: "numeric",
+                            month: "long",
+                            year: "numeric",
+                          }
                         )}
                       </div>
-                    </div>
-
-                    <div className="flex items-center gap-2">
-                      <button
-                        onClick={() => handleDownloadPDF(prescription.id)}
-                        className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
-                        title="Télécharger PDF"
-                      >
-                        <Download className="h-4 w-4 text-slate-600 dark:text-slate-400" />
-                      </button>
-                      {prescription.status === "active" && (
-                        <button
-                          onClick={() => handleRenewPrescription()}
-                          className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
-                          title="Renouveler"
-                        >
-                          <RefreshCw className="h-4 w-4 text-slate-600 dark:text-slate-400" />
-                        </button>
+                      {prescription.doctor_name && (
+                        <div className="text-slate-500">
+                          Prescrit par {prescription.doctor_name}
+                        </div>
                       )}
-                      <button
-                        onClick={() => handleSharePrescription(prescription)}
-                        className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
-                        title="Partager"
-                      >
-                        <Share2 className="h-4 w-4 text-slate-600 dark:text-slate-400" />
-                      </button>
                     </div>
                   </div>
 
-                  <PrescriptionCard prescription={prescription} />
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={() => handleDownloadPDF(prescription.id)}
+                      className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
+                      title="Télécharger PDF"
+                    >
+                      <Download className="h-4 w-4 text-slate-600 dark:text-slate-400" />
+                    </button>
+                    {prescription.status === "active" && (
+                      <button
+                        onClick={() => handleRenewPrescription()}
+                        className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
+                        title="Renouveler"
+                      >
+                        <RefreshCw className="h-4 w-4 text-slate-600 dark:text-slate-400" />
+                      </button>
+                    )}
+                    <button
+                      onClick={() => handleSharePrescription(prescription)}
+                      className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
+                      title="Partager"
+                    >
+                      <Share2 className="h-4 w-4 text-slate-600 dark:text-slate-400" />
+                    </button>
+                  </div>
                 </div>
-              );
-            })}
-          </div>
-        )}
-      </AnimatePresence>
+
+                <PrescriptionCard prescription={prescription} />
+              </div>
+            );
+          })}
+        </div>
+      )}
     </main>
   );
 }

@@ -34,7 +34,7 @@ export default defineConfig({
       output: {
         // Split intelligent des chunks pour supprimer les warnings
         manualChunks: (id) => {
-          // Garder framer-motion dans le bundle principal
+          // Split intelligent des chunks
           if (id.includes("react") || id.includes("react-dom")) {
             return "react";
           }
@@ -47,7 +47,6 @@ export default defineConfig({
           if (id.includes("recharts")) {
             return "charts";
           }
-          // framer-motion reste dans le bundle principal
         },
       },
     },
@@ -66,7 +65,6 @@ export default defineConfig({
       "@tanstack/react-query",
       "zustand",
       "date-fns",
-      "framer-motion",
       "lucide-react",
       "react-hot-toast",
       "react-router-dom",
@@ -74,11 +72,8 @@ export default defineConfig({
     exclude: [],
     force: true, // Forcer la pré-optimisation
   },
-  ssr: {
-    noExternal: ["framer-motion"],
-  },
   esbuild: {
-    // Configuration pour éviter les problèmes avec framer-motion
+    // Configuration d'optimisation
     target: "es2017",
     minify: true,
     treeShaking: true,

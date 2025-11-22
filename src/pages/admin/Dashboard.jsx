@@ -11,6 +11,9 @@ import {
   Tooltip,
 } from "chart.js";
 import {
+  AlertTriangle,
+  Check,
+  Compass,
   Download,
   FileChartColumn,
   Hospital,
@@ -23,7 +26,7 @@ import {
   UserCog,
   UserPlus,
   Users,
-  Wallet,
+  Wallet
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Line } from "react-chartjs-2";
@@ -336,7 +339,7 @@ export default function AdminDashboard() {
   const MESSAGES = {
     fr: {
       breadcrumb: "Admin / Dashboard",
-      title: "Tableau de bord administrateur 🧭",
+      title: "Tableau de bord administrateur",
       subtitle:
         "Vue d’ensemble des activités, utilisateurs et structures médicales.",
       doctors: "Médecins inscrits",
@@ -350,16 +353,16 @@ export default function AdminDashboard() {
       addPharmacy: "Ajouter une pharmacie",
       managementTitle: "Gestion & Administration",
       recentActivity: "Activité récente",
-      newUser: "👤 Nouvel utilisateur inscrit",
-      newPharmacy: "🏥 Nouvelle pharmacie ajoutée",
-      reportHandled: "⚠️ Signalement traité",
+      newUser: "Nouvel utilisateur inscrit",
+      newPharmacy: "Nouvelle pharmacie ajoutée",
+      reportHandled: "Signalement traité",
       ago: "Il y a",
       today: "Aujourd’hui",
       evolutionTitle: "Évolution des inscriptions",
       graphPlaceholder: "Graphique bientôt disponible…",
       systemStatus: "Statut du système",
       apiStatus: "API Status",
-      operational: "✓ Opérationnel",
+      operational: "Opérationnel",
       serverUsage: "Usage serveur",
       uptime: "Uptime",
       open: "Ouvrir →",
@@ -367,7 +370,7 @@ export default function AdminDashboard() {
     },
     en: {
       breadcrumb: "Admin / Dashboard",
-      title: "Admin Dashboard 🧭",
+      title: "Admin Dashboard",
       subtitle: "Overview of activities, users, and medical structures.",
       doctors: "Registered Doctors",
       patients: "Registered Patients",
@@ -380,16 +383,16 @@ export default function AdminDashboard() {
       addPharmacy: "Add a Pharmacy",
       managementTitle: "Management & Administration",
       recentActivity: "Recent Activity",
-      newUser: "👤 New user registered",
-      newPharmacy: "🏥 New pharmacy added",
-      reportHandled: "⚠️ Report handled",
+      newUser: "New user registered",
+      newPharmacy: "New pharmacy added",
+      reportHandled: "Report handled",
       ago: "",
       today: "Today",
       evolutionTitle: "Registration Evolution",
       graphPlaceholder: "Chart coming soon…",
       systemStatus: "System Status",
       apiStatus: "API Status",
-      operational: "✓ Operational",
+      operational: "Operational",
       serverUsage: "Server Usage",
       uptime: "Uptime",
       open: "Open →",
@@ -456,7 +459,10 @@ export default function AdminDashboard() {
       </nav>
 
       {/* ================= Header ================= */}
-      <h1 className="text-3xl font-bold tracking-tight">{t.title}</h1>
+      <h1 className="text-3xl font-bold tracking-tight flex items-center gap-3">
+        <Compass className="w-8 h-8 text-blue-600" />
+        {t.title}
+      </h1>
       <p className="text-slate-500 dark:text-slate-400 mt-1 mb-4">
         {t.subtitle}
       </p>
@@ -665,7 +671,6 @@ export default function AdminDashboard() {
               shortcuts.map((item, i) => (
                 <CSSMotionDiv
                   key={i}
-                  whileHover={{ scale: 1.04, translateY: -4 }}
                   transition={{ duration: 0.25 }}
                   className="p-5 rounded-xl bg-white dark:bg-slate-900 shadow-sm hover:shadow-lg border border-slate-200 dark:border-slate-700 transition-all"
                 >
@@ -713,17 +718,26 @@ export default function AdminDashboard() {
             ) : (
               <ul className="space-y-3 text-sm">
                 <li className="flex justify-between">
-                  <span>{t.newUser}</span>
+                  <span className="flex items-center gap-2">
+                    <UserPlus className="w-4 h-4 text-blue-500" />
+                    {t.newUser}
+                  </span>
                   <span className="text-slate-400">{t.ago} 2h</span>
                 </li>
 
                 <li className="flex justify-between">
-                  <span>{t.newPharmacy}</span>
+                  <span className="flex items-center gap-2">
+                    <Hospital className="w-4 h-4 text-green-500" />
+                    {t.newPharmacy}
+                  </span>
                   <span className="text-slate-400">{t.ago} 5h</span>
                 </li>
 
                 <li className="flex justify-between">
-                  <span>{t.reportHandled}</span>
+                  <span className="flex items-center gap-2">
+                    <AlertTriangle className="w-4 h-4 text-orange-500" />
+                    {t.reportHandled}
+                  </span>
                   <span className="text-slate-400">{t.today}</span>
                 </li>
               </ul>
@@ -792,7 +806,10 @@ export default function AdminDashboard() {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div className="bg-white dark:bg-slate-900 p-4 rounded-xl border shadow">
               <p className="text-sm text-slate-500">{t.apiStatus}</p>
-              <p className="font-bold text-green-500 mt-1">{t.operational}</p>
+              <p className="font-bold text-green-500 mt-1 flex items-center gap-2">
+                <Check className="w-4 h-4" />
+                {t.operational}
+              </p>
             </div>
 
             <div className="bg-white dark:bg-slate-900 p-4 rounded-xl border shadow">

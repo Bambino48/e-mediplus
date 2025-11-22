@@ -1,4 +1,4 @@
- 
+
 import { AlertCircle, AlertTriangle, CheckCircle, Info, X } from "lucide-react";
 import { useEffect } from "react";
 
@@ -66,11 +66,9 @@ const ToastNotification = ({
 const ToastContainer = ({ toasts, onClose }) => {
     return (
         <div className="fixed top-4 right-4 z-50 w-96 max-w-sm">
-            <AnimatePresence>
-                {toasts.map((toast) => (
-                    <ToastNotification key={toast.id} {...toast} onClose={onClose} />
-                ))}
-            </AnimatePresence>
+            {toasts.map((toast) => (
+                <ToastNotification key={toast.id} {...toast} onClose={onClose} />
+            ))}
         </div>
     );
 };

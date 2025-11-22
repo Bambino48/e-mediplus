@@ -1,4 +1,4 @@
- 
+
 import {
   Activity,
   Bone,
@@ -124,7 +124,6 @@ const DoctorCard = ({ doctor, user, userLocation, onBooking }) => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3, delay: Math.random() * 0.2 }}
-      whileHover={{ y: -4 }}
     >
       {/* Photo de profil */}
       <div className="aspect-square bg-linear-to-br from-slate-100 to-slate-200 dark:from-slate-700 dark:to-slate-800 rounded-xl overflow-hidden relative shadow-sm group">

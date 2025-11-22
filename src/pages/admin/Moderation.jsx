@@ -1,5 +1,6 @@
 // src/pages/admin/Moderation.jsx
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { AlertTriangle, Clipboard, Megaphone, MessageCircle, User } from "lucide-react";
 import { useState } from "react";
 import { useToast } from "../../hooks/useToast.js";
 
@@ -83,11 +84,11 @@ export default function Moderation() {
 
     const getCategoryIcon = (category) => {
         switch (category) {
-            case 'comment': return '💬';
-            case 'profile': return '👤';
-            case 'advertisement': return '📢';
-            case 'behavior': return '⚠️';
-            default: return '📋';
+            case 'comment': return <MessageCircle className="w-4 h-4" />;
+            case 'profile': return <User className="w-4 h-4" />;
+            case 'advertisement': return <Megaphone className="w-4 h-4" />;
+            case 'behavior': return <AlertTriangle className="w-4 h-4" />;
+            default: return <Clipboard className="w-4 h-4" />;
         }
     };
 

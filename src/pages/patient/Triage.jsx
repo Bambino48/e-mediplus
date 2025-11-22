@@ -1,4 +1,4 @@
- 
+
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   Activity,
@@ -87,22 +87,20 @@ export default function Triage() {
       <div className="flex gap-4 border-b border-gray-200 dark:border-gray-700">
         <button
           onClick={() => setActiveTab("new")}
-          className={`pb-3 px-1 font-medium text-sm transition-colors border-b-2 ${
-            activeTab === "new"
-              ? "border-purple-500 text-purple-600 dark:text-purple-400"
-              : "border-transparent text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200"
-          }`}
+          className={`pb-3 px-1 font-medium text-sm transition-colors border-b-2 ${activeTab === "new"
+            ? "border-purple-500 text-purple-600 dark:text-purple-400"
+            : "border-transparent text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200"
+            }`}
         >
           <Activity className="inline w-4 h-4 mr-2" />
           Nouvelle Analyse
         </button>
         <button
           onClick={() => setActiveTab("history")}
-          className={`pb-3 px-1 font-medium text-sm transition-colors border-b-2 ${
-            activeTab === "history"
-              ? "border-purple-500 text-purple-600 dark:text-purple-400"
-              : "border-transparent text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200"
-          }`}
+          className={`pb-3 px-1 font-medium text-sm transition-colors border-b-2 ${activeTab === "history"
+            ? "border-purple-500 text-purple-600 dark:text-purple-400"
+            : "border-transparent text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200"
+            }`}
         >
           <Clock className="inline w-4 h-4 mr-2" />
           Historique ({sessions.length})
@@ -110,108 +108,98 @@ export default function Triage() {
       </div>
 
       {/* Tab Content */}
-      <AnimatePresence mode="wait">
-        {activeTab === "new" ? (
-          <div
-            key="new-analysis"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            className="space-y-6"
-          >
-            {/* Formulaire de saisie */}
-            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-              <div className="flex items-start gap-3 mb-4">
-                <div className="p-2 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
-                  <AlertCircle className="w-5 h-5 text-purple-600 dark:text-purple-400" />
-                </div>
-                <div className="flex-1">
-                  <h3 className="font-semibold text-gray-900 dark:text-white mb-1">
-                    Décrivez vos symptômes
-                  </h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">
-                    Soyez le plus précis possible : quand ont-ils commencé, leur
-                    intensité, leur évolution...
-                  </p>
-                </div>
+      {activeTab === "new" ? (
+        <div
+          className="space-y-6"
+        >
+          {/* Formulaire de saisie */}
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+            <div className="flex items-start gap-3 mb-4">
+              <div className="p-2 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
+                <AlertCircle className="w-5 h-5 text-purple-600 dark:text-purple-400" />
               </div>
-
-              <form onSubmit={handleAnalyze} className="space-y-4">
-                <textarea
-                  value={symptoms}
-                  onChange={(e) => setSymptoms(e.target.value)}
-                  placeholder="Ex : J'ai de la fièvre (38.5°C) et je tousse depuis 3 jours. Je ressens aussi de la fatigue."
-                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:text-white resize-none"
-                  rows="5"
-                  disabled={createMutation.isPending}
-                />
-
-                <button
-                  type="submit"
-                  disabled={createMutation.isPending || !symptoms.trim()}
-                  className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-linear-to-r from-purple-600 to-pink-600 text-white font-medium rounded-lg hover:from-purple-700 hover:to-pink-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-md hover:shadow-lg"
-                >
-                  {createMutation.isPending ? (
-                    <>
-                      <Loader2 className="w-5 h-5 animate-spin" />
-                      Analyse en cours...
-                    </>
-                  ) : (
-                    <>
-                      <Send className="w-5 h-5" />
-                      Analyser les symptômes
-                    </>
-                  )}
-                </button>
-              </form>
+              <div className="flex-1">
+                <h3 className="font-semibold text-gray-900 dark:text-white mb-1">
+                  Décrivez vos symptômes
+                </h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  Soyez le plus précis possible : quand ont-ils commencé, leur
+                  intensité, leur évolution...
+                </p>
+              </div>
             </div>
 
-            {/* Résultat de l'analyse */}
-            {currentAnalysis && (
-              <AnalysisResult
-                analysis={currentAnalysis}
-                onBooking={handleNavigateToBooking}
-                onTeleconsult={handleNavigateToTeleconsult}
+            <form onSubmit={handleAnalyze} className="space-y-4">
+              <textarea
+                value={symptoms}
+                onChange={(e) => setSymptoms(e.target.value)}
+                placeholder="Ex : J'ai de la fièvre (38.5°C) et je tousse depuis 3 jours. Je ressens aussi de la fatigue."
+                className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:text-white resize-none"
+                rows="5"
+                disabled={createMutation.isPending}
               />
-            )}
+
+              <button
+                type="submit"
+                disabled={createMutation.isPending || !symptoms.trim()}
+                className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-linear-to-r from-purple-600 to-pink-600 text-white font-medium rounded-lg hover:from-purple-700 hover:to-pink-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-md hover:shadow-lg"
+              >
+                {createMutation.isPending ? (
+                  <>
+                    <Loader2 className="w-5 h-5 animate-spin" />
+                    Analyse en cours...
+                  </>
+                ) : (
+                  <>
+                    <Send className="w-5 h-5" />
+                    Analyser les symptômes
+                  </>
+                )}
+              </button>
+            </form>
           </div>
-        ) : (
-          <div
-            key="history"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            className="space-y-4"
-          >
-            {loadingSessions ? (
-              <div className="flex items-center justify-center py-12">
-                <Loader2 className="w-8 h-8 text-purple-600 animate-spin" />
-              </div>
-            ) : sessions.length === 0 ? (
-              <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-12 text-center">
-                <Brain className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-                  Aucune analyse disponible
-                </h3>
-                <p className="text-gray-600 dark:text-gray-400 mb-6">
-                  Commencez par décrire vos symptômes pour obtenir une analyse
-                  IA.
-                </p>
-                <button
-                  onClick={() => setActiveTab("new")}
-                  className="px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
-                >
-                  Nouvelle analyse
-                </button>
-              </div>
-            ) : (
-              sessions.map((session) => (
-                <HistoryCard key={session.id} session={session} />
-              ))
-            )}
-          </div>
-        )}
-      </AnimatePresence>
+
+          {/* Résultat de l'analyse */}
+          {currentAnalysis && (
+            <AnalysisResult
+              analysis={currentAnalysis}
+              onBooking={handleNavigateToBooking}
+              onTeleconsult={handleNavigateToTeleconsult}
+            />
+          )}
+        </div>
+      ) : (
+        <div
+          className="space-y-4"
+        >
+          {loadingSessions ? (
+            <div className="flex items-center justify-center py-12">
+              <Loader2 className="w-8 h-8 text-purple-600 animate-spin" />
+            </div>
+          ) : sessions.length === 0 ? (
+            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-12 text-center">
+              <Brain className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                Aucune analyse disponible
+              </h3>
+              <p className="text-gray-600 dark:text-gray-400 mb-6">
+                Commencez par décrire vos symptômes pour obtenir une analyse
+                IA.
+              </p>
+              <button
+                onClick={() => setActiveTab("new")}
+                className="px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+              >
+                Nouvelle analyse
+              </button>
+            </div>
+          ) : (
+            sessions.map((session) => (
+              <HistoryCard key={session.id} session={session} />
+            ))
+          )}
+        </div>
+      )}
     </div>
   );
 }
@@ -248,8 +236,8 @@ function AnalysisResult({ analysis, onBooking, onTeleconsult }) {
           {urgency === "haute"
             ? "🔴 Urgent"
             : urgency === "modérée"
-            ? "🟠 Modéré"
-            : "🟢 Faible"}
+              ? "🟠 Modéré"
+              : "🟢 Faible"}
         </span>
       </div>
 
@@ -329,8 +317,8 @@ function HistoryCard({ session }) {
           {urgency === "haute"
             ? "Urgent"
             : urgency === "modérée"
-            ? "Modéré"
-            : "Faible"}
+              ? "Modéré"
+              : "Faible"}
         </span>
       </div>
 

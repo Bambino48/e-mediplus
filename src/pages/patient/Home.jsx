@@ -1,4 +1,4 @@
- 
+
 import {
   AlertTriangle,
   MapPin,
@@ -106,24 +106,15 @@ export default function PatientHome() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
           <div className="grid lg:grid-cols-2 gap-10 items-center">
             <div>
-              <motion.h1
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="text-4xl md:text-5xl font-bold tracking-tight"
-              >
+              <h1 className="text-4xl md:text-5xl font-bold tracking-tight">
                 Trouvez, réservez, consultez —
                 <span className="text-transparent bg-clip-text bg-linear-to-r from-cyan-500 to-teal-500">
                   {" "}
                   en quelques clics
                 </span>
-              </motion.h1>
+              </h1>
               {/* Badge de confiance */}
-              <div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.2 }}
-                className="mt-6 mb-4"
-              >
+              <div className="mt-6 mb-4">
                 <span className="inline-flex items-center px-4 py-2 rounded-full text-sm bg-green-100 text-green-800 border border-green-200 dark:bg-green-900/20 dark:text-green-200 dark:border-green-800">
                   <Shield className="w-4 h-4 mr-2" />
                   Plateforme certifiée & sécurisée
@@ -159,8 +150,8 @@ export default function PatientHome() {
                       placeholder={
                         coords
                           ? `Position détectée (${coords.lat.toFixed(
-                              4
-                            )}, ${coords.lng.toFixed(4)})`
+                            4
+                          )}, ${coords.lng.toFixed(4)})`
                           : "Abobo, Treichville…"
                       }
                       className="bg-transparent outline-none w-full text-sm"
@@ -204,11 +195,7 @@ export default function PatientHome() {
               </div>
             </div>
 
-            <div
-              initial={{ opacity: 0, scale: 0.98 }}
-              animate={{ opacity: 1, scale: 1 }}
-              className="relative"
-            >
+            <div className="relative">
               <div className="aspect-4/3 rounded-3xl bg-linear-to-br from-cyan-100 to-teal-100 dark:from-cyan-900/30 dark:to-teal-900/20 border border-slate-200 dark:border-slate-800 shadow-inner overflow-hidden">
                 <img
                   src="https://images.unsplash.com/photo-1612277795421-9bc7706a4a34?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
@@ -232,12 +219,7 @@ export default function PatientHome() {
       {/* Trust indicators */}
       <section className="py-16 bg-slate-50 dark:bg-slate-900/50">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-12"
-          >
+          <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-4">
               Ils nous font confiance
             </h2>
@@ -248,13 +230,7 @@ export default function PatientHome() {
           </div>
 
           <div className="grid md:grid-cols-4 gap-8">
-            <div
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.1 }}
-              className="text-center"
-            >
+            <div className="text-center">
               <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-sm border border-slate-200 dark:border-slate-700">
                 <div className="text-4xl font-bold text-cyan-600 mb-2">
                   5000+
@@ -266,13 +242,7 @@ export default function PatientHome() {
               </div>
             </div>
 
-            <div
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.2 }}
-              className="text-center"
-            >
+            <div className="text-center">
               <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-sm border border-slate-200 dark:border-slate-700">
                 <div className="text-4xl font-bold text-green-600 mb-2">
                   98%
@@ -286,13 +256,7 @@ export default function PatientHome() {
               </div>
             </div>
 
-            <div
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.3 }}
-              className="text-center"
-            >
+            <div className="text-center">
               <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-sm border border-slate-200 dark:border-slate-700">
                 <div className="text-4xl font-bold text-teal-600 mb-2">
                   24/7
@@ -306,13 +270,7 @@ export default function PatientHome() {
               </div>
             </div>
 
-            <div
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.4 }}
-              className="text-center"
-            >
+            <div className="text-center">
               <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-sm border border-slate-200 dark:border-slate-700">
                 <div className="text-4xl font-bold text-purple-600 mb-2">
                   150+
@@ -332,12 +290,7 @@ export default function PatientHome() {
       {/* Testimonials section */}
       <section className="py-16 bg-white dark:bg-slate-900">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-12"
-          >
+          <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-4">
               Ce que disent nos patients
             </h2>
@@ -348,13 +301,7 @@ export default function PatientHome() {
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            <div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.1 }}
-              className="bg-slate-50 dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700"
-            >
+            <div className="bg-slate-50 dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700">
               <div className="flex items-center mb-4">
                 <div className="flex text-yellow-400">
                   {[...Array(5)].map((_, i) => (
@@ -382,13 +329,7 @@ export default function PatientHome() {
               </div>
             </div>
 
-            <div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.2 }}
-              className="bg-slate-50 dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700"
-            >
+            <div className="bg-slate-50 dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700">
               <div className="flex items-center mb-4">
                 <div className="flex text-yellow-400">
                   {[...Array(5)].map((_, i) => (
@@ -414,13 +355,7 @@ export default function PatientHome() {
               </div>
             </div>
 
-            <div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.3 }}
-              className="bg-slate-50 dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700"
-            >
+            <div className="bg-slate-50 dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700">
               <div className="flex items-center mb-4">
                 <div className="flex text-yellow-400">
                   <Star className="w-4 h-4 fill-current" />

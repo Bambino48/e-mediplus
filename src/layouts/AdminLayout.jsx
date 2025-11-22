@@ -10,14 +10,11 @@ export default function AdminLayout({ children }) {
             />
 
             {/* ================= MAIN ================= */}
-            <motion.main
-                initial={{ opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4 }}
+            <main
                 className="flex-1 px-4 sm:px-6 lg:px-8 py-8 overflow-y-auto"
             >
                 {children}
-            </motion.main>
+            </main>
         </div>
     );
 }

@@ -112,8 +112,6 @@ export default function AdminCard({
 
   return (
     <div
-      whileHover={{ scale: 1.02, y: -2 }}
-      transition={{ duration: 0.2 }}
       className={`rounded-2xl border ${colors.border} p-6 shadow-sm hover:shadow-lg transition-all duration-300 bg-white dark:bg-slate-900 cursor-pointer`}
       {...rest}
     >
@@ -134,10 +132,10 @@ export default function AdminCard({
             {trend && trendValue !== undefined && (
               <div
                 className={`flex items-center gap-1 mt-1 text-xs font-medium ${trend === "up"
-                    ? "text-green-600 dark:text-green-400"
-                    : trend === "down"
-                      ? "text-red-600 dark:text-red-400"
-                      : "text-slate-500 dark:text-slate-400"
+                  ? "text-green-600 dark:text-green-400"
+                  : trend === "down"
+                    ? "text-red-600 dark:text-red-400"
+                    : "text-slate-500 dark:text-slate-400"
                   }`}
               >
                 {trend === "up" && <TrendingUp className="w-3 h-3" />}

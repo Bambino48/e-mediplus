@@ -321,7 +321,7 @@ export default function ProDashboard() {
       </div>
       {/* === Statistiques principales === */}
       <div className="grid md:grid-cols-3 gap-4">
-        <div whileHover={{ scale: 1.02 }} className="card group">
+        <div className="card group hover:shadow-lg transition-shadow duration-200">
           <div className="flex items-center gap-2 mb-2">
             <CalendarDays className="h-5 w-5 text-cyan-500" />
             <span className="text-sm text-slate-500">RDV du jour</span>
@@ -341,7 +341,7 @@ export default function ProDashboard() {
           </Link>
         </div>
 
-        <div whileHover={{ scale: 1.02 }} className="card group">
+        <div className="card group hover:shadow-lg transition-shadow duration-200">
           <div className="flex items-center gap-2 mb-2">
             <TrendingUp className="h-5 w-5 text-emerald-500" />
             <span className="text-sm text-slate-500">Revenus du mois</span>
@@ -361,7 +361,7 @@ export default function ProDashboard() {
           </Link>
         </div>
 
-        <div whileHover={{ scale: 1.02 }} className="card group">
+        <div className="card group hover:shadow-lg transition-shadow duration-200">
           <div className="flex items-center gap-2 mb-2">
             <ClipboardCheck className="h-5 w-5 text-amber-500" />
             <span className="text-sm text-slate-500">Tâches à faire</span>
@@ -451,8 +451,7 @@ export default function ProDashboard() {
               <div
                 key={`availability-${availability.id}-${availability.day_of_week || availability.date
                   }`}
-                whileHover={{ scale: 1.02 }}
-                className="card group"
+                className="card group hover:shadow-lg transition-shadow duration-200"
               >
                 {editingId === availability.id ? (
                   // Mode édition
@@ -610,11 +609,12 @@ export default function ProDashboard() {
               Définir mes disponibilités
             </Link>
           </div>
-        )}
-      </div>
+        )
+        }
+      </div >
 
       {/* === Profil professionnel === */}
-      <div
+      < div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.3 }}
@@ -766,10 +766,10 @@ export default function ProDashboard() {
             </div>
           )}
         </div>
-      </div>
+      </div >
 
       {/* === Raccourcis rapides === */}
-      <div className="mt-10">
+      < div className="mt-10" >
         <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
           <Settings className="h-5 w-5 text-slate-500" />
           Actions rapides
@@ -778,9 +778,6 @@ export default function ProDashboard() {
           {shortcuts.map((item, i) => (
             <div
               key={i}
-              whileHover={{ scale: 1.03, y: -2 }}
-              whileTap={{ scale: 0.98 }}
-              transition={{ duration: 0.2 }}
               className={`card border-t-4 bg-white dark:bg-slate-900 hover:shadow-lg transition-all duration-200 border-gradient-to-r ${item.color}`}
             >
               <div className="flex items-start gap-3">
@@ -806,20 +803,19 @@ export default function ProDashboard() {
                   >
                     Ouvrir →
                     <span
-                      className="inline-block"
-                      whileHover={{ x: 2 }}
-                      transition={{ duration: 0.2 }}
+                      className="inline-block transition-transform duration-200 group-hover/link:translate-x-1"
                     >
                       →
                     </span>
                   </Link>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </ProLayout>
+            </div >
+          ))
+          }
+        </div >
+      </div >
+    </ProLayout >
   );
 }
 
