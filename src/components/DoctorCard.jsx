@@ -13,7 +13,7 @@ import {
   User,
 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
-import { useDoctorAvailabilities } from "../../hooks/useDoctorAvailabilities.js";
+import { useDoctorAvailabilities } from "../../hooks/useDoctorAvailabilities";
 import {
   calculateDistance,
   correctText,
