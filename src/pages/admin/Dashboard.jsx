@@ -10,7 +10,6 @@ import {
   Title,
   Tooltip,
 } from "chart.js";
-import { motion } from "framer-motion";
 import {
   Download,
   FileChartColumn,

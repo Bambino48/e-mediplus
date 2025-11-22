@@ -30,14 +30,25 @@ export default defineConfig({
   build: {
     rollupOptions: {
       plugins: [nodePolyfills()],
+      external: () => false, // Ne rien externaliser
       output: {
         // Split intelligent des chunks pour supprimer les warnings
-        manualChunks: {
-          react: ["react", "react-dom"],
-          vendor: ["axios", "@tanstack/react-query"],
-          motion: ["framer-motion"],
-          ui: ["lucide-react"],
-          charts: ["recharts"],
+        manualChunks: (id) => {
+          if (id.includes("framer-motion")) {
+            return "framer-motion";
+          }
+          if (id.includes("react") || id.includes("react-dom")) {
+            return "react";
+          }
+          if (id.includes("axios") || id.includes("@tanstack/react-query")) {
+            return "vendor";
+          }
+          if (id.includes("lucide-react")) {
+            return "ui";
+          }
+          if (id.includes("recharts")) {
+            return "charts";
+          }
         },
       },
     },
@@ -61,5 +72,9 @@ export default defineConfig({
       "react-hot-toast",
       "react-router-dom",
     ],
+    exclude: [],
+  },
+  ssr: {
+    noExternal: ["framer-motion"],
   },
 });
