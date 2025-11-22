@@ -128,26 +128,6 @@ export default function Search() {
     }
   };
 
-  // Déclencher automatiquement la recherche quand on arrive avec des paramètres URL
-  useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const hasSearchParams =
-      urlParams.has("q") || urlParams.has("location") || urlParams.has("lat");
-
-    // Ne déclencher que si on a des paramètres de recherche et que la fonction est prête
-    if (
-      hasSearchParams &&
-      q.trim().length >= 2 &&
-      searchFunction &&
-      !isLoading
-    ) {
-      console.log(
-        "🔍 Recherche automatique déclenchée depuis les paramètres URL"
-      );
-      handleManualSearch();
-    }
-  }, [q, searchFunction, isLoading, handleManualSearch]); // Dépendances importantes
-
   // Fonction pour déclencher la recherche manuellement
   const handleManualSearch = useCallback(async () => {
     // Validation des prérequis
@@ -176,6 +156,26 @@ export default function Search() {
       setIsLoading(false);
     }
   }, [q, searchFunction]); // Dépendances optimisées
+
+  // Déclencher automatiquement la recherche quand on arrive avec des paramètres URL
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const hasSearchParams =
+      urlParams.has("q") || urlParams.has("location") || urlParams.has("lat");
+
+    // Ne déclencher que si on a des paramètres de recherche et que la fonction est prête
+    if (
+      hasSearchParams &&
+      q.trim().length >= 2 &&
+      searchFunction &&
+      !isLoading
+    ) {
+      console.log(
+        "🔍 Recherche automatique déclenchée depuis les paramètres URL"
+      );
+      handleManualSearch();
+    }
+  }, [q, searchFunction, isLoading, handleManualSearch]); // Dépendances importantes
 
   // Callback pour recevoir la fonction de recherche du composant Map
   const handleSearchFunctionUpdate = (searchFunc) => {
