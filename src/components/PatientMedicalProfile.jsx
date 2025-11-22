@@ -16,7 +16,7 @@ import {
   Weight,
   X,
 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useAppToast } from "../hooks/useAppToast";
 import { useAuth } from "../hooks/useAuth";
 
@@ -41,63 +41,78 @@ export default function PatientMedicalProfile() {
     country: "",
   });
 
-  // API Base URL
-  const API_BASE_URL = `${import.meta.env.VITE_API_URL}api`;
+  // API Base URL - Utilise la même base URL que axiosInstance
+  const API_BASE_URL = "https://lightsalmon-elk-292300.hostingersite.com/backend/public/api";
+
+  const loadProfile = useCallback(async () => {
+    try {
+      console.log("🔄 PatientMedicalProfile: Démarrage du chargement du profil");
+      setIsLoading(true);
+      console.log("🔄 PatientMedicalProfile: API_BASE_URL:", API_BASE_URL);
+      console.log("🔄 PatientMedicalProfile: Endpoint complet:", `${API_BASE_URL}/patient/profile`);
+
+      const response = await fetch(`${API_BASE_URL}/patient/profile`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: "application/json",
+        },
+      });
+
+      console.log("🔄 PatientMedicalProfile: Réponse reçue, status:", response.status);
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log("✅ PatientMedicalProfile: Données brutes reçues:", data);
+
+        // La vraie structure: data.patient_profile contient les données
+        const profileData = data.patient_profile || data.data || data;
+        console.log("✅ PatientMedicalProfile: Données extraites:", profileData);
+
+        setProfile(profileData);
+        setFormData({
+          date_of_birth: profileData?.date_of_birth || "",
+          gender: profileData?.gender || "",
+          blood_group: profileData?.blood_group || "",
+          height: profileData?.height || "",
+          weight: profileData?.weight || "",
+          allergies: profileData?.allergies || "",
+          chronic_diseases: profileData?.chronic_diseases || "",
+          medications: profileData?.medications || "",
+          emergency_contact: profileData?.emergency_contact || "",
+          address: profileData?.address || "",
+          city: profileData?.city || "",
+          country: profileData?.country || "",
+        });
+      } else if (response.status === 404) {
+        // Cas normal : pas de profil existant, l'utilisateur peut en créer un
+        console.log("ℹ️ PatientMedicalProfile: Aucun profil trouvé (404), c'est normal pour un nouveau patient");
+        setProfile(null);
+      } else {
+        // Autres erreurs HTTP
+        const errorData = await response.json().catch(() => ({}));
+        console.error("❌ PatientMedicalProfile: Erreur HTTP:", response.status, errorData);
+        toast.error("Erreur lors du chargement du profil");
+      }
+    } catch (error) {
+      console.error("❌ PatientMedicalProfile: Erreur réseau:", error);
+      toast.error("Problème de connexion. Vérifiez votre réseau.");
+    } finally {
+      console.log("🔄 PatientMedicalProfile: Fin du chargement, isLoading = false");
+      setIsLoading(false);
+    }
+  }, [token, API_BASE_URL, toast]);
 
   // Chargement du profil
   useEffect(() => {
-    if (!token) return;
-
-    const loadProfile = async () => {
-      try {
-        setIsLoading(true);
-        const response = await fetch(`${API_BASE_URL}/patient/profile`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            Accept: "application/json",
-          },
-        });
-
-        if (response.ok) {
-          const data = await response.json();
-
-          // La vraie structure: data.patient_profile contient les données
-          const profileData = data.patient_profile || data.data || data;
-
-          setProfile(profileData);
-          setFormData({
-            date_of_birth: profileData?.date_of_birth || "",
-            gender: profileData?.gender || "",
-            blood_group: profileData?.blood_group || "",
-            height: profileData?.height || "",
-            weight: profileData?.weight || "",
-            allergies: profileData?.allergies || "",
-            chronic_diseases: profileData?.chronic_diseases || "",
-            medications: profileData?.medications || "",
-            emergency_contact: profileData?.emergency_contact || "",
-            address: profileData?.address || "",
-            city: profileData?.city || "",
-            country: profileData?.country || "",
-          });
-        } else if (response.status === 404) {
-          // Cas normal : pas de profil existant, l'utilisateur peut en créer un
-          setProfile(null);
-        } else {
-          // Autres erreurs HTTP
-          const errorData = await response.json().catch(() => ({}));
-          console.error("Erreur HTTP:", response.status, errorData);
-          toast.error("Erreur lors du chargement du profil");
-        }
-      } catch (error) {
-        console.error("Erreur réseau:", error);
-        toast.error("Problème de connexion. Vérifiez votre réseau.");
-      } finally {
-        setIsLoading(false);
-      }
-    };
+    console.log("🔄 PatientMedicalProfile: useEffect déclenché, token disponible:", !!token);
+    if (!token) {
+      console.log("❌ PatientMedicalProfile: Aucun token, arrêt du chargement");
+      setIsLoading(false);
+      return;
+    }
 
     loadProfile();
-  }, [token, API_BASE_URL, toast]);
+  }, [token, loadProfile]);
 
   const handleSave = async () => {
     if (!token) return;
