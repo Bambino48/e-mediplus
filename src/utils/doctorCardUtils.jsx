@@ -1,4 +1,5 @@
 // Utilitaires pour le composant DoctorCard
+import { Star } from "lucide-react";
 
 // Mapping des spécialités médicales avec icônes et couleurs
 export const getSpecialtyInfo = (specialty) => {
