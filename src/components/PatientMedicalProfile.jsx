@@ -62,27 +62,38 @@ export default function PatientMedicalProfile() {
 
       if (response.ok) {
         const data = await response.json();
-        console.log("✅ PatientMedicalProfile: Données brutes reçues:", data);
+        console.log("✅ PatientMedicalProfile: Données brutes reçues:", JSON.stringify(data, null, 2));
 
         // La vraie structure: data.patient_profile contient les données
         const profileData = data.patient_profile || data.data || data;
-        console.log("✅ PatientMedicalProfile: Données extraites:", profileData);
+        console.log("✅ PatientMedicalProfile: Données extraites:", JSON.stringify(profileData, null, 2));
+        console.log("✅ PatientMedicalProfile: Type de profileData:", typeof profileData);
+        console.log("✅ PatientMedicalProfile: Clés disponibles:", Object.keys(profileData || {}));
+        console.log("✅ PatientMedicalProfile: profileData est vide?", !profileData || Object.keys(profileData).length === 0);
 
-        setProfile(profileData);
-        setFormData({
-          date_of_birth: profileData?.date_of_birth || "",
-          gender: profileData?.gender || "",
-          blood_group: profileData?.blood_group || "",
-          height: profileData?.height || "",
-          weight: profileData?.weight || "",
-          allergies: profileData?.allergies || "",
-          chronic_diseases: profileData?.chronic_diseases || "",
-          medications: profileData?.medications || "",
-          emergency_contact: profileData?.emergency_contact || "",
-          address: profileData?.address || "",
-          city: profileData?.city || "",
-          country: profileData?.country || "",
-        });
+        // Vérifier si le profil a du contenu réel
+        const hasProfileData = profileData && Object.keys(profileData).length > 0 && Object.values(profileData).some(value => value !== null && value !== undefined && value !== "");
+
+        if (hasProfileData) {
+          setProfile(profileData);
+          setFormData({
+            date_of_birth: profileData?.date_of_birth || "",
+            gender: profileData?.gender || "",
+            blood_group: profileData?.blood_group || "",
+            height: profileData?.height || "",
+            weight: profileData?.weight || "",
+            allergies: profileData?.allergies || "",
+            chronic_diseases: profileData?.chronic_diseases || "",
+            medications: profileData?.medications || "",
+            emergency_contact: profileData?.emergency_contact || "",
+            address: profileData?.address || "",
+            city: profileData?.city || "",
+            country: profileData?.country || "",
+          });
+        } else {
+          console.log("ℹ️ PatientMedicalProfile: Profil vide ou inexistant, affichage du message de création");
+          setProfile(null);
+        }
       } else if (response.status === 404) {
         // Cas normal : pas de profil existant, l'utilisateur peut en créer un
         console.log("ℹ️ PatientMedicalProfile: Aucun profil trouvé (404), c'est normal pour un nouveau patient");
@@ -112,7 +123,7 @@ export default function PatientMedicalProfile() {
     }
 
     loadProfile();
-  }, [token, loadProfile]);
+  }, [token]); // loadProfile omis pour éviter la boucle infinie car il change à chaque render
 
   const handleSave = async () => {
     if (!token) return;
