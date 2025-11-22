@@ -13,7 +13,7 @@ import {
   User,
 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
-import { useDoctorAvailabilities } from "../../hooks/useDoctorAvailabilities";
+import { useDoctorAvailabilities } from "../../hooks/useDoctorAvailabilities.js";
 import {
   calculateDistance,
   correctText,
@@ -298,8 +298,8 @@ const DoctorCard = ({ doctor, user, userLocation, onBooking }) => {
         {onBooking ? (
           <button
             className={`flex-1 text-sm sm:text-base py-2 px-3 sm:px-4 rounded-lg font-medium transition-all duration-200 hover:scale-105 hover:shadow-md active:scale-95 group ${nextSlot
-                ? "btn-primary hover:bg-cyan-600 dark:hover:bg-cyan-500"
-                : "bg-slate-300 dark:bg-slate-600 text-slate-500 dark:text-slate-400 cursor-not-allowed"
+              ? "btn-primary hover:bg-cyan-600 dark:hover:bg-cyan-500"
+              : "bg-slate-300 dark:bg-slate-600 text-slate-500 dark:text-slate-400 cursor-not-allowed"
               }`}
             onClick={handleBookingClick}
             disabled={!nextSlot}
@@ -320,8 +320,8 @@ const DoctorCard = ({ doctor, user, userLocation, onBooking }) => {
         ) : (
           <Link
             className={`flex-1 text-sm sm:text-base py-2 px-3 sm:px-4 rounded-lg font-medium transition-all duration-200 hover:scale-105 hover:shadow-md active:scale-95 group ${nextSlot
-                ? "btn-primary hover:bg-cyan-600 dark:hover:bg-cyan-500"
-                : "bg-slate-300 dark:bg-slate-600 text-slate-500 dark:text-slate-400 cursor-not-allowed"
+              ? "btn-primary hover:bg-cyan-600 dark:hover:bg-cyan-500"
+              : "bg-slate-300 dark:bg-slate-600 text-slate-500 dark:text-slate-400 cursor-not-allowed"
               }`}
             to={nextSlot ? `/booking/${doctor.id}` : "#"}
             onClick={handleBookingClick}
