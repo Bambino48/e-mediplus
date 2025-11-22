@@ -196,8 +196,8 @@ export default function Navbar() {
               {isOnDashboard ? (
                 <>
                   {/* Badge utilisateur avec nom + rôle */}
-                  <div className="hidden md:flex items-center gap-3 px-4 py-2 rounded-xl bg-gradient-to-r from-cyan-50 via-blue-50 to-cyan-50 dark:from-cyan-900/30 dark:via-blue-900/30 dark:to-cyan-900/30 border border-cyan-200 dark:border-cyan-700 shadow-sm hover:shadow-md transition-shadow">
-                    <div className="p-1.5 rounded-lg bg-gradient-to-br from-cyan-500 to-blue-600">
+                  <div className="hidden md:flex items-center gap-3 px-4 py-2 rounded-xl bg-linear-to-r from-cyan-50 via-blue-50 to-cyan-50 dark:from-cyan-900/30 dark:via-blue-900/30 dark:to-cyan-900/30 border border-cyan-200 dark:border-cyan-700 shadow-sm hover:shadow-md transition-shadow">
+                    <div className="p-1.5 rounded-lg bg-linear-to-br from-cyan-500 to-blue-600">
                       <UserCircle className="h-4 w-4 text-white" />
                     </div>
                     <div className="flex flex-col">
@@ -247,16 +247,16 @@ export default function Navbar() {
                         className="absolute right-0 mt-2 w-64 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-2xl overflow-hidden z-50"
                       >
                         {/* Header du menu avec info utilisateur */}
-                        <div className="px-4 py-3 border-b border-slate-200 dark:border-slate-800 bg-gradient-to-r from-cyan-50 to-blue-50 dark:from-cyan-900/30 dark:to-blue-900/30">
+                        <div className="px-4 py-3 border-b border-slate-200 dark:border-slate-800 bg-linear-to-r from-cyan-50 to-blue-50 dark:from-cyan-900/30 dark:to-blue-900/30">
                           <div className="flex items-center gap-3">
-                            <div className="p-2 rounded-lg bg-gradient-to-br from-cyan-500 to-blue-600">
+                            <div className="p-2 rounded-lg bg-linear-to-br from-cyan-500 to-blue-600">
                               <UserCircle className="h-6 w-6 text-white" />
                             </div>
                             <div>
                               <p className="text-sm font-bold text-slate-900 dark:text-slate-100">
                                 {user.email?.split("@")[0] || "Utilisateur"}
                               </p>
-                              <p className="text-xs text-slate-600 dark:text-slate-400 truncate max-w-[160px]">
+                              <p className="text-xs text-slate-600 dark:text-slate-400 truncate max-w-40">
                                 {user.email}
                               </p>
                             </div>
@@ -406,8 +406,8 @@ export default function Navbar() {
               <div className="flex flex-col gap-3 pt-2 border-t border-slate-200 dark:border-slate-700">
                 {/* Badge utilisateur mobile */}
                 {isOnDashboard && (
-                  <div className="flex items-center justify-center gap-3 px-4 py-3 rounded-xl bg-gradient-to-r from-cyan-50 to-blue-50 dark:from-cyan-900/30 dark:to-blue-900/30 border border-cyan-200 dark:border-cyan-800">
-                    <div className="p-2 rounded-lg bg-gradient-to-br from-cyan-500 to-blue-600">
+                  <div className="flex items-center justify-center gap-3 px-4 py-3 rounded-xl bg-linear-to-r from-cyan-50 to-blue-50 dark:from-cyan-900/30 dark:to-blue-900/30 border border-cyan-200 dark:border-cyan-800">
+                    <div className="p-2 rounded-lg bg-linear-to-br from-cyan-500 to-blue-600">
                       <UserCircle className="h-5 w-5 text-white" />
                     </div>
                     <div className="flex flex-col">

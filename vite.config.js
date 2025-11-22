@@ -32,6 +32,9 @@ export default defineConfig({
     minify: "esbuild", // Utiliser esbuild au lieu de terser pour éviter les problèmes de mémoire
     sourcemap: false,
     chunkSizeWarningLimit: 1000,
+    commonjsOptions: {
+      include: [/framer-motion/, /node_modules/],
+    },
   },
   optimizeDeps: {
     include: [
@@ -44,5 +47,6 @@ export default defineConfig({
       "react-hot-toast",
       "react-router-dom",
     ],
+    exclude: [],
   },
 });
