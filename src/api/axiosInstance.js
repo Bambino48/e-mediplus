@@ -2,15 +2,17 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000/api", // ✅ Laravel API base
-  withCredentials: false, // ❌ pas besoin de cookie Sanctum car on utilise Bearer token
+  baseURL:
+    import.meta.env.VITE_API_BASE_URL ||
+    "https://lightsalmon-elk-292300.hostingersite.com/backend/public/api",
+  withCredentials: false,
   headers: {
     Accept: "application/json",
     "Content-Type": "application/json",
   },
 });
 
-// ✅ Intercepteur pour ajouter automatiquement le token si présent
+// Ajouter automatiquement le token
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("token");
@@ -22,7 +24,7 @@ api.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// ✅ Gestion uniforme des erreurs (affichage propre côté frontend)
+// Gestion des erreurs
 api.interceptors.response.use(
   (response) => response,
   (error) => {
