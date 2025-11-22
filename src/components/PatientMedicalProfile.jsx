@@ -98,7 +98,7 @@ export default function PatientMedicalProfile() {
     };
 
     loadProfile();
-  }, [token, API_BASE_URL]);
+  }, [token, API_BASE_URL, toast]);
 
   const handleSave = async () => {
     if (!token) return;

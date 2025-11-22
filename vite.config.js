@@ -13,8 +13,9 @@ export default defineConfig({
   },
   define: {
     global: "globalThis", // important pour randombytes
-    "process.env": {}, // ✅ évite "process is not defined"
+    "process.env": "{}",
     "process.browser": "true",
+    "process.env.NODE_ENV": JSON.stringify("production"),
   },
   resolve: {
     alias: {

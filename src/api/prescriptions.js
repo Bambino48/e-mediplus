@@ -72,7 +72,7 @@ export async function getPrescription(prescriptionId) {
 }
 
 // Fonctions de compatibilité pour les anciens appels
-export async function listPrescriptionsByDoctor(doctor_id) {
+export async function listPrescriptionsByDoctor() {
   try {
     const result = await getDoctorPrescriptions();
     return result;

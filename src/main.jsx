@@ -125,7 +125,7 @@ window.forceCleanLocalStorage = () => {
         console.log(`Suppression de ${key}: ${value.substring(0, 50)}...`);
         localStorage.removeItem(key);
       }
-    } catch (e) {
+    } catch {
       localStorage.removeItem(key);
     }
   });

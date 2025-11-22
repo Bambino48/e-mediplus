@@ -77,7 +77,7 @@ export default function UsersPage() {
     } else {
       try {
         lastFocusedRef.current?.focus?.();
-      } catch (e) {
+      } catch {
         // noop
       }
     }

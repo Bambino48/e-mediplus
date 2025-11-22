@@ -4,6 +4,9 @@ import { useCallback, useEffect, useState } from "react";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import { useAuth } from "../../hooks/useAuth";
 
+// Import du hook toast
+import { useAppToast } from "../../hooks/useAppToast";
+
 // ✅ Icône personnalisée pour la position du patient
 const userIcon = new L.Icon({
   iconUrl: "https://cdn-icons-png.flaticon.com/512/447/447031.png",
@@ -13,6 +16,7 @@ const userIcon = new L.Icon({
 
 export default function PatientProfile() {
   const { user, updateProfile } = useAuth();
+  const toast = useAppToast();
   const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
   const DEFAULT_AVATAR =
     "https://cdn-icons-png.flaticon.com/512/847/847969.png";
@@ -171,8 +175,8 @@ export default function PatientProfile() {
             <label
               htmlFor="photo"
               className={`absolute bottom-0 right-0 bg-cyan-500 text-white text-xs px-3 py-1 rounded-full transition ${uploadingPhoto
-                  ? "cursor-not-allowed opacity-60"
-                  : "cursor-pointer hover:bg-cyan-600"
+                ? "cursor-not-allowed opacity-60"
+                : "cursor-pointer hover:bg-cyan-600"
                 }`}
             >
               {uploadingPhoto ? "Chargement..." : "Changer"}

@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 // src/pages/pro/PrescriptionsEditor.jsx
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";

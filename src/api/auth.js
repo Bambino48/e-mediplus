@@ -79,7 +79,7 @@ export const updateProfileRequest = async (token, payload) => {
   const filteredPayload = {};
   for (const field of allowedFields) {
     if (
-      jsonPayload.hasOwnProperty(field) &&
+      Object.prototype.hasOwnProperty.call(jsonPayload, field) &&
       jsonPayload[field] !== "" &&
       jsonPayload[field] !== null &&
       jsonPayload[field] !== undefined

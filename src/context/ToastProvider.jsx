@@ -4,6 +4,7 @@ import { useToast } from "../hooks/useToast.js";
 
 const ToastContext = createContext();
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useToastContext = () => {
     const context = useContext(ToastContext);
     if (!context) {

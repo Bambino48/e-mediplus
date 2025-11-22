@@ -1,5 +1,5 @@
 // src/pages/patient/Prescriptions.jsx
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { AnimatePresence, motion as Motion } from "framer-motion";
 import {
   AlertCircle,
@@ -17,8 +17,7 @@ import {
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
-  getPatientPrescriptions,
-  markDoseTaken,
+  getPatientPrescriptions
 } from "../../api/prescriptions.js";
 import PrescriptionCard from "../../components/PrescriptionCard.jsx";
 import { useAppToast } from "../../hooks/useAppToast";
@@ -76,7 +75,6 @@ function getStatusBadge(status) {
 export default function PatientPrescriptions() {
   const navigate = useNavigate();
   const toast = useAppToast();
-  const qc = useQueryClient();
   const setItems = usePrescriptionsStore((s) => s.setItems);
   const items = usePrescriptionsStore((s) => s.items);
   const [activeTab, setActiveTab] = useState("active");
@@ -92,15 +90,6 @@ export default function PatientPrescriptions() {
   useEffect(() => {
     if (data?.items) setItems(data.items);
   }, [data, setItems]);
-
-  const takeMedMutation = useMutation({
-    mutationFn: markDoseTaken,
-    onSuccess: () => {
-      toast.success("Médicament marqué comme pris ✅");
-      qc.invalidateQueries({ queryKey: ["patient-prescriptions"] });
-    },
-    onError: () => toast.error("Erreur lors de l'enregistrement"),
-  });
 
   const prescriptionsWithStatus = useMemo(() => {
     return items.map((p) => ({
@@ -231,8 +220,8 @@ export default function PatientPrescriptions() {
         <button
           onClick={() => setActiveTab("active")}
           className={`pb-3 px-4 font-medium text-sm transition-colors relative ${activeTab === "active"
-              ? "text-cyan-600 dark:text-cyan-400"
-              : "text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200"
+            ? "text-cyan-600 dark:text-cyan-400"
+            : "text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200"
             }`}
         >
           <span className="flex items-center gap-2">
@@ -253,8 +242,8 @@ export default function PatientPrescriptions() {
         <button
           onClick={() => setActiveTab("history")}
           className={`pb-3 px-4 font-medium text-sm transition-colors relative ${activeTab === "history"
-              ? "text-cyan-600 dark:text-cyan-400"
-              : "text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200"
+            ? "text-cyan-600 dark:text-cyan-400"
+            : "text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200"
             }`}
         >
           <span className="flex items-center gap-2">

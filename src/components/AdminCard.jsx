@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import { Minus, TrendingDown, TrendingUp } from "lucide-react";
 
 // Composant simple pour mini-chart (sparkline)
@@ -134,13 +133,12 @@ export default function AdminCard({
             </div>
             {trend && trendValue !== undefined && (
               <div
-                className={`flex items-center gap-1 mt-1 text-xs font-medium ${
-                  trend === "up"
+                className={`flex items-center gap-1 mt-1 text-xs font-medium ${trend === "up"
                     ? "text-green-600 dark:text-green-400"
                     : trend === "down"
-                    ? "text-red-600 dark:text-red-400"
-                    : "text-slate-500 dark:text-slate-400"
-                }`}
+                      ? "text-red-600 dark:text-red-400"
+                      : "text-slate-500 dark:text-slate-400"
+                  }`}
               >
                 {trend === "up" && <TrendingUp className="w-3 h-3" />}
                 {trend === "down" && <TrendingDown className="w-3 h-3" />}

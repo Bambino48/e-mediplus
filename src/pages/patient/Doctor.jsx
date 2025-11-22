@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import {
   Activity,
   Award,
@@ -27,7 +26,7 @@ import { useDoctor, useDoctorAvailabilities } from "../../hooks/useDoctors.js";
 export default function Doctor() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { user, isLoading: authLoading } = useAuth();
+  const { user } = useAuth();
   const { data, isLoading, error } = useDoctor(id);
   const { data: availabilityData, isLoading: availabilityLoading } =
     useDoctorAvailabilities(id);
@@ -35,28 +34,28 @@ export default function Doctor() {
   // Transformation des données
   const doctor = data?.doctor
     ? {
-        id: data.doctor.id,
-        name: data.doctor.name || "Dr. Nom Inconnu",
-        specialty:
-          data.doctor.doctor_profile?.primary_specialty || "Médecine générale",
-        experience: data.doctor.experience_years || 5,
-        address:
-          data.doctor.doctor_profile?.address || "Adresse non disponible",
-        phone:
-          data.doctor.doctor_profile?.phone ||
-          data.doctor.phone ||
-          "Téléphone non disponible",
-        rating: data.doctor.doctor_profile?.rating || 4.5,
-        bio:
-          data.doctor.doctor_profile?.bio ||
-          "Professionnel de santé expérimenté.",
-        fees: data.doctor.doctor_profile?.fees || 15000,
-        languages: data.doctor.languages || ["Français"],
-        reviews: data.doctor.reviews || [],
-        photo: data.doctor.photo_url || data.doctor.photo,
-        city: data.doctor.doctor_profile?.city,
-        email: data.doctor.email,
-      }
+      id: data.doctor.id,
+      name: data.doctor.name || "Dr. Nom Inconnu",
+      specialty:
+        data.doctor.doctor_profile?.primary_specialty || "Médecine générale",
+      experience: data.doctor.experience_years || 5,
+      address:
+        data.doctor.doctor_profile?.address || "Adresse non disponible",
+      phone:
+        data.doctor.doctor_profile?.phone ||
+        data.doctor.phone ||
+        "Téléphone non disponible",
+      rating: data.doctor.doctor_profile?.rating || 4.5,
+      bio:
+        data.doctor.doctor_profile?.bio ||
+        "Professionnel de santé expérimenté.",
+      fees: data.doctor.doctor_profile?.fees || 15000,
+      languages: data.doctor.languages || ["Français"],
+      reviews: data.doctor.reviews || [],
+      photo: data.doctor.photo_url || data.doctor.photo,
+      city: data.doctor.doctor_profile?.city,
+      email: data.doctor.email,
+    }
     : null;
 
   const [showAllReviews, setShowAllReviews] = useState(false);
@@ -360,9 +359,8 @@ export default function Doctor() {
               <div className="flex gap-3">
                 <Link
                   to={`/booking/${d.id}`}
-                  className={`btn-primary flex items-center gap-2 ${
-                    !nextSlot ? "opacity-50 cursor-not-allowed" : ""
-                  }`}
+                  className={`btn-primary flex items-center gap-2 ${!nextSlot ? "opacity-50 cursor-not-allowed" : ""
+                    }`}
                   onClick={handleBookingClick}
                 >
                   <Calendar className="h-4 w-4" />

@@ -1,6 +1,5 @@
 // src/pages/notifications/Notifications.jsx
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { motion } from "framer-motion";
 import {
     AlertCircle,
     Bell,

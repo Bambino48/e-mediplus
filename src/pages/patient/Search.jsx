@@ -4,11 +4,13 @@ import DoctorCard from "../../components/DoctorCard.jsx";
 import MapWithMarkers from "../../components/MapWithMarkers.jsx";
 
 import { getDoctorsList } from "../../api/doctors.js";
+import { useAuth } from "../../hooks/useAuth";
 import { useGeo } from "../../hooks/useGeo.js";
 import { useFavoritesStore } from "../../store/favoritesStore.js";
 
 export default function Search() {
   const { coords, detect, setCoords, loading } = useGeo();
+  const { user } = useAuth();
 
   // État de recherche
   const [q, setQ] = useState("");
@@ -142,7 +144,7 @@ export default function Search() {
       );
       handleManualSearch();
     }
-  }, [q, searchFunction, isLoading]); // Dépendances importantes
+  }, [q, searchFunction, isLoading, handleManualSearch]); // Dépendances importantes
 
   // Fonction pour déclencher la recherche manuellement
   const handleManualSearch = useCallback(async () => {
@@ -213,9 +215,8 @@ export default function Search() {
               </span>
             ) : (
               <span>
-                {`${allDoctors.length} médecin${
-                  allDoctors.length > 1 ? "s" : ""
-                } trouvé${allDoctors.length > 1 ? "s" : ""}`}
+                {`${allDoctors.length} médecin${allDoctors.length > 1 ? "s" : ""
+                  } trouvé${allDoctors.length > 1 ? "s" : ""}`}
               </span>
             )}
           </div>
@@ -275,9 +276,8 @@ export default function Search() {
               </span>
             ) : (
               <>
-                {`${totalAll} établissement${totalAll > 1 ? "s" : ""} trouvé${
-                  totalAll > 1 ? "s" : ""
-                }`}
+                {`${totalAll} établissement${totalAll > 1 ? "s" : ""} trouvé${totalAll > 1 ? "s" : ""
+                  }`}
                 <span className="text-blue-600">
                   ({items.length} sur la carte)
                 </span>
@@ -333,25 +333,24 @@ export default function Search() {
                   className={`
                     px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200 
                     flex items-center gap-1 shrink-0 min-w-10 justify-center
-                    ${
-                      isLoading || !coords || q.trim().length < 3
-                        ? "bg-gray-100 dark:bg-gray-700 text-gray-400 cursor-not-allowed"
-                        : "bg-blue-500 text-white hover:bg-blue-600 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 active:scale-95"
+                    ${isLoading || !coords || q.trim().length < 3
+                      ? "bg-gray-100 dark:bg-gray-700 text-gray-400 cursor-not-allowed"
+                      : "bg-blue-500 text-white hover:bg-blue-600 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 active:scale-95"
                     }
                   `}
                   title={
                     !coords
                       ? "Localisation requise pour effectuer une recherche"
                       : q.trim().length < 3
-                      ? "Tapez au moins 3 caractères"
-                      : "Lancer la recherche"
+                        ? "Tapez au moins 3 caractères"
+                        : "Lancer la recherche"
                   }
                   aria-label={
                     !coords
                       ? "Localisation requise pour effectuer une recherche"
                       : q.trim().length < 3
-                      ? "Tapez au moins 3 caractères pour rechercher"
-                      : "Lancer la recherche"
+                        ? "Tapez au moins 3 caractères pour rechercher"
+                        : "Lancer la recherche"
                   }
                 >
                   {isLoading ? (
@@ -658,9 +657,8 @@ function ResultCard({ item }) {
               aria-label="Favori"
             >
               <Heart
-                className={`h-5 w-5 ${
-                  isFav ? "fill-red-500 text-red-500" : ""
-                }`}
+                className={`h-5 w-5 ${isFav ? "fill-red-500 text-red-500" : ""
+                  }`}
               />
             </button>
           </div>

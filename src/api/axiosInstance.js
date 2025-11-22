@@ -2,7 +2,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://127.0.0.1:8000/api", // ✅ Laravel API base
+  baseURL: import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000/api", // ✅ Laravel API base
   withCredentials: false, // ❌ pas besoin de cookie Sanctum car on utilise Bearer token
   headers: {
     Accept: "application/json",

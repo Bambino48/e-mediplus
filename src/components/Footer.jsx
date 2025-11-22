@@ -35,7 +35,7 @@ export default function Footer() {
 
             setIsSubscribed(true);
             setEmail('');
-        } catch (err) {
+        } catch {
             setError('Une erreur est survenue. Veuillez réessayer.');
         } finally {
             setIsLoading(false);

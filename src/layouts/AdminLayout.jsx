@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import Sidebar from "../components/Sidebar.jsx";
 
 export default function AdminLayout({ children }) {

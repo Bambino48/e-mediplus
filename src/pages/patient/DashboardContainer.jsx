@@ -2,7 +2,6 @@
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
 import Sidebar from "../../components/Sidebar.jsx";
-import { useUIStore } from "../../store/uiStore.js";
 import Appointments from "./Appointments.jsx";
 import Booking from "./Booking.jsx";
 import PatientDashboard from "./Dashboard.jsx";
@@ -15,7 +14,6 @@ import Triage from "./Triage.jsx";
 export default function DashboardContainer() {
   const [activeView, setActiveView] = useState("dashboard");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { sidebarOpen, setSidebar } = useUIStore();
 
   // La sidebar peut maintenant être réduite/agrandie par l'utilisateur
   // useEffect(() => {
@@ -66,9 +64,8 @@ export default function DashboardContainer() {
 
       {/* ✅ Sidebar toujours visible sur desktop, gère sa propre largeur */}
       <div
-        className={`fixed md:static inset-y-0 left-0 z-40 transform transition-transform duration-300 ease-in-out ${
-          mobileMenuOpen ? "translate-x-0" : "-translate-x-full"
-        } md:translate-x-0`}
+        className={`fixed md:static inset-y-0 left-0 z-40 transform transition-transform duration-300 ease-in-out ${mobileMenuOpen ? "translate-x-0" : "-translate-x-full"
+          } md:translate-x-0`}
       >
         <Sidebar
           section="patient"

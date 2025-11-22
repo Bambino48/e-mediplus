@@ -91,7 +91,7 @@ function FlyTo({ center }) {
     if (lastCenterRef.current) {
       const distance = Math.sqrt(
         Math.pow(center[0] - lastCenterRef.current[0], 2) +
-          Math.pow(center[1] - lastCenterRef.current[1], 2)
+        Math.pow(center[1] - lastCenterRef.current[1], 2)
       );
 
       // Ne voler que si la distance est significative (plus de 100m environ)
@@ -125,7 +125,6 @@ export default function MapWithMarkers({
   const [isLoading, setIsLoading] = useState(false);
   const [lastSearchQuery, setLastSearchQuery] = useState("");
   const [canSearch, setCanSearch] = useState(false);
-  const [infoMessage, setInfoMessage] = useState(""); // Message d'information pour l'utilisateur
   const onItemsUpdateRef = useRef(onItemsUpdate);
   const isLoadingRef = useRef(isLoading); // Mettre à jour les refs quand les valeurs changent
   useEffect(() => {
@@ -192,12 +191,10 @@ export default function MapWithMarkers({
         if (establishments.length === 0) {
           const message =
             "Aucun établissement de santé trouvé dans votre zone. Essayez d'élargir votre recherche ou vérifiez votre position.";
-          setInfoMessage(message);
           if (onInfoMessageUpdate) {
             onInfoMessageUpdate(message);
           }
         } else {
-          setInfoMessage(""); // Effacer le message si des résultats sont trouvés
           if (onInfoMessageUpdate) {
             onInfoMessageUpdate("");
           }
@@ -255,6 +252,7 @@ export default function MapWithMarkers({
     openNow,
     hasPhone,
     hasWebsite,
+    onInfoMessageUpdate,
   ]); // Exposer la fonction de recherche au parent (après sa définition)
   useEffect(() => {
     if (onSearchRequest) {
