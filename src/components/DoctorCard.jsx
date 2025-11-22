@@ -13,7 +13,7 @@ import {
   User,
 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
-import { useDoctorAvailabilities } from "../../hooks/useDoctorAvailabilities.js";
+import { useDoctorAvailabilities } from "../hooks/useDoctorAvailabilities.js";
 import {
   calculateDistance,
   correctText,
@@ -21,7 +21,7 @@ import {
   getSpecialtyInfo,
   renderStars,
   resolvePhotoUrl,
-} from "../../utils/doctorCardUtils";
+} from "../utils/doctorCardUtils";
 
 const DoctorCard = ({ doctor, user, userLocation, onBooking }) => {
   const navigate = useNavigate();
