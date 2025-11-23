@@ -20,8 +20,7 @@ import { useGeo } from "../../hooks/useGeo.js";
 export default function PatientHome() {
   // État local pour gérer les docteurs
   const [doctors, setDoctors] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   // État pour le formulaire de recherche
   const [searchQuery, setSearchQuery] = useState("");
@@ -36,7 +35,6 @@ export default function PatientHome() {
   const fetchDoctors = async () => {
     try {
       setIsLoading(true);
-      setError(null);
 
       console.log("🔄 Chargement des docteurs...");
       const response = await getDoctorsList({
@@ -56,7 +54,6 @@ export default function PatientHome() {
         status: err.response?.status,
         data: err.response?.data,
       });
-      setError(err);
       // Fallback vers une liste vide
       setDoctors([]);
     } finally {
@@ -160,8 +157,8 @@ export default function PatientHome() {
                       placeholder={
                         coords
                           ? `Position détectée (${coords.lat.toFixed(
-                              4
-                            )}, ${coords.lng.toFixed(4)})`
+                            4
+                          )}, ${coords.lng.toFixed(4)})`
                           : "Abobo, Treichville…"
                       }
                       className="bg-transparent outline-none w-full text-sm"
@@ -482,19 +479,6 @@ export default function PatientHome() {
                   </div>
                 </div>
               ))}
-            </div>
-          ) : error ? (
-            <div className="text-center py-8">
-              <p className="text-slate-500 mb-4">
-                Erreur lors du chargement des docteurs
-              </p>
-              <button
-                onClick={fetchDoctors}
-                className="btn-secondary"
-                disabled={isLoading}
-              >
-                {isLoading ? "Chargement..." : "Réessayer"}
-              </button>
             </div>
           ) : doctors.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
