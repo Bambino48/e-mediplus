@@ -21,6 +21,7 @@ const DefaultIcon = L.icon({
 // Fonction pour créer une icône personnalisée avec nom
 const createCustomIcon = (name, color, emoji) => {
   const truncatedName = name.length > 15 ? name.substring(0, 12) + "..." : name;
+  const escapedName = truncatedName.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 
   return L.divIcon({
     html: `
@@ -40,7 +41,7 @@ const createCustomIcon = (name, color, emoji) => {
         gap: 2px;
       ">
         <span>${emoji}</span>
-        <span>${truncatedName}</span>
+        <span>${escapedName}</span>
       </div>
     `,
     className: "custom-div-icon",
