@@ -165,84 +165,96 @@ export default function MapWithMarkers({
     setIsLoading(true);
     setLastSearchQuery(trimmedQuery);
 
-    // Utiliser la position de l'utilisateur ou une position par défaut (Abidjan)
-    const searchPosition =
-      userPosition && userPosition.lat && userPosition.lng
-        ? userPosition
-        : { lat: 5.3167, lng: -4.0333 }; // Position par défaut : Abidjan
+    try {
+      // Utiliser la position de l'utilisateur ou une position par défaut (Abidjan)
+      const searchPosition =
+        userPosition && userPosition.lat && userPosition.lng
+          ? userPosition
+          : { lat: 5.3167, lng: -4.0333 }; // Position par défaut : Abidjan
 
-    searchHealthcareEstablishments(
-      searchPosition,
-      20000, // Augmenter temporairement le rayon à 20km
-      trimmedQuery,
-      specialty
-    )
-      .then((establishments) => {
-        console.log(
-          `🗺️ MapWithMarkers - ${establishments.length} établissements reçus:`,
-          establishments.slice(0, 3).map((est) => ({
-            name: est.name,
-            type: est.type,
-            lat: est.lat,
-            lng: est.lng,
-          }))
-        );
+      searchHealthcareEstablishments(
+        searchPosition,
+        20000, // Augmenter temporairement le rayon à 20km
+        trimmedQuery,
+        specialty
+      )
+        .then((establishments) => {
+          console.log(
+            `🗺️ MapWithMarkers - ${establishments.length} établissements reçus:`,
+            establishments.slice(0, 3).map((est) => ({
+              name: est.name,
+              type: est.type,
+              lat: est.lat,
+              lng: est.lng,
+            }))
+          );
 
-        // Définir un message d'information selon les résultats
-        if (establishments.length === 0) {
-          const message =
-            "Aucun établissement de santé trouvé dans votre zone. Essayez d'élargir votre recherche ou vérifiez votre position.";
-          if (onInfoMessageUpdate) {
-            onInfoMessageUpdate(message);
+          // Définir un message d'information selon les résultats
+          if (establishments.length === 0) {
+            const message =
+              "Aucun établissement de santé trouvé dans votre zone. Essayez d'élargir votre recherche ou vérifiez votre position.";
+            if (onInfoMessageUpdate) {
+              onInfoMessageUpdate(message);
+            }
+          } else {
+            if (onInfoMessageUpdate) {
+              onInfoMessageUpdate("");
+            }
           }
-        } else {
-          if (onInfoMessageUpdate) {
-            onInfoMessageUpdate("");
+
+          // Appliquer les filtres avancés
+          let filteredEstablishments = establishments;
+
+          if (wheelchairAccessible) {
+            filteredEstablishments = filteredEstablishments.filter(
+              (est) => est.wheelchair === true
+            );
           }
-        }
 
-        // Appliquer les filtres avancés
-        let filteredEstablishments = establishments;
+          if (hasPhone) {
+            filteredEstablishments = filteredEstablishments.filter(
+              (est) => est.phone && est.phone.trim() !== ""
+            );
+          }
 
-        if (wheelchairAccessible) {
-          filteredEstablishments = filteredEstablishments.filter(
-            (est) => est.wheelchair === true
-          );
-        }
+          if (hasWebsite) {
+            filteredEstablishments = filteredEstablishments.filter(
+              (est) => est.website && est.website.trim() !== ""
+            );
+          }
 
-        if (hasPhone) {
-          filteredEstablishments = filteredEstablishments.filter(
-            (est) => est.phone && est.phone.trim() !== ""
-          );
-        }
-
-        if (hasWebsite) {
-          filteredEstablishments = filteredEstablishments.filter(
-            (est) => est.website && est.website.trim() !== ""
-          );
-        }
-
-        if (openNow) {
-          filteredEstablishments = filteredEstablishments.filter((est) => {
-            if (!est.opening_hours) return false;
-            // Utiliser la fonction isOpenNow de overpassApi
-            return overpassApi.isOpenNow(est.opening_hours);
-          });
-        }
-        setRealTimeItems(filteredEstablishments);
-        if (onItemsUpdateRef.current) {
-          onItemsUpdateRef.current(filteredEstablishments);
-        }
-      })
-      .catch(() => {
-        setRealTimeItems([]);
-        if (onItemsUpdateRef.current) {
-          onItemsUpdateRef.current([]);
-        }
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
+          if (openNow) {
+            filteredEstablishments = filteredEstablishments.filter((est) => {
+              if (!est.opening_hours) return false;
+              // Utiliser la fonction isOpenNow de overpassApi
+              return overpassApi.isOpenNow(est.opening_hours);
+            });
+          }
+          setRealTimeItems(filteredEstablishments);
+          if (onItemsUpdateRef.current) {
+            onItemsUpdateRef.current(filteredEstablishments);
+          }
+        })
+        .catch((error) => {
+          console.error("❌ Erreur lors de la recherche d'établissements :", error);
+          setRealTimeItems([]);
+          if (onInfoMessageUpdate) {
+            onInfoMessageUpdate("Erreur lors de la recherche. Réessayez plus tard.");
+          }
+          if (onItemsUpdateRef.current) {
+            onItemsUpdateRef.current([]);
+          }
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    } catch (error) {
+      console.error("❌ Erreur synchrone lors de la recherche :", error);
+      setIsLoading(false);
+      if (onInfoMessageUpdate) {
+        onInfoMessageUpdate("Erreur lors de la recherche. Réessayez plus tard.");
+      }
+    }
   }, [
     canSearch,
     searchQuery,
