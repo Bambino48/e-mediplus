@@ -20,7 +20,8 @@ const DefaultIcon = L.icon({
 
 // Fonction pour créer une icône personnalisée avec nom
 const createCustomIcon = (name, color, emoji) => {
-  const truncatedName = name.length > 15 ? name.substring(0, 12) + "..." : name;
+  const safeName = name || "Établissement";
+  const truncatedName = safeName.length > 15 ? safeName.substring(0, 12) + "..." : safeName;
   const escapedName = truncatedName.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 
   return L.divIcon({
@@ -343,7 +344,7 @@ export default function MapWithMarkers({
             // Valider que les coordonnées existent et sont valides
             const lat = it.lat || it.latitude;
             const lng = it.lng || it.longitude;
-            return lat && lng && !isNaN(lat) && !isNaN(lng);
+            return lat && lng && !isNaN(lat) && !isNaN(lng) && it.name;
           })
           .map((it, index) => {
             // Utiliser les coordonnées disponibles

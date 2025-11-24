@@ -597,18 +597,22 @@ function ResultsList({ items, loading }) {
   return (
     <div className="space-y-3">
       {items.map((it) => (
-        <ErrorBoundary key={it.id || Math.random()}>
-          <ResultCard item={it} />
-        </ErrorBoundary>
+        <ResultCard key={it.id || Math.random()} item={it} />
       ))}
     </div>
   );
 }
 
 function ResultCard({ item }) {
+  // Validation des données d'entrée
+  if (!item || typeof item !== 'object') {
+    console.error("❌ ResultCard: item invalide reçu:", item);
+    return null;
+  }
+
   const favorites = useFavoritesStore((s) => s.favorites);
   const toggle = useFavoritesStore((s) => s.toggle);
-  const isFav = favorites.has(item.id);
+  const isFav = item.id ? favorites.has(item.id) : false;
 
   // Debug log pour voir les données reçues
   console.log("🔍 ResultCard - Item reçu:", {
@@ -621,30 +625,34 @@ function ResultCard({ item }) {
   });
 
   return (
-    <div id={`card-${item.id}`} className="card">
+    <div id={`card-${item.id || 'unknown'}`} className="card">
       <div className="flex gap-3">
         <div
           className="h-16 w-16 rounded-xl flex items-center justify-center text-2xl"
-          style={{ backgroundColor: item.color + "20", color: item.color }}
+          style={{
+            backgroundColor: (item.color || '#6B7280') + "20",
+            color: item.color || '#6B7280'
+          }}
         >
-          {item.emoji}
+          {item.emoji || '🏥'}
         </div>
         <div className="flex-1">
           <div className="flex items-center justify-between">
-            <div className="font-semibold">{item.name}</div>
-            <button
-              onClick={() => toggle(item.id)}
-              className="btn-ghost"
-              aria-label="Favori"
-            >
-              <Heart
-                className={`h-5 w-5 ${isFav ? "fill-red-500 text-red-500" : ""
-                  }`}
-              />
-            </button>
+            <div className="font-semibold">{item.name || 'Établissement sans nom'}</div>
+            {item.id && (
+              <button
+                onClick={() => toggle(item.id)}
+                className="btn-ghost"
+                aria-label="Favori"
+              >
+                <Heart
+                  className={`h-5 w-5 ${isFav ? "fill-red-500 text-red-500" : ""}`}
+                />
+              </button>
+            )}
           </div>
           <div className="text-sm text-slate-500">
-            {item.specialty || item.type} • {item.distance_km} km
+            {item.specialty || item.type || 'Type inconnu'} • {item.distance_km || 0} km
           </div>
           <div className="mt-1 flex flex-wrap items-center gap-2 text-xs">
             {item.phone && (
@@ -668,7 +676,7 @@ function ResultCard({ item }) {
               </span>
             )}
           </div>
-          <div className="mt-2 text-sm text-slate-600">{item.address}</div>
+          <div className="mt-2 text-sm text-slate-600">{item.address || 'Adresse non disponible'}</div>
           <div className="mt-3 flex gap-2">
             <button className="btn-secondary text-xs">Voir sur la carte</button>
             {item.phone && (
