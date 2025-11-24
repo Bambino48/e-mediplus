@@ -8,8 +8,10 @@ export default class ErrorBoundary extends Component {
     }
 
     static getDerivedStateFromError(error) {
-        console.error("Erreur capturée par ErrorBoundary :", error);
-        console.error("Stack trace :", error.stack);
+        console.error("❌ Erreur capturée par ErrorBoundary :", error);
+        console.error("📍 Stack trace complet :", error.stack);
+        console.error("🔍 Erreur message :", error.message);
+        console.error("🕒 Timestamp :", new Date().toISOString());
         return { hasError: true };
     }
 

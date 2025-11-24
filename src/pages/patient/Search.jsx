@@ -628,7 +628,9 @@ function ResultsList({ items, loading }) {
   return (
     <div className="space-y-3">
       {items.map((it) => (
-        <ResultCard key={it.id} item={it} />
+        <ErrorBoundary key={it.id || Math.random()}>
+          <ResultCard item={it} />
+        </ErrorBoundary>
       ))}
     </div>
   );
@@ -638,6 +640,16 @@ function ResultCard({ item }) {
   const favorites = useFavoritesStore((s) => s.favorites);
   const toggle = useFavoritesStore((s) => s.toggle);
   const isFav = favorites.has(item.id);
+
+  // Debug log pour voir les données reçues
+  console.log("🔍 ResultCard - Item reçu:", {
+    id: item.id,
+    name: item.name,
+    type: item.type,
+    hasId: !!item.id,
+    hasName: !!item.name,
+    hasType: !!item.type,
+  });
 
   return (
     <div id={`card-${item.id}`} className="card">
