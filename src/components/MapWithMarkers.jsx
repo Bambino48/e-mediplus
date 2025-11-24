@@ -167,11 +167,22 @@ export default function MapWithMarkers({
     setLastSearchQuery(trimmedQuery);
 
     try {
-      // Utiliser la position de l'utilisateur ou une position par défaut (Abidjan)
-      const searchPosition =
-        userPosition && userPosition.lat && userPosition.lng
-          ? userPosition
-          : { lat: 5.3167, lng: -4.0333 }; // Position par défaut : Abidjan
+      // Vérifier que la position de l'utilisateur est disponible
+      if (!userPosition || !userPosition.lat || !userPosition.lng) {
+        console.warn("❌ Position utilisateur non disponible pour la recherche");
+        setRealTimeItems([]);
+        if (onInfoMessageUpdate) {
+          onInfoMessageUpdate("Veuillez activer la localisation pour effectuer une recherche.");
+        }
+        if (onItemsUpdateRef.current) {
+          onItemsUpdateRef.current([]);
+        }
+        setIsLoading(false);
+        return;
+      }
+
+      // Utiliser la position de l'utilisateur
+      const searchPosition = userPosition;
 
       searchHealthcareEstablishments(
         searchPosition,

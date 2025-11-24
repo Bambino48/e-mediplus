@@ -97,7 +97,7 @@ export default function Search() {
         setCoords({ lat, lng });
       }
     }
-  }, [setCoords]);
+  }, [setCoords, fetchAllDoctors, showAllDoctors]);
 
   // Fonction pour géocoder une adresse manuelle
   const geocodeLocation = async (locationString) => {
@@ -298,28 +298,28 @@ export default function Search() {
                 <button
                   type="button"
                   onClick={handleManualSearch}
-                  disabled={isLoading || q.trim().length < 3}
+                  disabled={isLoading || !coords || q.trim().length < 3}
                   className={`
                     px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200
                     flex items-center gap-1 shrink-0 min-w-10 justify-center
-                    ${isLoading || q.trim().length < 3
+                    ${isLoading || !coords || q.trim().length < 3
                       ? "bg-gray-100 dark:bg-gray-700 text-gray-400 cursor-not-allowed"
                       : "bg-blue-500 text-white hover:bg-blue-600 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 active:scale-95"
                     }
                   `}
                   title={
-                    q.trim().length < 3
-                      ? "Tapez au moins 3 caractères"
-                      : coords
-                        ? "Lancer la recherche autour de votre position"
-                        : "Lancer la recherche (position par défaut : Abidjan)"
+                    !coords
+                      ? "Activez la localisation pour effectuer une recherche"
+                      : q.trim().length < 3
+                        ? "Tapez au moins 3 caractères"
+                        : "Lancer la recherche autour de votre position"
                   }
                   aria-label={
-                    q.trim().length < 3
-                      ? "Tapez au moins 3 caractères pour rechercher"
-                      : coords
-                        ? "Lancer la recherche autour de votre position"
-                        : "Lancer la recherche (position par défaut : Abidjan)"
+                    !coords
+                      ? "Activez la localisation pour effectuer une recherche"
+                      : q.trim().length < 3
+                        ? "Tapez au moins 3 caractères pour rechercher"
+                        : "Lancer la recherche autour de votre position"
                   }
                 >
                   {isLoading ? (
@@ -372,10 +372,10 @@ export default function Search() {
             {/* Message informatif sur la recherche */}
             <div className="text-xs text-slate-500 bg-slate-50 dark:bg-slate-800/50 rounded-lg p-3">
               <div className="flex items-center gap-2">
-                <span className="text-blue-500">ℹ️</span>
+                <span className="text-blue-500">📍</span>
                 <span>
-                  La recherche utilise votre position actuelle ou Abidjan par défaut.
-                  Cliquez sur "Me localiser" pour une recherche plus précise.
+                  <strong>Localisation requise :</strong> Activez votre localisation pour trouver les centres de santé proches de chez vous.
+                  {!coords && " Cliquez sur \"Me localiser\" ou autorisez la géolocalisation dans votre navigateur."}
                 </span>
               </div>
             </div>
@@ -616,14 +616,15 @@ function ResultsList({ items, loading }) {
 }
 
 function ResultCard({ item }) {
+  const favorites = useFavoritesStore((s) => s.favorites);
+  const toggle = useFavoritesStore((s) => s.toggle);
+
   // Validation des données d'entrée
   if (!item || typeof item !== 'object') {
     console.error("❌ ResultCard: item invalide reçu:", item);
     return null;
   }
 
-  const favorites = useFavoritesStore((s) => s.favorites);
-  const toggle = useFavoritesStore((s) => s.toggle);
   const isFav = item.id ? favorites.has(item.id) : false;
 
   // Debug log pour voir les données reçues

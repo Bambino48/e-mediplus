@@ -4,7 +4,7 @@ import axios from "axios";
 const api = axios.create({
   baseURL:
     import.meta.env.VITE_API_BASE_URL ||
-    "https://lightsalmon-elk-292300.hostingersite.com/backend/public/api",
+    "https://lightsalmon-elk-292300.hostingersite.com/backend/public",
   withCredentials: false,
   headers: {
     Accept: "application/json",

@@ -1,5 +1,5 @@
 const API_BASE =
-  import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000/api";
+  import.meta.env.VITE_API_BASE_URL || "https://lightsalmon-elk-292300.hostingersite.com/backend/public/api";
 
 // API Réelles - Prochain rendez-vous du patient
 export async function getNextAppointment() {
