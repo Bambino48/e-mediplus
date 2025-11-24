@@ -268,7 +268,7 @@ export default function Search() {
           {!coords && (
             <span className="text-amber-600 flex items-center gap-1">
               <div className="w-2 h-2 bg-amber-600 rounded-full"></div>
-              Position non détectée
+              Position par défaut (Abidjan)
             </span>
           )}
         </div>
@@ -298,28 +298,28 @@ export default function Search() {
                 <button
                   type="button"
                   onClick={handleManualSearch}
-                  disabled={isLoading || !coords || q.trim().length < 3}
+                  disabled={isLoading || q.trim().length < 3}
                   className={`
-                    px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200 
+                    px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200
                     flex items-center gap-1 shrink-0 min-w-10 justify-center
-                    ${isLoading || !coords || q.trim().length < 3
+                    ${isLoading || q.trim().length < 3
                       ? "bg-gray-100 dark:bg-gray-700 text-gray-400 cursor-not-allowed"
                       : "bg-blue-500 text-white hover:bg-blue-600 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 active:scale-95"
                     }
                   `}
                   title={
-                    !coords
-                      ? "Localisation requise pour effectuer une recherche"
-                      : q.trim().length < 3
-                        ? "Tapez au moins 3 caractères"
-                        : "Lancer la recherche"
+                    q.trim().length < 3
+                      ? "Tapez au moins 3 caractères"
+                      : coords
+                        ? "Lancer la recherche autour de votre position"
+                        : "Lancer la recherche (position par défaut : Abidjan)"
                   }
                   aria-label={
-                    !coords
-                      ? "Localisation requise pour effectuer une recherche"
-                      : q.trim().length < 3
-                        ? "Tapez au moins 3 caractères pour rechercher"
-                        : "Lancer la recherche"
+                    q.trim().length < 3
+                      ? "Tapez au moins 3 caractères pour rechercher"
+                      : coords
+                        ? "Lancer la recherche autour de votre position"
+                        : "Lancer la recherche (position par défaut : Abidjan)"
                   }
                 >
                   {isLoading ? (
@@ -368,6 +368,18 @@ export default function Search() {
                 </button>
               </div>
             </div>
+
+            {/* Message informatif sur la recherche */}
+            <div className="text-xs text-slate-500 bg-slate-50 dark:bg-slate-800/50 rounded-lg p-3">
+              <div className="flex items-center gap-2">
+                <span className="text-blue-500">ℹ️</span>
+                <span>
+                  La recherche utilise votre position actuelle ou Abidjan par défaut.
+                  Cliquez sur "Me localiser" pour une recherche plus précise.
+                </span>
+              </div>
+            </div>
+
             <div className="mt-3 grid sm:grid-cols-4 gap-3">
               <select
                 className="input"
@@ -573,7 +585,7 @@ export default function Search() {
           </div>
         </div>
       </div>
-    </div>
+    </div >
   );
 }
 
