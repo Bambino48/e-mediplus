@@ -34,8 +34,12 @@ export default function Search() {
   const [allDoctors, setAllDoctors] = useState([]);
   const [allDoctorsLoading, setAllDoctorsLoading] = useState(false);
 
-  // Fonction pour charger tous les médecins
-  const fetchAllDoctors = async () => {
+  // Fonction pour charger tous les médecins (avec protection contre les appels multiples)
+  const fetchAllDoctors = useCallback(async () => {
+    if (allDoctorsLoading || allDoctors.length > 0) {
+      return; // Éviter les appels multiples
+    }
+
     try {
       setAllDoctorsLoading(true);
       console.log("🔄 Chargement de tous les médecins...");
@@ -56,7 +60,7 @@ export default function Search() {
     } finally {
       setAllDoctorsLoading(false);
     }
-  };
+  }, [allDoctorsLoading, allDoctors.length]);
 
   // Initialiser les valeurs depuis les paramètres URL
   useEffect(() => {
@@ -69,7 +73,7 @@ export default function Search() {
     const showAllParam = urlParams.get("show_all_doctors");
 
     // Vérifier si on doit afficher tous les médecins
-    if (showAllParam === "true") {
+    if (showAllParam === "true" && !showAllDoctors) {
       setShowAllDoctors(true);
       fetchAllDoctors();
       return; // Ne pas continuer avec les autres paramètres
@@ -126,54 +130,19 @@ export default function Search() {
     }
   };
 
-  // Déclencher automatiquement la recherche quand on arrive avec des paramètres URL
-  useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const hasSearchParams =
-      urlParams.has("q") || urlParams.has("location") || urlParams.has("lat");
-
-    // Ne déclencher que si on a des paramètres de recherche et que la fonction est prête
-    if (
-      hasSearchParams &&
-      q.trim().length >= 2 &&
-      searchFunction &&
-      !isLoading
-    ) {
-      console.log(
-        "🔍 Recherche automatique déclenchée depuis les paramètres URL"
-      );
-      handleManualSearch();
-    }
-  }, [q, searchFunction, isLoading, handleManualSearch]); // Dépendances importantes
+  // Suppression de la recherche automatique pour éviter les boucles infinies
+  // La recherche se fait uniquement manuellement maintenant
 
   // Fonction pour déclencher la recherche manuellement
-  const handleManualSearch = useCallback(async () => {
-    // Validation des prérequis
-    if (q.trim().length < 2) {
-      console.warn(
-        "❌ Recherche impossible: requête trop courte (minimum 2 caractères)"
-      );
-      return;
-    }
-
+  const handleManualSearch = useCallback(() => {
     if (!searchFunction) {
-      console.warn(
-        "❌ Recherche impossible: fonction de recherche non disponible"
-      );
+      console.warn("❌ Fonction de recherche non disponible");
       return;
     }
 
     console.log("🔍 Démarrage de la recherche manuelle...");
-    setIsLoading(true);
-    try {
-      await searchFunction();
-      console.log("✅ Recherche terminée");
-    } catch (error) {
-      console.error("❌ Erreur lors de la recherche:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [q, searchFunction]); // Dépendances optimisées
+    searchFunction();
+  }, [searchFunction]);
 
   // Callback pour recevoir la fonction de recherche du composant Map
   const handleSearchFunctionUpdate = (searchFunc) => {
