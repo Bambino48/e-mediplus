@@ -8,7 +8,8 @@ export default class ErrorBoundary extends Component {
     }
 
     static getDerivedStateFromError(error) {
-        console.error("Erreur capturée :", error);
+        console.error("Erreur capturée par ErrorBoundary :", error);
+        console.error("Stack trace :", error.stack);
         return { hasError: true };
     }
 
