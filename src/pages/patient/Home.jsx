@@ -64,10 +64,13 @@ export default function PatientHome() {
     }
   };
 
-  // Récupération des docteurs au chargement du composant
+  // Récupération des docteurs et détection automatique de la position GPS au chargement du composant
   useEffect(() => {
     fetchDoctors();
-  }, []);
+    // Détection automatique de la position GPS dès l'arrivée sur la page
+    console.log("🏠 Page d'accueil chargée - Détection automatique de la position GPS...");
+    detect();
+  }, [detect]);
 
   // Fonction pour gérer la recherche
   const handleSearch = (e) => {

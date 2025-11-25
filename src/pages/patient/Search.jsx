@@ -99,6 +99,15 @@ export default function Search() {
     }
   }, [setCoords, fetchAllDoctors, showAllDoctors]);
 
+  // Détection automatique de la position GPS au chargement de la page de recherche
+  useEffect(() => {
+    // Ne déclencher la détection que si on n'a pas de coordonnées (ni depuis URL ni déjà détectées)
+    if (!coords) {
+      console.log("🔍 Page de recherche chargée - Détection automatique de la position GPS...");
+      detect();
+    }
+  }, [coords, detect]);
+
   // Fonction pour géocoder une adresse manuelle
   const geocodeLocation = async (locationString) => {
     if (!locationString || locationString.trim().length < 2) {
@@ -372,10 +381,22 @@ export default function Search() {
             {/* Message informatif sur la recherche */}
             <div className="text-xs text-slate-500 bg-slate-50 dark:bg-slate-800/50 rounded-lg p-3">
               <div className="flex items-center gap-2">
-                <span className="text-blue-500">📍</span>
+                <span className="text-blue-500">
+                  {loading ? "🔄" : coords ? "📍" : "⚠️"}
+                </span>
                 <span>
-                  <strong>Localisation requise :</strong> Activez votre localisation pour trouver les centres de santé proches de chez vous.
-                  {!coords && " Cliquez sur \"Me localiser\" ou autorisez la géolocalisation dans votre navigateur."}
+                  {loading ? (
+                    <strong>Détection de votre position en cours...</strong>
+                  ) : coords ? (
+                    <>
+                      <strong>Position détectée :</strong> Les recherches afficheront les centres de santé proches de chez vous.
+                    </>
+                  ) : (
+                    <>
+                      <strong>Localisation requise :</strong> Activez votre localisation pour trouver les centres de santé proches de chez vous.
+                      {" Cliquez sur \"Me localiser\" ou autorisez la géolocalisation dans votre navigateur."}
+                    </>
+                  )}
                 </span>
               </div>
             </div>
@@ -510,7 +531,7 @@ export default function Search() {
         {/* Colonne droite : Carte */}
         <div className="sticky top-20 space-y-4">
           <MapWithMarkers
-            center={coords ? [coords.lat, coords.lng] : [5.3456, -4.0237]}
+            center={coords ? [coords.lat, coords.lng] : [5.3456, -4.0237]} // Position par défaut temporaire pour l'affichage
             items={items}
             itemsWithoutCoords={itemsWithoutCoords}
             userPosition={coords}
