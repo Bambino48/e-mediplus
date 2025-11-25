@@ -82,7 +82,7 @@ const classifyEstablishment = (item) => {
     specialty.includes("soins") ||
     name.includes("infirmerie")
   ) {
-    return { type: "medical_center", emoji: "🏥", color: "#EF4444" };
+    return { type: "medical_center", emoji: "Hospital", color: "#EF4444" };
   }
 
   if (
@@ -90,7 +90,7 @@ const classifyEstablishment = (item) => {
     specialty.includes("pharmacie") ||
     name.includes("pharmacie")
   ) {
-    return { type: "pharmacy", emoji: "💊", color: "#8B5CF6" };
+    return { type: "pharmacy", emoji: "Pill", color: "#8B5CF6" };
   }
 
   if (
@@ -99,7 +99,7 @@ const classifyEstablishment = (item) => {
     specialty.includes("laboratoire") ||
     name.includes("laboratoire")
   ) {
-    return { type: "laboratory", emoji: "🔬", color: "#F59E0B" };
+    return { type: "laboratory", emoji: "TestTube", color: "#F59E0B" };
   }
 
   if (
@@ -108,11 +108,11 @@ const classifyEstablishment = (item) => {
     name.includes("centre") ||
     name.includes("clinique")
   ) {
-    return { type: "medical_center", emoji: "🏥", color: "#EF4444" };
+    return { type: "medical_center", emoji: "Hospital", color: "#EF4444" };
   }
 
   // Par défaut : docteur
-  return { type: "doctor", emoji: "👨‍⚕️", color: "#10B981" };
+  return { type: "doctor", emoji: "Stethoscope", color: "#10B981" };
 };
 
 // API intelligente pour rechercher tous types d'établissements
@@ -136,7 +136,7 @@ export const searchAllEstablishments = async (params = {}) => {
 
     let allItems = response.data?.data?.doctors || response.data?.doctors || [];
 
-    console.log("🏥 Structure des données reçues:", {
+    console.log("Structure des données reçues:", {
       hasData: !!response.data,
       hasDataData: !!response.data?.data,
       hasDoctors: !!response.data?.data?.doctors,

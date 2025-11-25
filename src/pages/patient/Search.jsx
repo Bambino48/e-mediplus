@@ -1,4 +1,23 @@
-import { Heart, MapPin, Search as SearchIcon } from "lucide-react";
+import {
+  Activity,
+  AlertTriangle,
+  Ambulance,
+  Building2,
+  Clock,
+  Globe,
+  Heart,
+  Hospital,
+  Loader2,
+  MapPin,
+  Phone,
+  Pill,
+  Scan,
+  Search as SearchIcon,
+  Smile,
+  Stethoscope,
+  TestTube,
+  User
+} from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import DoctorCard from "../../components/DoctorCard.jsx";
 import MapWithMarkers from "../../components/MapWithMarkers.jsx";
@@ -7,6 +26,33 @@ import { getDoctorsList } from "../../api/doctors.js";
 import { useAuth } from "../../hooks/useAuth";
 import { useGeo } from "../../hooks/useGeo.js";
 import { useFavoritesStore } from "../../store/favoritesStore.js";
+
+// Fonction helper pour rendre l'icône appropriée
+const renderIcon = (iconName, className = "w-8 h-8") => {
+  const iconProps = { className };
+  switch (iconName) {
+    case "Hospital":
+      return <Hospital {...iconProps} />;
+    case "Pill":
+      return <Pill {...iconProps} />;
+    case "TestTube":
+      return <TestTube {...iconProps} />;
+    case "Stethoscope":
+      return <Stethoscope {...iconProps} />;
+    case "Building2":
+      return <Building2 {...iconProps} />;
+    case "Scan":
+      return <Scan {...iconProps} />;
+    case "Ambulance":
+      return <Ambulance {...iconProps} />;
+    case "Activity":
+      return <Activity {...iconProps} />;
+    case "Smile":
+      return <Smile {...iconProps} />;
+    default:
+      return <Hospital {...iconProps} />;
+  }
+};
 
 export default function Search() {
   const { coords, detect, setCoords, loading } = useGeo();
@@ -354,7 +400,7 @@ export default function Search() {
                       if (geocodedCoords) {
                         setCoords(geocodedCoords);
                         console.log(
-                          "📍 Localisation géocodée:",
+                          "Localisation géocodée:",
                           geocodedCoords
                         );
                       } else {
@@ -382,7 +428,13 @@ export default function Search() {
             <div className="text-xs text-slate-500 bg-slate-50 dark:bg-slate-800/50 rounded-lg p-3">
               <div className="flex items-center gap-2">
                 <span className="text-blue-500">
-                  {loading ? "🔄" : coords ? "📍" : "⚠️"}
+                  {loading ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : coords ? (
+                    <MapPin className="h-4 w-4" />
+                  ) : (
+                    <AlertTriangle className="h-4 w-4" />
+                  )}
                 </span>
                 <span>
                   {loading ? (
@@ -408,12 +460,12 @@ export default function Search() {
                 onChange={(e) => setSpecialty(e.target.value)}
               >
                 <option value="">Tous les établissements</option>
-                <optgroup label="🏥 Centres médicaux">
+                <optgroup label="Centres médicaux">
                   <option value="hospital">Hôpital</option>
                   <option value="clinic">Clinique</option>
                   <option value="medical_center">Centre médical</option>
                 </optgroup>
-                <optgroup label="👨‍⚕️ Médecins par spécialité">
+                <optgroup label="Médecins par spécialité">
                   <option value="general_practitioner">
                     Médecine générale
                   </option>
@@ -428,11 +480,11 @@ export default function Search() {
                   <option value="dentist">Dentiste</option>
                   <option value="surgeon">Chirurgie</option>
                 </optgroup>
-                <optgroup label="💊 Pharmacies & Laboratoires">
+                <optgroup label="Pharmacies & Laboratoires">
                   <option value="pharmacy">Pharmacie</option>
                   <option value="laboratory">Laboratoire d'analyses</option>
                 </optgroup>
-                <optgroup label="🏋️ Soins spécialisés">
+                <optgroup label="Soins spécialisés">
                   <option value="physiotherapist">Kinésithérapie</option>
                   <option value="radiology">Radiologie</option>
                   <option value="emergency">Urgences</option>
@@ -471,8 +523,9 @@ export default function Search() {
 
             {/* Filtres avancés */}
             <div className="mt-4 p-4 bg-slate-50 dark:bg-slate-800/50 rounded-lg border border-slate-200 dark:border-slate-700">
-              <h3 className="text-sm font-medium text-slate-700 dark:text-slate-300 mb-3">
-                🔍 Filtres avancés (OSM)
+              <h3 className="text-sm font-medium text-slate-700 dark:text-slate-300 mb-3 flex items-center gap-2">
+                <SearchIcon className="h-4 w-4" />
+                Filtres avancés (OSM)
               </h3>
               <div className="grid sm:grid-cols-2 gap-3">
                 <label className="flex items-center gap-2 text-sm">
@@ -482,7 +535,8 @@ export default function Search() {
                     onChange={(e) => setWheelchairAccessible(e.target.checked)}
                     className="rounded border-slate-300 text-blue-600 focus:ring-blue-500"
                   />
-                  ♿ Accessible aux fauteuils roulants
+                  <User className="h-4 w-4" />
+                  Accessible aux fauteuils roulants
                 </label>
                 <label className="flex items-center gap-2 text-sm">
                   <input
@@ -491,7 +545,8 @@ export default function Search() {
                     onChange={(e) => setOpenNow(e.target.checked)}
                     className="rounded border-slate-300 text-blue-600 focus:ring-blue-500"
                   />
-                  🕐 Ouvert maintenant
+                  <Clock className="h-4 w-4" />
+                  Ouvert maintenant
                 </label>
                 <label className="flex items-center gap-2 text-sm">
                   <input
@@ -500,7 +555,8 @@ export default function Search() {
                     onChange={(e) => setHasPhone(e.target.checked)}
                     className="rounded border-slate-300 text-blue-600 focus:ring-blue-500"
                   />
-                  📞 Avec numéro de téléphone
+                  <Phone className="h-4 w-4" />
+                  Avec numéro de téléphone
                 </label>
                 <label className="flex items-center gap-2 text-sm">
                   <input
@@ -509,7 +565,8 @@ export default function Search() {
                     onChange={(e) => setHasWebsite(e.target.checked)}
                     className="rounded border-slate-300 text-blue-600 focus:ring-blue-500"
                   />
-                  🌐 Avec site web
+                  <Globe className="h-4 w-4" />
+                  Avec site web
                 </label>
               </div>
             </div>
@@ -519,7 +576,7 @@ export default function Search() {
           {infoMessage && (
             <div className="bg-amber-50 border border-amber-200 rounded-lg p-4">
               <div className="flex items-center gap-2">
-                <span className="text-amber-600">ℹ️</span>
+                <Info className="h-4 w-4 text-amber-600" />
                 <p className="text-sm text-amber-800">{infoMessage}</p>
               </div>
             </div>
@@ -553,49 +610,53 @@ export default function Search() {
 
           {/* Légende des marqueurs */}
           <div className="card">
-            <h3 className="font-semibold text-sm mb-3">
-              Légende de la carte 🌍
+            <h3 className="font-semibold text-sm mb-3 flex items-center gap-2">
+              <MapPin className="h-4 w-4" />
+              Légende de la carte
             </h3>
             <div className="grid grid-cols-2 gap-2 text-xs">
               <div className="flex items-center gap-2">
-                <div className="w-4 h-4 bg-blue-500 rounded flex items-center justify-center text-white text-[10px]">
-                  📍
+                <div className="w-4 h-4 bg-blue-500 rounded flex items-center justify-center text-white">
+                  <MapPin className="h-2 w-2" />
                 </div>
                 <span>Votre position</span>
               </div>
               <div className="flex items-center gap-2">
-                <div className="w-4 h-4 bg-green-500 rounded flex items-center justify-center text-white text-[10px]">
-                  👨‍⚕️
+                <div className="w-4 h-4 bg-green-500 rounded flex items-center justify-center text-white">
+                  <Stethoscope className="h-2 w-2" />
                 </div>
                 <span>Médecins</span>
               </div>
               <div className="flex items-center gap-2">
-                <div className="w-4 h-4 bg-red-500 rounded flex items-center justify-center text-white text-[10px]">
-                  🏥
+                <div className="w-4 h-4 bg-red-500 rounded flex items-center justify-center text-white">
+                  <div className="text-[8px] font-bold">+</div>
                 </div>
                 <span>Hôpitaux/Cliniques</span>
               </div>
               <div className="flex items-center gap-2">
-                <div className="w-4 h-4 bg-purple-500 rounded flex items-center justify-center text-white text-[10px]">
-                  💊
+                <div className="w-4 h-4 bg-purple-500 rounded flex items-center justify-center text-white">
+                  <Pill className="h-2 w-2" />
                 </div>
                 <span>Pharmacies</span>
               </div>
               <div className="flex items-center gap-2">
-                <div className="w-4 h-4 bg-orange-500 rounded flex items-center justify-center text-white text-[10px]">
-                  🔬
+                <div className="w-4 h-4 bg-orange-500 rounded flex items-center justify-center text-white">
+                  <TestTube className="h-2 w-2" />
                 </div>
                 <span>Laboratoires</span>
               </div>
               <div className="flex items-center gap-2">
-                <div className="w-4 h-4 bg-cyan-500 rounded flex items-center justify-center text-white text-[10px]">
-                  🦷
+                <div className="w-4 h-4 bg-cyan-500 rounded flex items-center justify-center text-white">
+                  <Smile className="h-2 w-2" />
                 </div>
                 <span>Dentistes</span>
               </div>
             </div>
             <div className="mt-3 p-2 bg-blue-50 rounded text-xs text-blue-700">
-              <strong>🌍 Source temps réel:</strong> OpenStreetMap
+              <strong className="flex items-center gap-1">
+                <Globe className="h-3 w-3" />
+                Source temps réel:
+              </strong> OpenStreetMap
               <br />
               Les données sont mises à jour automatiquement depuis la base
               mondiale d'OpenStreetMap.
@@ -662,13 +723,13 @@ function ResultCard({ item }) {
     <div id={`card-${item.id || 'unknown'}`} className="card">
       <div className="flex gap-3">
         <div
-          className="h-16 w-16 rounded-xl flex items-center justify-center text-2xl"
+          className="h-16 w-16 rounded-xl flex items-center justify-center"
           style={{
             backgroundColor: (item.color || '#6B7280') + "20",
             color: item.color || '#6B7280'
           }}
         >
-          {item.emoji || '🏥'}
+          {renderIcon(item.emoji, "w-8 h-8")}
         </div>
         <div className="flex-1">
           <div className="flex items-center justify-between">
@@ -691,22 +752,26 @@ function ResultCard({ item }) {
           <div className="mt-1 flex flex-wrap items-center gap-2 text-xs">
             {item.phone && (
               <span className="inline-flex items-center gap-1 bg-green-100 text-green-700 px-2 py-1 rounded">
-                📞 {item.phone}
+                <Phone className="h-3 w-3" />
+                {item.phone}
               </span>
             )}
             {item.website && (
               <span className="inline-flex items-center gap-1 bg-blue-100 text-blue-700 px-2 py-1 rounded">
-                🌐 Site web
+                <Globe className="h-3 w-3" />
+                Site web
               </span>
             )}
             {item.wheelchair && (
               <span className="inline-flex items-center gap-1 bg-purple-100 text-purple-700 px-2 py-1 rounded">
-                ♿ Accessible
+                <User className="h-3 w-3" />
+                Accessible
               </span>
             )}
             {item.opening_hours && (
               <span className="inline-flex items-center gap-1 bg-orange-100 text-orange-700 px-2 py-1 rounded">
-                🕐 Horaires
+                <Clock className="h-3 w-3" />
+                Horaires
               </span>
             )}
           </div>

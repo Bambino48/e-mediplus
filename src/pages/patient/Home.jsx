@@ -170,12 +170,11 @@ export default function PatientHome() {
                       className="bg-transparent outline-none w-full text-sm"
                     />
                     <button
-                      type="button"
                       onClick={handleLocationDetect}
                       className="text-blue-500 hover:text-blue-600 text-xs shrink-0"
                       title="Détecter ma position"
                     >
-                      📍
+                      <MapPin className="h-4 w-4" />
                     </button>
                   </div>
                   <div className="flex gap-2">

@@ -263,7 +263,10 @@ export default function PatientProfile() {
                 position={[form.latitude, form.longitude]}
                 icon={userIcon}
               >
-                <Popup>Vous êtes ici 📍</Popup>
+                <Popup className="flex items-center gap-1">
+                  <MapPin className="h-4 w-4" />
+                  Vous êtes ici
+                </Popup>
               </Marker>
             </MapContainer>
           </div>

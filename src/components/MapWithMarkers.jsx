@@ -1,9 +1,37 @@
 import L from "leaflet";
+import { Activity, Ambulance, Building2, FileText, Hospital, MapPin, Pill, Scan, Stethoscope, TestTube } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
 import overpassApi, {
   searchHealthcareEstablishments,
 } from "../api/overpassApi";
+
+// Fonction helper pour rendre l'icône appropriée
+const renderIcon = (iconName, className = "w-4 h-4") => {
+  const iconProps = { className };
+  switch (iconName) {
+    case "Hospital":
+      return <Hospital {...iconProps} />;
+    case "Pill":
+      return <Pill {...iconProps} />;
+    case "TestTube":
+      return <TestTube {...iconProps} />;
+    case "Stethoscope":
+      return <Stethoscope {...iconProps} />;
+    case "Building2":
+      return <Building2 {...iconProps} />;
+    case "Scan":
+      return <Scan {...iconProps} />;
+    case "Ambulance":
+      return <Ambulance {...iconProps} />;
+    case "Activity":
+      return <Activity {...iconProps} />;
+    case "Smile":
+      return <Smile {...iconProps} />;
+    default:
+      return <Stethoscope {...iconProps} />;
+  }
+};
 
 // ✅ Fix des icônes Leaflet (Vite)
 import marker2x from "leaflet/dist/images/marker-icon-2x.png";
@@ -19,10 +47,25 @@ const DefaultIcon = L.icon({
 });
 
 // Fonction pour créer une icône personnalisée avec nom
-const createCustomIcon = (name, color, emoji) => {
+const createCustomIcon = (name, color, iconName) => {
   const safeName = name || "Établissement";
   const truncatedName = safeName.length > 15 ? safeName.substring(0, 12) + "..." : safeName;
   const escapedName = truncatedName.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+
+  // Mapping des noms d'icônes vers les classes Lucide
+  const iconClassMap = {
+    Hospital: "lucide lucide-hospital",
+    Pill: "lucide lucide-pill",
+    TestTube: "lucide lucide-test-tube",
+    Stethoscope: "lucide lucide-stethoscope",
+    Building2: "lucide lucide-building-2",
+    Scan: "lucide lucide-scan",
+    Ambulance: "lucide lucide-ambulance",
+    Activity: "lucide lucide-activity",
+    Smile: "lucide lucide-smile"
+  };
+
+  const iconClass = iconClassMap[iconName] || "lucide lucide-stethoscope";
 
   return L.divIcon({
     html: `
@@ -41,7 +84,7 @@ const createCustomIcon = (name, color, emoji) => {
         align-items: center;
         gap: 2px;
       ">
-        <span>${emoji}</span>
+        <i class="${iconClass}" style="font-size: 12px;"></i>
         <span>${escapedName}</span>
       </div>
     `,
@@ -70,7 +113,9 @@ const createUserIcon = () => {
         align-items: center;
         gap: 4px;
       ">
-        <span style="font-size: 14px;">📍</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+        </svg>
         <span>Votre position</span>
       </div>
     `,
@@ -342,7 +387,10 @@ export default function MapWithMarkers({
           >
             <Popup>
               <div className="text-sm">
-                <div className="font-medium">📍 Votre position</div>
+                <div className="font-medium flex items-center gap-1">
+                  <MapPin className="h-4 w-4" />
+                  Votre position
+                </div>
                 <div className="text-slate-500">Vous êtes ici</div>
               </div>
             </Popup>
@@ -362,11 +410,11 @@ export default function MapWithMarkers({
             const lat = it.lat || it.latitude;
             const lng = it.lng || it.longitude;
 
-            // Utiliser les couleurs et emojis de l'API Overpass si disponibles
-            let emoji = it.emoji || "👨‍⚕️";
+            // Utiliser les couleurs et icônes de l'API Overpass si disponibles
+            let iconName = it.emoji || "Stethoscope";
             let color = it.color || "#10B981"; // Vert pour docteurs par défaut
 
-            // Fallback pour les anciens items sans emoji/color
+            // Fallback pour les anciens items sans icône/color
             if (!it.emoji || !it.color) {
               // Détermine le type selon les données
               if (
@@ -380,14 +428,14 @@ export default function MapWithMarkers({
                 it.name?.toLowerCase().includes("clinique") ||
                 it.name?.toLowerCase().includes("hopital")
               ) {
-                emoji = "🏥";
+                iconName = "Hospital";
                 color = "#EF4444"; // Rouge pour centres médicaux
               } else if (
                 it.type === "pharmacy" ||
                 it.specialty?.toLowerCase().includes("pharmacie") ||
                 it.name?.toLowerCase().includes("pharmacie")
               ) {
-                emoji = "💊";
+                iconName = "Pill";
                 color = "#8B5CF6"; // Violet pour pharmacies
               } else if (
                 it.type === "laboratory" ||
@@ -396,7 +444,7 @@ export default function MapWithMarkers({
                 it.name?.toLowerCase().includes("laboratoire") ||
                 it.name?.toLowerCase().includes("lab")
               ) {
-                emoji = "🔬";
+                iconName = "TestTube";
                 color = "#F59E0B"; // Orange pour laboratoires
               }
             }
@@ -405,24 +453,28 @@ export default function MapWithMarkers({
               <Marker
                 key={`${it.id}-${index}`} // Clé unique avec index
                 position={[lat, lng]}
-                icon={createCustomIcon(it.name, color, emoji)}
+                icon={createCustomIcon(it.name, color, iconName)}
                 eventHandlers={{ click: () => onSelect?.(it) }}
               >
                 <Popup>
                   <div className="text-sm max-w-52">
-                    <div className="font-medium text-base mb-2">
-                      {emoji} {it.name}
+                    <div className="font-medium text-base mb-2 flex items-center gap-2">
+                      {renderIcon(iconName)} {it.name}
                     </div>
 
                     {/* Informations spécifiques selon le type */}
                     {it.specialty && (
-                      <div className="text-slate-600 mb-1">
-                        🩺 {it.specialty}
+                      <div className="text-slate-600 mb-1 flex items-center gap-1">
+                        <Stethoscope className="h-3 w-3" />
+                        {it.specialty}
                       </div>
                     )}
 
                     {it.address && (
-                      <div className="text-slate-600 mb-1">📍 {it.address}</div>
+                      <div className="text-slate-600 mb-1 flex items-center gap-1">
+                        <MapPin className="h-3 w-3" />
+                        {it.address}
+                      </div>
                     )}
 
                     {it.phone && (
@@ -498,8 +550,9 @@ export default function MapWithMarkers({
       {/* Panel pour les établissements sans coordonnées */}
       {itemsWithoutCoords.length > 0 && (
         <div className="absolute top-4 left-4 bg-white rounded-lg shadow-lg p-3 max-w-xs z-10 border border-slate-200">
-          <h4 className="font-semibold text-sm mb-2 text-slate-700">
-            📝 Établissements trouvés ({itemsWithoutCoords.length})
+          <h4 className="font-semibold text-sm mb-2 text-slate-700 flex items-center gap-1">
+            <FileText className="h-4 w-4" />
+            Établissements trouvés ({itemsWithoutCoords.length})
           </h4>
           <div className="space-y-2 max-h-40 overflow-y-auto">
             {itemsWithoutCoords.map((item) => (
@@ -512,8 +565,9 @@ export default function MapWithMarkers({
                 {item.specialty && (
                   <div className="text-slate-500">{item.specialty}</div>
                 )}
-                <div className="text-amber-600 mt-1">
-                  📍 Position à localiser
+                <div className="text-amber-600 mt-1 flex items-center gap-1">
+                  <MapPin className="h-3 w-3" />
+                  Position à localiser
                 </div>
               </div>
             ))}

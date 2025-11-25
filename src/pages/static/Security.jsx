@@ -1,3 +1,6 @@
+
+import { Building2, Shield } from "lucide-react";
+
 export default function Security() {
     return (
         <main className="max-w-4xl mx-auto px-4 py-8">
@@ -5,7 +8,10 @@ export default function Security() {
 
             <div className="prose prose-lg max-w-none">
                 <section className="mb-8">
-                    <h2 className="text-2xl font-semibold text-gray-800 mb-4">🔒 Sécurité des Données</h2>
+                    <h2 className="text-2xl font-semibold text-gray-800 mb-4 flex items-center gap-2">
+                        <Shield className="h-6 w-6" />
+                        Sécurité des Données
+                    </h2>
                     <p className="text-gray-600 mb-4">
                         Chez MediPlus, la sécurité de vos données médicales est notre priorité absolue.
                         Nous mettons en œuvre les plus hauts standards de sécurité pour protéger votre vie privée.
@@ -19,7 +25,10 @@ export default function Security() {
                 </section>
 
                 <section className="mb-8">
-                    <h2 className="text-2xl font-semibold text-gray-800 mb-4">🏥 Conformité Réglementaire</h2>
+                    <h2 className="text-2xl font-semibold text-gray-800 mb-4 flex items-center gap-2">
+                        <Building2 className="h-6 w-6" />
+                        Conformité Réglementaire
+                    </h2>
                     <p className="text-gray-600 mb-4">
                         MediPlus est entièrement conforme aux réglementations en vigueur en Côte d'Ivoire
                         et aux standards internationaux de protection des données médicales.
@@ -112,7 +121,10 @@ export default function Security() {
                 </section>
 
                 <section className="mb-8">
-                    <h2 className="text-2xl font-semibold text-gray-800 mb-4">📞 Support & Assistance</h2>
+                    <h2 className="text-2xl font-semibold text-gray-800 mb-4 flex items-center gap-2">
+                        <Phone className="h-6 w-6" />
+                        Support & Assistance
+                    </h2>
                     <p className="text-gray-600 mb-4">
                         Notre équipe de sécurité est disponible pour répondre à vos questions
                         concernant la protection de vos données médicales.

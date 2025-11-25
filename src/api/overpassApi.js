@@ -20,15 +20,19 @@ const calculateDistance = (lat1, lon1, lat2, lon2) => {
 
 // Configuration des types d'établissements de santé à rechercher
 const HEALTHCARE_TAGS = {
-  hospital: { emoji: "🏥", color: "#EF4444", name: "Hôpital" },
-  clinic: { emoji: "🏥", color: "#EF4444", name: "Clinique" },
-  pharmacy: { emoji: "💊", color: "#8B5CF6", name: "Pharmacie" },
-  laboratory: { emoji: "🔬", color: "#F59E0B", name: "Laboratoire" },
-  dentist: { emoji: "🦷", color: "#06B6D4", name: "Dentiste" },
-  doctor: { emoji: "👨‍⚕️", color: "#10B981", name: "Médecin" },
-  physiotherapist: { emoji: "🏋️", color: "#EC4899", name: "Kinésithérapeute" },
-  radiology: { emoji: "📹", color: "#F97316", name: "Radiologie" },
-  emergency: { emoji: "🚑", color: "#DC2626", name: "Urgences" },
+  hospital: { emoji: "Hospital", color: "#EF4444", name: "Hôpital" },
+  clinic: { emoji: "Building2", color: "#EF4444", name: "Clinique" },
+  pharmacy: { emoji: "Pill", color: "#8B5CF6", name: "Pharmacie" },
+  laboratory: { emoji: "TestTube", color: "#F59E0B", name: "Laboratoire" },
+  dentist: { emoji: "Smile", color: "#06B6D4", name: "Dentiste" },
+  doctor: { emoji: "Stethoscope", color: "#10B981", name: "Médecin" },
+  physiotherapist: {
+    emoji: "Activity",
+    color: "#EC4899",
+    name: "Kinésithérapeute",
+  },
+  radiology: { emoji: "Scan", color: "#F97316", name: "Radiologie" },
+  emergency: { emoji: "Ambulance", color: "#DC2626", name: "Urgences" },
 };
 
 // Mapping des spécialités médicales vers les tags OSM
@@ -585,7 +589,7 @@ export const searchHealthcareEstablishments = async (
         );
       });
       console.log(
-        `🏥 Filtrage spécialité "${specialtyFilter}": ${beforeSpecialty} → ${establishments.length} établissements`
+        `Filtrage spécialité "${specialtyFilter}": ${beforeSpecialty} → ${establishments.length} établissements`
       );
     }
 
