@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useToast } from "../../hooks/useToast.js";
 
 async function getModerationReports() {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/api/admin/moderation`, {
+    const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/admin/moderation`, {
         headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`,
             'Accept': 'application/json',
@@ -15,7 +15,7 @@ async function getModerationReports() {
 }
 
 async function updateReportStatus(reportId, status) {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/api/admin/moderation/${reportId}/status`, {
+    const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/admin/moderation/${reportId}/status`, {
         method: 'PUT',
         headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`,

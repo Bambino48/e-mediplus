@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import { useToast } from "../../hooks/useToast.js";
 
 async function getSettings() {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/api/admin/settings`, {
+    const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/admin/settings`, {
         headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`,
             'Accept': 'application/json',
@@ -16,7 +16,7 @@ async function getSettings() {
 }
 
 async function updateSettings(settings) {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/api/admin/settings`, {
+    const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/admin/settings`, {
         method: 'PUT',
         headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -30,7 +30,7 @@ async function updateSettings(settings) {
 }
 
 async function getProfile() {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/api/admin/profile`, {
+    const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/admin/profile`, {
         headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`,
             'Accept': 'application/json',
@@ -152,7 +152,7 @@ export default function AdminSettings() {
                 formData.append('photo', '');
             }
 
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/admin/profile`, {
+            const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/admin/profile`, {
                 method: 'PUT',
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('token')}`,

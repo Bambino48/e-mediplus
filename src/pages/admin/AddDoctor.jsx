@@ -60,7 +60,7 @@ export default function AddDoctor() {
         setIsSubmitting(true);
 
         try {
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/admin/doctors`, {
+            const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/admin/doctors`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

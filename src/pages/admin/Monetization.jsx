@@ -3,7 +3,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useToast } from "../../hooks/useToast.js";
 
 async function getMonetizationData() {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/api/admin/monetization`, {
+    const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/admin/monetization`, {
         headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`,
             'Accept': 'application/json',
@@ -14,7 +14,7 @@ async function getMonetizationData() {
 }
 
 async function updatePlanPrice(planId, price) {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/api/admin/monetization/${planId}`, {
+    const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/admin/monetization/${planId}`, {
         method: 'PUT',
         headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`,

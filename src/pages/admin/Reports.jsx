@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 
 async function fetchStats() {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/api/admin/reports`, {
+    const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/admin/reports`, {
         headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`,
             'Accept': 'application/json',

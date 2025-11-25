@@ -71,7 +71,7 @@ export default function AddPharmacy() {
         setIsSubmitting(true);
 
         try {
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/admin/pharmacies`, {
+            const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/admin/pharmacies`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
