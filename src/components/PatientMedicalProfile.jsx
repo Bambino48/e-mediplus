@@ -80,6 +80,16 @@ export default function PatientMedicalProfile() {
             city: profileData?.city || "",
             country: profileData?.country || "",
           });
+        } else if (response.status === 401) {
+          // Token invalide ou expiré - déconnexion automatique
+          console.warn("Token invalide, déconnexion automatique");
+          localStorage.removeItem("token");
+          localStorage.removeItem("cachedUser");
+          toast.error("Session expirée. Veuillez vous reconnecter.");
+          // Redirection vers la page de connexion
+          window.location.href = "/auth/login";
+          setIsLoading(false);
+          return;
         } else if (response.status === 404) {
           // Cas normal : pas de profil existant, l'utilisateur peut en créer un
           setProfile(null);
@@ -98,7 +108,7 @@ export default function PatientMedicalProfile() {
     };
 
     loadProfile();
-  }, [token, API_BASE_URL, toast]);
+  }, [token]);
 
   const handleSave = async () => {
     if (!token) return;
@@ -120,6 +130,15 @@ export default function PatientMedicalProfile() {
         setProfile(data.data || data);
         setIsEditing(false);
         toast.success(profile ? "Profil mis à jour !" : "Profil créé !");
+      } else if (response.status === 401) {
+        // Token invalide ou expiré - déconnexion automatique
+        console.warn("Token invalide lors de la sauvegarde, déconnexion automatique");
+        localStorage.removeItem("token");
+        localStorage.removeItem("cachedUser");
+        toast.error("Session expirée. Veuillez vous reconnecter.");
+        // Redirection vers la page de connexion
+        window.location.href = "/auth/login";
+        return;
       } else {
         toast.error("Erreur lors de la sauvegarde");
       }
@@ -166,7 +185,7 @@ export default function PatientMedicalProfile() {
       {/* En-tête avec titre et bouton Modifier */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="p-3 bg-gradient-to-br from-red-100 to-pink-100 dark:from-red-900/30 dark:to-pink-900/30 rounded-xl shadow-sm">
+          <div className="p-3 bg-linear-to-br from-red-100 to-pink-100 dark:from-red-900/30 dark:to-pink-900/30 rounded-xl shadow-sm">
             <Activity className="h-6 w-6 text-red-600 dark:text-red-400" />
           </div>
           <div>
@@ -184,7 +203,7 @@ export default function PatientMedicalProfile() {
         {!isEditing && profile && (
           <button
             onClick={() => setIsEditing(true)}
-            className="bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-700 hover:to-blue-700 text-white px-5 py-2.5 rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2"
+            className="bg-linear-to-r from-cyan-600 to-blue-600 hover:from-cyan-700 hover:to-blue-700 text-white px-5 py-2.5 rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2"
           >
             <Edit className="h-4 w-4" />
             Modifier
@@ -195,7 +214,7 @@ export default function PatientMedicalProfile() {
           <div className="flex gap-2">
             <button
               onClick={handleSave}
-              className="bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700 text-white px-5 py-2.5 rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2"
+              className="bg-linear-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700 text-white px-5 py-2.5 rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2"
             >
               <Save className="h-4 w-4" />
               Sauvegarder
@@ -213,8 +232,8 @@ export default function PatientMedicalProfile() {
 
       {/* Contenu */}
       {!profile && !isEditing ? (
-        <div className="text-center py-12 px-6 bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-800/50 dark:to-slate-900/50 rounded-2xl border-2 border-dashed border-slate-300 dark:border-slate-700">
-          <div className="p-5 bg-gradient-to-br from-red-100 to-pink-100 dark:from-red-900/30 dark:to-pink-900/30 rounded-full w-20 h-20 mx-auto mb-5 flex items-center justify-center shadow-lg">
+        <div className="text-center py-12 px-6 bg-linear-to-br from-slate-50 to-slate-100 dark:from-slate-800/50 dark:to-slate-900/50 rounded-2xl border-2 border-dashed border-slate-300 dark:border-slate-700">
+          <div className="p-5 bg-linear-to-br from-red-100 to-pink-100 dark:from-red-900/30 dark:to-pink-900/30 rounded-full w-20 h-20 mx-auto mb-5 flex items-center justify-center shadow-lg">
             <Heart className="h-10 w-10 text-red-600 dark:text-red-400" />
           </div>
           <h4 className="text-lg font-bold text-slate-800 dark:text-slate-100 mb-2">
@@ -226,7 +245,7 @@ export default function PatientMedicalProfile() {
           </p>
           <button
             onClick={() => setIsEditing(true)}
-            className="bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-700 hover:to-blue-700 text-white px-6 py-3 rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 inline-flex items-center gap-2"
+            className="bg-linear-to-r from-cyan-600 to-blue-600 hover:from-cyan-700 hover:to-blue-700 text-white px-6 py-3 rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 inline-flex items-center gap-2"
           >
             <Heart className="h-5 w-5" />
             Créer mon profil médical
@@ -235,7 +254,7 @@ export default function PatientMedicalProfile() {
       ) : (
         <div className="space-y-6">
           {/* Informations personnelles */}
-          <div className="p-5 bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-800/40 dark:to-slate-900/40 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md transition-all duration-200">
+          <div className="p-5 bg-linear-to-br from-slate-50 to-slate-100 dark:from-slate-800/40 dark:to-slate-900/40 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md transition-all duration-200">
             <h3 className="text-sm font-bold text-cyan-600 dark:text-cyan-400 uppercase tracking-wide mb-4 flex items-center gap-2">
               <UserCircle className="h-5 w-5" />
               Informations personnelles
@@ -302,7 +321,7 @@ export default function PatientMedicalProfile() {
           </div>
 
           {/* Informations médicales */}
-          <div className="p-5 bg-gradient-to-br from-red-50 to-pink-50 dark:from-red-900/20 dark:to-pink-900/20 rounded-xl border border-red-200 dark:border-red-800 shadow-sm hover:shadow-md transition-all duration-200">
+          <div className="p-5 bg-linear-to-br from-red-50 to-pink-50 dark:from-red-900/20 dark:to-pink-900/20 rounded-xl border border-red-200 dark:border-red-800 shadow-sm hover:shadow-md transition-all duration-200">
             <h3 className="text-sm font-bold text-red-600 dark:text-red-400 uppercase tracking-wide mb-4 flex items-center gap-2">
               <Stethoscope className="h-5 w-5" />
               Informations médicales
@@ -355,7 +374,7 @@ export default function PatientMedicalProfile() {
           </div>
 
           {/* Adresse */}
-          <div className="p-5 bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 rounded-xl border border-blue-200 dark:border-blue-800 shadow-sm hover:shadow-md transition-all duration-200">
+          <div className="p-5 bg-linear-to-br from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 rounded-xl border border-blue-200 dark:border-blue-800 shadow-sm hover:shadow-md transition-all duration-200">
             <h3 className="text-sm font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wide mb-4 flex items-center gap-2">
               <MapPin className="h-5 w-5" />
               Adresse
