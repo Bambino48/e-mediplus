@@ -108,7 +108,7 @@ export default function PatientMedicalProfile() {
     };
 
     loadProfile();
-  }, [token]);
+  }, [token]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleSave = async () => {
     if (!token) return;

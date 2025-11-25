@@ -1,3 +1,4 @@
+import { motion } from "framer-motion"; // eslint-disable-line no-unused-vars
 import Sidebar from "../components/Sidebar.jsx";
 
 export default function AdminLayout({ children }) {
