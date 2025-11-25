@@ -10,6 +10,7 @@ import {
   Pill,
   Stethoscope,
   Video,
+  X,
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -48,6 +49,10 @@ export default function PatientDashboard() {
   // États pour les vues intégrées dans le dashboard
   const [showPrescriptionsView, setShowPrescriptionsView] = useState(false);
   const [showAppointmentView, setShowAppointmentView] = useState(false);
+  const [showTeleconsultView, setShowTeleconsultView] = useState(false);
+  const [showTriageView, setShowTriageView] = useState(false);
+  const [showResultsView, setShowResultsView] = useState(false);
+  const [activeView, setActiveView] = useState(null); // Pour gérer quelle vue est active
 
   // Liste des docteurs pour le carrousel (top 12, triés par note)
   const navigate = useNavigate();
@@ -145,16 +150,49 @@ export default function PatientDashboard() {
     }
   };
 
-  const handlePrescriptionsClick = (e) => {
+  // Gestionnaires pour les vues intégrées
+  const handleTeleconsultClick = () => {
+    setActiveView('teleconsult');
+    setShowTeleconsultView(true);
+  };
+
+  const handleTriageClick = () => {
+    setActiveView('triage');
+    setShowTriageView(true);
+  };
+
+  const handlePrescriptionsClick = () => {
     if (!todayMedications?.items || todayMedications.items.length === 0) {
-      e.preventDefault();
       toast("Vous n'avez aucun médicament à prendre aujourd'hui", {
         icon: "💊",
         duration: 3000,
       });
-    } else {
-      setShowPrescriptionsView(true);
+      return;
     }
+    setActiveView('prescriptions');
+    setShowPrescriptionsView(true);
+  };
+
+  const handleResultsClick = () => {
+    setActiveView('results');
+    setShowResultsView(true);
+  };
+
+  const handleMedicalProfileClick = () => {
+    // Scroller vers la section profil médical existante
+    const profileSection = document.querySelector('[data-section="medical-profile"]');
+    if (profileSection) {
+      profileSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
+  const handleCloseView = () => {
+    setActiveView(null);
+    setShowTeleconsultView(false);
+    setShowTriageView(false);
+    setShowPrescriptionsView(false);
+    setShowAppointmentView(false);
+    setShowResultsView(false);
   };
 
   const handleNotificationsClick = (e) => {
@@ -706,14 +744,14 @@ export default function PatientDashboard() {
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: idx * 0.1 }}
                       className={`flex items-start gap-3 p-3 rounded-lg border ${isUrgent
-                          ? "bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800"
-                          : "bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700"
+                        ? "bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800"
+                        : "bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700"
                         }`}
                     >
                       <div
                         className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${isUrgent
-                            ? "bg-red-500 text-white"
-                            : "bg-cyan-500 text-white"
+                          ? "bg-red-500 text-white"
+                          : "bg-cyan-500 text-white"
                           }`}
                       >
                         {isUrgent ? (
@@ -1042,10 +1080,10 @@ export default function PatientDashboard() {
                           </div>
                           <div
                             className={`px-2 py-1 rounded-full text-xs font-medium ${appointment.status === "confirmed"
-                                ? "bg-green-100 dark:bg-green-900/50 text-green-700 dark:text-green-300"
-                                : appointment.status === "pending"
-                                  ? "bg-yellow-100 dark:bg-yellow-900/50 text-yellow-700 dark:text-yellow-300"
-                                  : "bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300"
+                              ? "bg-green-100 dark:bg-green-900/50 text-green-700 dark:text-green-300"
+                              : appointment.status === "pending"
+                                ? "bg-yellow-100 dark:bg-yellow-900/50 text-yellow-700 dark:text-yellow-300"
+                                : "bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300"
                               }`}
                           >
                             {appointment.status === "confirmed"
@@ -1162,8 +1200,8 @@ export default function PatientDashboard() {
                       </div>
                       <div
                         className={`px-2 py-1 rounded-full text-xs font-medium ${payment.status === "pending"
-                            ? "bg-yellow-100 dark:bg-yellow-900/50 text-yellow-700 dark:text-yellow-300"
-                            : "bg-red-100 dark:bg-red-900/50 text-red-700 dark:text-red-300"
+                          ? "bg-yellow-100 dark:bg-yellow-900/50 text-yellow-700 dark:text-yellow-300"
+                          : "bg-red-100 dark:bg-red-900/50 text-red-700 dark:text-red-300"
                           }`}
                       >
                         {payment.status === "pending" ? "En attente" : "Échoué"}
@@ -1228,10 +1266,10 @@ export default function PatientDashboard() {
                         </div>
                         <div
                           className={`px-2 py-1 rounded-full text-xs font-medium ${teleconsult.status === "active"
-                              ? "bg-green-100 dark:bg-green-900/50 text-green-700 dark:text-green-300"
-                              : teleconsult.status === "waiting"
-                                ? "bg-yellow-100 dark:bg-yellow-900/50 text-yellow-700 dark:text-yellow-300"
-                                : "bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300"
+                            ? "bg-green-100 dark:bg-green-900/50 text-green-700 dark:text-green-300"
+                            : teleconsult.status === "waiting"
+                              ? "bg-yellow-100 dark:bg-yellow-900/50 text-yellow-700 dark:text-yellow-300"
+                              : "bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300"
                             }`}
                         >
                           {teleconsult.status === "active"
@@ -1480,7 +1518,7 @@ export default function PatientDashboard() {
         </motion.div>
 
         {/* === Profil Médical === */}
-        <div className="mt-10">
+        <div className="mt-10" data-section="medical-profile">
           <PatientMedicalProfile />
         </div>
 
@@ -1514,10 +1552,10 @@ export default function PatientDashboard() {
               whileHover={{ scale: 1.03 }}
               transition={{ duration: 0.2 }}
               className={`card border-t-4 bg-white dark:bg-slate-900 cursor-pointer ${todayMedications?.items && todayMedications.items.length > 0
-                  ? "border-t-blue-500 shadow-blue-100 dark:shadow-blue-900/20"
-                  : "border-t-blue-400"
+                ? "border-t-blue-500 shadow-blue-100 dark:shadow-blue-900/20"
+                : "border-t-blue-400"
                 }`}
-              onClick={() => navigate("/teleconsult")}
+              onClick={handleTeleconsultClick}
             >
               <div className="flex items-start gap-3">
                 <div className="p-3 bg-blue-50 dark:bg-slate-800 rounded-xl relative">
@@ -1557,7 +1595,7 @@ export default function PatientDashboard() {
               whileHover={{ scale: 1.03 }}
               transition={{ duration: 0.2 }}
               className="card border-t-4 border-t-emerald-400 bg-white dark:bg-slate-900 cursor-pointer"
-              onClick={() => navigate("/triage")}
+              onClick={handleTriageClick}
             >
               <div className="flex items-start gap-3">
                 <div className="p-3 bg-emerald-50 dark:bg-slate-800 rounded-xl">
@@ -1583,10 +1621,10 @@ export default function PatientDashboard() {
               whileHover={{ scale: 1.03 }}
               transition={{ duration: 0.2 }}
               className={`card border-t-4 bg-white dark:bg-slate-900 cursor-pointer ${todayMedications?.items && todayMedications.items.length > 0
-                  ? "border-t-cyan-500 shadow-cyan-100 dark:shadow-cyan-900/20"
-                  : "border-t-cyan-400"
+                ? "border-t-cyan-500 shadow-cyan-100 dark:shadow-cyan-900/20"
+                : "border-t-cyan-400"
                 }`}
-              onClick={() => navigate("/patient/prescriptions")}
+              onClick={handlePrescriptionsClick}
             >
               <div className="flex items-start gap-3">
                 <div className="p-3 bg-cyan-50 dark:bg-slate-800 rounded-xl relative">
@@ -1627,10 +1665,13 @@ export default function PatientDashboard() {
               whileHover={{ scale: 1.03 }}
               transition={{ duration: 0.2 }}
               className={`card border-t-4 bg-white dark:bg-slate-900 cursor-pointer ${nextAppointmentData?.appointment
-                  ? "border-t-green-500 shadow-green-100 dark:shadow-green-900/20"
-                  : "border-t-green-400"
+                ? "border-t-green-500 shadow-green-100 dark:shadow-green-900/20"
+                : "border-t-green-400"
                 }`}
-              onClick={() => navigate("/booking")}
+              onClick={() => {
+                setActiveView('appointments');
+                setShowAppointmentView(true);
+              }}
             >
               <div className="flex items-start gap-3">
                 <div className="p-3 bg-green-50 dark:bg-slate-800 rounded-xl relative">
@@ -1672,7 +1713,7 @@ export default function PatientDashboard() {
               whileHover={{ scale: 1.03 }}
               transition={{ duration: 0.2 }}
               className="card border-t-4 border-t-purple-400 bg-white dark:bg-slate-900 cursor-pointer"
-              onClick={() => navigate("/patient/dashboard")}
+              onClick={handleMedicalProfileClick}
             >
               <div className="flex items-start gap-3">
                 <div className="p-3 bg-purple-50 dark:bg-slate-800 rounded-xl">
@@ -1697,7 +1738,7 @@ export default function PatientDashboard() {
               whileHover={{ scale: 1.03 }}
               transition={{ duration: 0.2 }}
               className="card border-t-4 border-t-amber-400 bg-white dark:bg-slate-900 cursor-pointer"
-              onClick={() => navigate("/patient/results")}
+              onClick={handleResultsClick}
             >
               <div className="flex items-start gap-3">
                 <div className="p-3 bg-amber-50 dark:bg-slate-800 rounded-xl">
@@ -1731,6 +1772,205 @@ export default function PatientDashboard() {
           </div>
         </div>
       </section>
+
+      {/* === Vues intégrées === */}
+      {activeView && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -20 }}
+          className="mt-8 bg-white dark:bg-slate-900 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700 overflow-hidden"
+        >
+          {/* Header de la vue intégrée */}
+          <div className="flex items-center justify-between p-6 border-b border-slate-200 dark:border-slate-700">
+            <div className="flex items-center gap-3">
+              {activeView === 'teleconsult' && <Video className="h-6 w-6 text-blue-500" />}
+              {activeView === 'triage' && <Stethoscope className="h-6 w-6 text-emerald-500" />}
+              {activeView === 'prescriptions' && <ClipboardList className="h-6 w-6 text-cyan-500" />}
+              {activeView === 'appointments' && <CalendarDays className="h-6 w-6 text-green-500" />}
+              {activeView === 'results' && <svg className="h-6 w-6 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>}
+              <h3 className="text-xl font-bold text-slate-900 dark:text-slate-100">
+                {activeView === 'teleconsult' && 'Téléconsultation'}
+                {activeView === 'triage' && 'Triage IA'}
+                {activeView === 'prescriptions' && 'Mes ordonnances'}
+                {activeView === 'appointments' && 'Mes rendez-vous'}
+                {activeView === 'results' && 'Mes résultats'}
+              </h3>
+            </div>
+            <button
+              onClick={handleCloseView}
+              className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
+            >
+              <X className="h-5 w-5 text-slate-500" />
+            </button>
+          </div>
+
+          {/* Contenu de la vue intégrée */}
+          <div className="p-6">
+            {activeView === 'teleconsult' && (
+              <div className="text-center py-12">
+                <Video className="h-16 w-16 text-blue-500 mx-auto mb-4" />
+                <h4 className="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-2">
+                  Téléconsultation en ligne
+                </h4>
+                <p className="text-slate-600 dark:text-slate-400 mb-6 max-w-md mx-auto">
+                  Consultez un médecin en direct depuis chez vous. Disponible 24/7 pour vos besoins médicaux urgents.
+                </p>
+                <button
+                  onClick={() => navigate('/teleconsult')}
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
+                >
+                  Commencer la téléconsultation
+                </button>
+              </div>
+            )}
+
+            {activeView === 'triage' && (
+              <div className="text-center py-12">
+                <Stethoscope className="h-16 w-16 text-emerald-500 mx-auto mb-4" />
+                <h4 className="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-2">
+                  Assistant IA de Triage
+                </h4>
+                <p className="text-slate-600 dark:text-slate-400 mb-6 max-w-md mx-auto">
+                  Analysez vos symptômes avec notre IA médicale pour une orientation rapide et précise.
+                </p>
+                <button
+                  onClick={() => navigate('/triage')}
+                  className="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3 rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
+                >
+                  Commencer l'analyse
+                </button>
+              </div>
+            )}
+
+            {activeView === 'prescriptions' && (
+              <div className="space-y-4">
+                <div className="text-center py-8">
+                  <ClipboardList className="h-16 w-16 text-cyan-500 mx-auto mb-4" />
+                  <h4 className="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-2">
+                    Mes ordonnances
+                  </h4>
+                  <p className="text-slate-600 dark:text-slate-400">
+                    Gérez vos prescriptions médicales et traitements en cours.
+                  </p>
+                </div>
+
+                {activePrescriptions?.items?.length > 0 ? (
+                  <div className="space-y-3">
+                    {activePrescriptions.items.map((prescription, index) => (
+                      <div key={index} className="p-4 bg-slate-50 dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700">
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <h5 className="font-semibold text-slate-900 dark:text-slate-100">
+                              {prescription.medication_name}
+                            </h5>
+                            <p className="text-sm text-slate-600 dark:text-slate-400">
+                              {prescription.dosage} - {prescription.frequency}
+                            </p>
+                          </div>
+                          <div className="text-right">
+                            <span className="inline-flex items-center px-2 py-1 bg-cyan-100 dark:bg-cyan-900/30 text-cyan-700 dark:text-cyan-300 text-xs font-medium rounded">
+                              Actif
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="text-center py-8">
+                    <p className="text-slate-500 dark:text-slate-400">
+                      Aucune ordonnance active pour le moment.
+                    </p>
+                  </div>
+                )}
+
+                <div className="flex justify-center pt-4">
+                  <button
+                    onClick={() => navigate('/patient/prescriptions')}
+                    className="bg-cyan-600 hover:bg-cyan-700 text-white px-6 py-2 rounded-lg font-semibold shadow-md hover:shadow-lg transition-all duration-300"
+                  >
+                    Voir toutes mes ordonnances
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {activeView === 'appointments' && (
+              <div className="space-y-4">
+                <div className="text-center py-8">
+                  <CalendarDays className="h-16 w-16 text-green-500 mx-auto mb-4" />
+                  <h4 className="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-2">
+                    Mes rendez-vous
+                  </h4>
+                  <p className="text-slate-600 dark:text-slate-400">
+                    Gérez vos consultations médicales programmées.
+                  </p>
+                </div>
+
+                {nextAppointmentData?.appointment ? (
+                  <div className="p-4 bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-200 dark:border-green-800">
+                    <div className="flex items-center gap-3 mb-2">
+                      <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                      <h5 className="font-semibold text-slate-900 dark:text-slate-100">
+                        Prochain rendez-vous
+                      </h5>
+                    </div>
+                    <p className="text-slate-700 dark:text-slate-300">
+                      {new Date(nextAppointmentData.appointment.scheduled_at).toLocaleDateString('fr-FR', {
+                        weekday: 'long',
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                      })}
+                    </p>
+                    <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">
+                      avec Dr. {nextAppointmentData.appointment.doctor_name}
+                    </p>
+                  </div>
+                ) : (
+                  <div className="text-center py-8">
+                    <p className="text-slate-500 dark:text-slate-400">
+                      Aucun rendez-vous programmé.
+                    </p>
+                  </div>
+                )}
+
+                <div className="flex justify-center pt-4">
+                  <button
+                    onClick={() => navigate('/booking')}
+                    className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg font-semibold shadow-md hover:shadow-lg transition-all duration-300"
+                  >
+                    Prendre un rendez-vous
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {activeView === 'results' && (
+              <div className="text-center py-12">
+                <svg className="h-16 w-16 text-amber-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                <h4 className="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-2">
+                  Mes résultats médicaux
+                </h4>
+                <p className="text-slate-600 dark:text-slate-400 mb-6 max-w-md mx-auto">
+                  Consultez vos analyses, examens et résultats d'examens médicaux.
+                </p>
+                <button
+                  onClick={() => navigate('/patient/results')}
+                  className="bg-amber-600 hover:bg-amber-700 text-white px-6 py-3 rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
+                >
+                  Voir mes résultats
+                </button>
+              </div>
+            )}
+          </div>
+        </motion.div>
+      )}
 
       {/* Formulaire de réservation intégré */}
       {selectedDoctorForBooking && (
