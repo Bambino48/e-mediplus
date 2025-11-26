@@ -107,7 +107,7 @@ window.addEventListener("unhandledrejection", (event) => {
 
 // Fonction de nettoyage d'urgence (accessible via console)
 window.forceCleanLocalStorage = () => {
-  console.log("🧹 Nettoyage d'urgence du localStorage...");
+  // Nettoyage d'urgence du localStorage (logs supprimés)
   const keys = Object.keys(localStorage);
   keys.forEach((key) => {
     let value;
@@ -120,14 +120,14 @@ window.forceCleanLocalStorage = () => {
             !value.startsWith("[") &&
             value.startsWith('"')))
       ) {
-        console.log(`Suppression de ${key}: ${value.substring(0, 50)}...`);
+        // Suppression de clé du localStorage (détails supprimés)
         localStorage.removeItem(key);
       }
     } catch {
       localStorage.removeItem(key);
     }
   });
-  console.log("✅ Nettoyage terminé");
+  // Nettoyage terminé (log supprimé)
 };
 
 // Nettoyer le localStorage au démarrage

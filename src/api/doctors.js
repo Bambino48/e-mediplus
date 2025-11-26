@@ -13,10 +13,7 @@ import api from "./axiosInstance";
  * @returns {Promise<Object>} Liste des docteurs avec pagination
  */
 export const getDoctorsList = async (params = {}) => {
-  console.log("🌐 API getDoctorsList - Calling /doctors with params:", params);
   const response = await api.get("/doctors", { params });
-  console.log("🌐 API getDoctorsList - Raw response:", response);
-  console.log("🌐 API getDoctorsList - Response data:", response.data);
   // Retourne directement la structure complète pour que le composant puisse accéder aux docteurs
   return response.data;
 };
@@ -111,18 +108,13 @@ export const updateDoctorProfile = async (payload) => {
   const token = localStorage.getItem("token");
   if (!token) throw new Error("Token non trouvé");
 
-  console.log("🔄 API updateDoctorProfile - Payload envoyé:", payload);
-  console.log("🔄 API updateDoctorProfile - Type de payload:", typeof payload);
-  console.log(
-    "🔄 API updateDoctorProfile - Clés du payload:",
-    Object.keys(payload)
-  );
+  // Payload will be sent to the API; keep logs minimal in production
 
   try {
     const { data } = await api.put("/doctor/profile", payload, {
       headers: { Authorization: `Bearer ${token}` },
     });
-    console.log("✅ API updateDoctorProfile - Réponse réussie:", data);
+    // Réponse reçue (log supprimé pour production)
     return data;
   } catch (error) {
     console.error("❌ API updateDoctorProfile - Erreur complète:", error);

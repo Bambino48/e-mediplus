@@ -53,15 +53,13 @@ export default function Sidebar({
   // ✅ Gestionnaire spécial pour "Trouver un pro"
   const handleSearchClick = (e) => {
     e.preventDefault();
-    console.log("🔍 Sidebar - Clic sur 'Trouver un pro'");
+    // Clic sur 'Trouver un pro' (debug logs supprimés)
 
     // Si on utilise le système de vues (DashboardContainer)
     if (setActiveView) {
-      console.log("🔍 Utilisation de setActiveView pour afficher la recherche");
       setActiveView("search");
     } else {
       // Sinon, navigation classique vers /search
-      console.log("🔍 Navigation vers /search");
       navigate("/search");
     }
   };
@@ -98,7 +96,7 @@ export default function Sidebar({
               className={`rounded-full object-cover border-4 border-cyan-500 shadow-lg transition-all duration-300 hover:scale-105 ${sidebarOpen ? "h-24 w-24" : "h-12 w-12"
                 }`}
               onError={(e) => {
-                console.log("Erreur chargement photo:", photoUrl);
+                console.warn("Erreur chargement photo:", photoUrl);
                 e.target.src =
                   "https://cdn-icons-png.flaticon.com/512/847/847969.png";
               }}

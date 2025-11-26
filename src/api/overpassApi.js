@@ -329,13 +329,7 @@ export const searchHealthcareEstablishments = async (
     const query = buildOverpassQuery(lat, lng, radius, specialtyFilter);
     const url = `${OVERPASS_API_URL}?data=${encodeURIComponent(query)}`;
 
-    console.log("🔍 Requête Overpass:", {
-      position: { lat, lng },
-      radius,
-      searchQuery,
-      specialtyFilter,
-      url: url.substring(0, 200) + "...",
-    });
+    // Overpass request (debug logs removed)
 
     // Appel à l'API Overpass
     let response;
@@ -359,33 +353,17 @@ export const searchHealthcareEstablishments = async (
 
     let data = await response.json();
 
-    console.log("📊 Réponse Overpass:", {
-      elementsCount: data.elements?.length || 0,
-      elements:
-        data.elements?.slice(0, 3).map((el) => ({
-          id: el.id,
-          type: el.type,
-          tags: el.tags,
-          hasCoords: !!(el.lat || el.lon || el.center),
-        })) || [],
-      fullResponse: data,
-    });
+    // Overpass response (debug logs removed)
 
     // Appliquer le filtrage par searchQuery si fourni
-    console.log(
-      `🔍 Debug: searchQuery="${searchQuery}", elements=${
-        data.elements?.length || 0
-      }`
-    );
+    // searchQuery debug logs removed
     if (
       searchQuery &&
       searchQuery.trim() &&
       data.elements &&
       data.elements.length > 0
     ) {
-      console.log(
-        `🔍 Filtrage par recherche: "${searchQuery}" (${data.elements.length} éléments)`
-      );
+      // Filtrage par recherche (debug logs removed)
       const filteredResults = data.elements.filter((element) => {
         const tags = element.tags || {};
         const name = (tags.name || tags["name:fr"] || "").toLowerCase();
@@ -397,18 +375,14 @@ export const searchHealthcareEstablishments = async (
         );
       });
 
-      console.log(
-        `🎯 ${filteredResults.length} résultats filtrés sur ${data.elements.length} pour "${searchQuery}"`
-      );
+      // Résultats filtrés (debug logs removed)
       data = { elements: filteredResults };
     }
 
     if (!data.elements || data.elements.length === 0) {
       // Si aucune résultat avec la requête spécifique, essayer une recherche générale
       if (searchQuery && searchQuery.trim()) {
-        console.log(
-          "🔄 Aucun résultat trouvé, tentative avec recherche générale..."
-        );
+        // Aucun résultat trouvé, tentative avec recherche générale...
         const generalQuery = buildOverpassQuery(lat, lng, radius, "");
         const generalUrl = `${OVERPASS_API_URL}?data=${encodeURIComponent(
           generalQuery
@@ -417,9 +391,7 @@ export const searchHealthcareEstablishments = async (
 
         if (generalResponse.ok) {
           const generalData = await generalResponse.json();
-          console.log("📊 Réponse Overpass générale:", {
-            elementsCount: generalData.elements?.length || 0,
-          });
+          // Réponse Overpass générale (debug logs removed)
 
           if (generalData.elements && generalData.elements.length > 0) {
             // Filtrer les résultats pour ne garder que ceux qui correspondent à la recherche
@@ -435,9 +407,7 @@ export const searchHealthcareEstablishments = async (
               );
             });
 
-            console.log(
-              `🎯 ${filteredResults.length} résultats filtrés sur ${generalData.elements.length}`
-            );
+            // Résultats filtrés (debug logs removed)
             data = { elements: filteredResults };
           }
         }
@@ -449,9 +419,7 @@ export const searchHealthcareEstablishments = async (
 
       // Si très peu de résultats, essayer avec un rayon plus large pour les zones peu denses
       if (data.elements.length < 5 && radius <= 10000) {
-        console.log(
-          `🔍 Peu de résultats (${data.elements.length}), extension du rayon de recherche...`
-        );
+        // Peu de résultats, extension du rayon de recherche (debug logs removed)
         const extendedRadius = Math.min(radius * 2, 20000); // Doubler le rayon, max 20km
         const extendedQuery = buildOverpassQuery(
           lat,
@@ -467,19 +435,13 @@ export const searchHealthcareEstablishments = async (
           const extendedResponse = await fetch(extendedUrl);
           if (extendedResponse.ok) {
             const extendedData = await extendedResponse.json();
-            console.log(
-              `📊 Recherche étendue: ${
-                extendedData.elements?.length || 0
-              } résultats avec rayon ${extendedRadius}m`
-            );
+            // Recherche étendue (debug logs removed)
 
             if (
               extendedData.elements &&
               extendedData.elements.length > data.elements.length
             ) {
-              console.log(
-                `✅ Utilisation des résultats étendus (${extendedData.elements.length} vs ${data.elements.length})`
-              );
+              // Utilisation des résultats étendus (debug logs removed)
               data = extendedData;
             }
           }
@@ -499,13 +461,7 @@ export const searchHealthcareEstablishments = async (
           const elementLon = element.lon || element.center?.lon;
 
           if (!elementLat || !elementLon) {
-            console.log("⚠️ Élément sans coordonnées:", {
-              id: element.id,
-              type: element.type,
-              hasLat: !!element.lat,
-              hasLon: !!element.lon,
-              hasCenter: !!element.center,
-            });
+            // Élément sans coordonnées - ignoré
             return null; // Ignorer les éléments sans coordonnées
           }
 
@@ -513,17 +469,10 @@ export const searchHealthcareEstablishments = async (
           const tags = element.tags || {};
           const type = determineEstablishmentType(tags);
 
-          console.log(`🔍 Élément ${element.id} (${element.type}):`, {
-            tags: tags,
-            determinedType: type,
-            hasCoords: !!(elementLat && elementLon),
-          });
+          // Élément traité (debug log removed)
 
           if (!type) {
-            console.log("⚠️ Type non reconnu pour élément:", {
-              id: element.id,
-              tags: tags,
-            });
+            // Type non reconnu pour l'élément - ignoré
             return null; // Ignorer les éléments avec type non reconnu
           }
 
@@ -562,17 +511,13 @@ export const searchHealthcareEstablishments = async (
         })
         .filter(Boolean); // Supprimer les éléments null
 
-      console.log(
-        `📊 Après traitement: ${establishments.length} établissements valides sur ${data.elements.length} éléments filtrés`
-      );
+      // Après traitement: résumé (debug logs removed)
     } catch (error) {
       console.error("❌ Erreur lors du traitement des éléments:", error);
       return [];
     }
 
-    console.log(
-      `📍 Après filtrage coordonnées: ${establishments.length} établissements (sur ${data.elements.length} bruts)`
-    );
+    // Après filtrage coordonnées (debug logs removed)
 
     establishments = establishments.sort(
       (a, b) => a.distance_km - b.distance_km
@@ -588,9 +533,7 @@ export const searchHealthcareEstablishments = async (
           est.specialty.toLowerCase().includes(specialtyFilter.toLowerCase())
         );
       });
-      console.log(
-        `Filtrage spécialité "${specialtyFilter}": ${beforeSpecialty} → ${establishments.length} établissements`
-      );
+      // Filtrage spécialité (debug logs removed)
     }
 
     // Filtrage par recherche textuelle si fournie
@@ -602,9 +545,7 @@ export const searchHealthcareEstablishments = async (
           est.specialty.toLowerCase().includes(searchQuery.toLowerCase()) ||
           est.type.toLowerCase().includes(searchQuery.toLowerCase())
       );
-      console.log(
-        `🔍 Filtrage textuel "${searchQuery}": ${beforeFilter} → ${establishments.length} établissements`
-      );
+      // Filtrage textuel (debug logs removed)
 
       // Log des établissements rejetés pour debug
       if (beforeFilter > establishments.length) {
@@ -634,14 +575,12 @@ export const searchHealthcareEstablishments = async (
           .filter((item) => !item.matches)
           .slice(0, 5); // Montrer seulement 5 exemples
 
-        console.log("❌ Établissements rejetés (exemples):", rejected);
+        // Établissements rejetés (exemples) - debug removed
       }
 
       // Si aucun résultat après filtrage textuel, revenir aux résultats avant filtrage
       if (establishments.length === 0) {
-        console.log(
-          "⚠️ Aucun résultat pour la recherche textuelle, utilisation des résultats généraux"
-        );
+        // Aucun résultat pour la recherche textuelle - debug removed
         establishments = data.elements
           .map((element) => {
             const elementLat = element.lat || element.center?.lat;
@@ -685,21 +624,12 @@ export const searchHealthcareEstablishments = async (
           .filter(Boolean)
           .sort((a, b) => a.distance_km - b.distance_km);
 
-        console.log(
-          `🔄 Retour aux ${establishments.length} résultats généraux`
-        );
+        // Retour aux résultats généraux (debug removed)
+        // debug removed
       }
     }
 
-    console.log(
-      `✅ ${establishments.length} établissements trouvés après filtrage:`,
-      establishments.slice(0, 3).map((est) => ({
-        name: est.name,
-        type: est.type,
-        specialty: est.specialty,
-        distance: est.distance_km?.toFixed(1) + "km",
-      }))
-    );
+    // Résultats finaux (debug logs removed)
 
     return establishments;
   } catch {

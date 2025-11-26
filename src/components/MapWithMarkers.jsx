@@ -245,15 +245,7 @@ export default function MapWithMarkers({
         specialty
       )
         .then((establishments) => {
-          console.log(
-            `🗺️ MapWithMarkers - ${establishments.length} établissements reçus:`,
-            establishments.slice(0, 3).map((est) => ({
-              name: est.name,
-              type: est.type,
-              lat: est.lat,
-              lng: est.lng,
-            }))
-          );
+          // debug log removed: establishments received
 
           // Définir un message d'information selon les résultats
           if (establishments.length === 0) {

@@ -38,7 +38,6 @@ export default function PatientHome() {
       setIsLoading(true);
       setError(null);
 
-      console.log("🔄 Chargement des docteurs...");
       const response = await getDoctorsList({
         per_page: 6,
         has_profile: true,
@@ -68,7 +67,6 @@ export default function PatientHome() {
   useEffect(() => {
     fetchDoctors();
     // Détection automatique de la position GPS dès l'arrivée sur la page
-    console.log("🏠 Page d'accueil chargée - Détection automatique de la position GPS...");
     detect();
   }, [detect]);
 

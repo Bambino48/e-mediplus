@@ -86,7 +86,7 @@ export async function markDoseTaken(medication_id) {
   try {
     // TODO: Implémenter l'API backend pour marquer une dose comme prise
     // const { data } = await api.post(`/medications/${medication_id}/taken`);
-    console.log("Dose marquée comme prise pour le médicament:", medication_id);
+    // Dose marquée (log supprimé)
     return { ok: true };
   } catch (error) {
     console.warn("Erreur markDoseTaken:", error.message);

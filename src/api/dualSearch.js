@@ -26,7 +26,7 @@ const analyzeSearchIntent = (query) => {
   const cleanQuery = query.toLowerCase().trim();
   const searchTerms = new Set([cleanQuery]);
 
-  console.log("🔍 Analyse d'intention pour:", cleanQuery);
+  // Analyse d'intention (debug logs supprimés)
 
   // Recherche directe et synonymes
   Object.keys(INTELLIGENT_MAPPING).forEach((key) => {
@@ -57,13 +57,13 @@ const analyzeSearchIntent = (query) => {
   }
 
   const terms = Array.from(searchTerms);
-  console.log("🎯 Termes de recherche générés:", terms);
+  // Termes générés (debug logs supprimés)
   return terms;
 };
 
 // Fonction de recherche dans la base de données avec termes intelligents
 const searchInDatabase = async (searchTerms) => {
-  console.log("🔍 Recherche DB avec termes:", searchTerms);
+  // Recherche DB (debug logs supprimés)
 
   try {
     // Recherche avec tous les termes (large)
@@ -73,7 +73,7 @@ const searchInDatabase = async (searchTerms) => {
     });
 
     const doctors = response.data?.data || [];
-    console.log("📊 Docteurs trouvés:", doctors.length);
+    // Docteurs trouvés (log supprimé)
 
     return doctors.map((doctor) => ({
       id: doctor.id,
@@ -113,11 +113,7 @@ const geographicFiltering = (establishments, bounds) => {
 
 // Fonction de fusion intelligente AMÉLIORÉE
 const intelligentFusion = (dbResults, searchTerms, bounds) => {
-  console.log("🧩 Fusion intelligente:", {
-    dbResults: dbResults.length,
-    searchTerms,
-    bounds: !!bounds,
-  });
+  // Fusion intelligente (debug logs supprimés)
 
   // Tous les établissements trouvés (pour la liste)
   const allItems = [...dbResults];
@@ -125,10 +121,7 @@ const intelligentFusion = (dbResults, searchTerms, bounds) => {
   // Filtrage géographique pour la carte
   const mapItems = bounds ? geographicFiltering(dbResults, bounds) : dbResults;
 
-  console.log("✅ Fusion terminée:", {
-    allItems: allItems.length,
-    mapItems: mapItems.length,
-  });
+  // Fusion terminée (debug logs supprimés)
 
   return {
     allItems,
@@ -138,7 +131,7 @@ const intelligentFusion = (dbResults, searchTerms, bounds) => {
 
 // Fonction principale de recherche dual intelligente
 export const dualIntelligentSearch = async (query, bounds = null) => {
-  console.log("🚀 Recherche dual intelligente:", { query, bounds: !!bounds });
+  // Lancement recherche dual intelligente (debug logs supprimés)
 
   if (!query || query.trim().length === 0) {
     return { allItems: [], mapItems: [] };
@@ -154,11 +147,7 @@ export const dualIntelligentSearch = async (query, bounds = null) => {
     // 3. Fusion intelligente des résultats
     const finalResults = intelligentFusion(dbResults, searchTerms, bounds);
 
-    console.log("🎉 Recherche dual terminée:", {
-      query,
-      allItems: finalResults.allItems.length,
-      mapItems: finalResults.mapItems.length,
-    });
+    // Recherche dual terminée (debug logs supprimés)
 
     return finalResults;
   } catch (error) {

@@ -64,7 +64,6 @@ export default function PatientDashboard() {
       setIsLoadingDoctors(true);
       setErrorDoctors(null);
 
-      console.log("🔄 Chargement des docteurs...");
       const response = await getDoctorsList({
         per_page: 12,
         has_profile: true,

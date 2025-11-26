@@ -7,6 +7,7 @@ import {
   Globe,
   Heart,
   Hospital,
+  Info,
   Loader2,
   MapPin,
   Phone,
@@ -88,7 +89,6 @@ export default function Search() {
 
     try {
       setAllDoctorsLoading(true);
-      console.log("🔄 Chargement de tous les médecins...");
 
       const response = await getDoctorsList({
         per_page: 100, // Charger beaucoup de médecins
@@ -99,7 +99,6 @@ export default function Search() {
 
       const doctorsArray = response.data?.doctors || [];
       setAllDoctors(doctorsArray);
-      console.log(`✅ ${doctorsArray.length} médecins chargés`);
     } catch (error) {
       console.error("❌ Erreur lors du chargement des médecins:", error);
       setAllDoctors([]);
@@ -149,7 +148,6 @@ export default function Search() {
   useEffect(() => {
     // Ne déclencher la détection que si on n'a pas de coordonnées (ni depuis URL ni déjà détectées)
     if (!coords) {
-      console.log("🔍 Page de recherche chargée - Détection automatique de la position GPS...");
       detect();
     }
   }, [coords, detect]);
@@ -195,7 +193,6 @@ export default function Search() {
       return;
     }
 
-    console.log("🔍 Démarrage de la recherche manuelle...");
     searchFunction();
   }, [searchFunction]);
 
@@ -399,10 +396,6 @@ export default function Search() {
                       );
                       if (geocodedCoords) {
                         setCoords(geocodedCoords);
-                        console.log(
-                          "Localisation géocodée:",
-                          geocodedCoords
-                        );
                       } else {
                         // Si le géocodage échoue, stocker la chaîne pour référence
                         setCoords({ manual: locationString });
@@ -709,15 +702,7 @@ function ResultCard({ item }) {
 
   const isFav = item.id ? favorites.has(item.id) : false;
 
-  // Debug log pour voir les données reçues
-  console.log("🔍 ResultCard - Item reçu:", {
-    id: item.id,
-    name: item.name,
-    type: item.type,
-    hasId: !!item.id,
-    hasName: !!item.name,
-    hasType: !!item.type,
-  });
+  // Debug logs removed for production
 
   return (
     <div id={`card-${item.id || 'unknown'}`} className="card">

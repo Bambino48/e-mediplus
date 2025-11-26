@@ -118,9 +118,8 @@ const classifyEstablishment = (item) => {
 // API intelligente pour rechercher tous types d'établissements
 export const searchAllEstablishments = async (params = {}) => {
   try {
-    // Analyser l'intention de recherche
+    // Analyser l'intention de recherche (debug logs supprimés)
     const searchTerms = analyzeSearchIntent(params.q);
-    console.log("🔍 Analyse de recherche:", params.q, "→", searchTerms);
 
     // Faire une recherche large pour avoir plus de résultats
     const response = await api.get("/doctors", {
@@ -136,22 +135,7 @@ export const searchAllEstablishments = async (params = {}) => {
 
     let allItems = response.data?.data?.doctors || response.data?.doctors || [];
 
-    console.log("Structure des données reçues:", {
-      hasData: !!response.data,
-      hasDataData: !!response.data?.data,
-      hasDoctors: !!response.data?.data?.doctors,
-      fullResponse: response.data,
-      firstItem: allItems[0],
-      count: allItems.length,
-      coords: allItems[0]
-        ? {
-            lat: allItems[0].lat,
-            lng: allItems[0].lng,
-            latitude: allItems[0].latitude,
-            longitude: allItems[0].longitude,
-          }
-        : null,
-    });
+    // Structure des données reçues (debug logs supprimés)
 
     // Filtrage intelligent basé sur les termes analysés
     if (searchTerms.length > 0 && params.q) {
@@ -209,27 +193,7 @@ export const searchAllEstablishments = async (params = {}) => {
       return a.distance_km - b.distance_km;
     });
 
-    console.log(
-      `📍 Trouvé ${filteredItems.length} établissements correspondants`,
-      {
-        totalItems: allItems.length,
-        filteredCount: filteredItems.length,
-        searchTerms,
-        userPosition:
-          userLat && userLng ? { lat: userLat, lng: userLng } : null,
-        firstFiltered: filteredItems[0],
-        sampleItems: allItems.slice(0, 3).map((item) => ({
-          name: item.name,
-          specialty: item.specialty,
-          coordinates: {
-            lat: item.lat,
-            lng: item.lng,
-            latitude: item.latitude,
-            longitude: item.longitude,
-          },
-        })),
-      }
-    );
+    // Résumé des résultats (debug logs supprimés)
 
     return {
       items: filteredItems,
