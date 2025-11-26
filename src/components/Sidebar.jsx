@@ -84,7 +84,7 @@ export default function Sidebar({
 
   return (
     <aside
-      className={`sticky top-0 flex flex-col justify-between bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 shadow-sm transition-all duration-300 h-screen ${sidebarOpen ? "min-w-64 w-64" : "w-20"
+      className={`sticky top-0 flex flex-col justify-between bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 shadow-sm transition-all duration-300 h-full ${sidebarOpen ? "min-w-64 w-64" : "w-20"
         } ${className}`}
     >
       {/* === Haut : Photo (toujours visible) === */}
