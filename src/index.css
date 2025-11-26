@@ -77,3 +77,44 @@ main {
 .border-default {
   border-color: var(--color-border);
 }
+
+/* === Force Light Mode Overrides ===
+   Ces règles sont intentionnellement non-destructives et ciblent
+   les utilitaires Tailwind qui définissent des couleurs sombres
+   (ex: `bg-slate-900`, `dark:bg-...`). Lorsqu'`html` n'a pas la
+   classe `dark`, on force des couleurs claires provenant des
+   variables CSS centrales. Utiliser `!important` ici est volontaire
+   pour s'assurer que ces utilitaires ne gardent pas une apparence
+   sombre isolée. */
+
+html:not(.dark) .bg-slate-900,
+html:not(.dark) .bg-slate-950,
+html:not(.dark) .bg-slate-800,
+html:not(.dark) .bg-gray-800,
+html:not(.dark) .bg-slate-700 {
+  background-color: var(--color-card-bg) !important;
+  color: var(--color-text) !important;
+}
+
+/* Classes dark:... présentes dans l'attribut class (Tailwind variant)
+   Exemple: className="bg-white dark:bg-slate-900" -> l'élément contient
+   la sous-chaîne "dark:bg-" dans son attribut class. On cible ces
+   occurrences pour forcer couleurs claires quand root n'est pas .dark. */
+html:not(.dark) [class*="dark:bg-"] {
+  background-color: var(--color-card-bg) !important;
+}
+html:not(.dark) [class*="dark:text-"] {
+  color: var(--color-text) !important;
+}
+html:not(.dark) [class*="dark:border-"] {
+  border-color: var(--color-border) !important;
+}
+html:not(.dark) [class*="dark:hover:bg-"] {
+  background-color: var(--color-card-bg) !important;
+}
+
+/* Utility: éléments avec text-slate-100 (souvent clair sur fond sombre)
+   doivent afficher le texte normal en mode light. */
+html:not(.dark) .text-slate-100 {
+  color: var(--color-text) !important;
+}
