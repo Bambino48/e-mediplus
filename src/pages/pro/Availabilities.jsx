@@ -1,8 +1,9 @@
 // src/pages/pro/Availabilities.jsx
 // eslint-disable-next-line no-unused-vars
+import { useQueryClient } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import { Calendar, Clock, Edit, Plus, Save, Trash2, X } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAppToast } from "../../hooks/useAppToast";
 import {
   useCreateAvailability,
@@ -39,6 +40,7 @@ export default function Availabilities() {
   const toast = useAppToast();
   const updateMutation = useUpdateAvailability();
   const deleteMutation = useDeleteAvailability();
+  const queryClient = useQueryClient();
 
   // Gestionnaire de succès pour la création
   const handleCreateSuccess = () => {
@@ -61,8 +63,14 @@ export default function Availabilities() {
 
   // Gestionnaire d'erreur
   const handleError = (error) => {
-    toast.error("Une erreur est survenue");
-    console.error("Erreur:", error);
+    const serverMessage =
+      error?.response?.data?.message || error?.response?.data || error?.message || "Une erreur est survenue";
+    toast.error(typeof serverMessage === "string" ? serverMessage : "Une erreur est survenue");
+    console.error("Erreur création disponibilité:", {
+      message: error?.message,
+      response: error?.response?.data,
+      status: error?.response?.status,
+    });
   };
 
   const resetForm = () => {
@@ -75,6 +83,53 @@ export default function Availabilities() {
     });
   };
 
+  // Sanitize payload before sending to backend
+  const sanitizePayload = (data) => {
+    const payload = { ...data };
+
+    // Normalize types
+    payload.is_recurring = Boolean(payload.is_recurring);
+
+    // Convert empty date string to null (but prefer deleting for recurring)
+    if (payload.date === "") payload.date = null;
+
+    // Ensure times include seconds (HH:MM -> HH:MM:00)
+    const ensureSeconds = (t) => {
+      if (t === null || t === undefined) return t;
+      if (typeof t !== "string") return t;
+      if (/^\d{2}:\d{2}$/.test(t)) return `${t}:00`;
+      return t;
+    };
+
+    if (payload.start_time) payload.start_time = ensureSeconds(payload.start_time);
+    if (payload.end_time) payload.end_time = ensureSeconds(payload.end_time);
+
+    if (payload.is_recurring) {
+      // recurring: day_of_week required, date must not be sent
+      if (payload.day_of_week !== undefined && payload.day_of_week !== null) {
+        payload.day_of_week = Number(payload.day_of_week);
+      } else {
+        // ensure it's absent instead of empty
+        delete payload.day_of_week;
+      }
+      // remove date entirely for recurring payloads
+      if (Object.prototype.hasOwnProperty.call(payload, "date")) {
+        delete payload.date;
+      }
+    } else {
+      // one-off: date required, remove day_of_week
+      if (payload.date === null || payload.date === undefined || payload.date === "") {
+        // keep null so backend validation can return 422 if missing
+        payload.date = payload.date === "" ? null : payload.date;
+      }
+      if (Object.prototype.hasOwnProperty.call(payload, "day_of_week")) {
+        delete payload.day_of_week;
+      }
+    }
+
+    return payload;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -83,6 +138,11 @@ export default function Availabilities() {
       // Pour récurrent : doit avoir day_of_week, pas de date
       if (!formData.day_of_week) {
         toast.error("Veuillez sélectionner un jour de la semaine");
+        return;
+      }
+      const dow = Number(formData.day_of_week);
+      if (!Number.isInteger(dow) || dow < 1 || dow > 7) {
+        toast.error("Le jour de la semaine sélectionné est invalide");
         return;
       }
       if (formData.date) {
@@ -105,12 +165,39 @@ export default function Availabilities() {
       }
     }
 
+    // Validate times: ensure start_time < end_time when both present
+    if (formData.start_time && formData.end_time) {
+      // form inputs provide HH:MM; append :00 for comparison if needed
+      const normalize = (t) => (t.length === 5 ? `${t}:00` : t);
+      const s = normalize(formData.start_time);
+      const e = normalize(formData.end_time);
+      // Compare as times by splitting
+      const toSeconds = (tt) => {
+        const [hh, mm, ss] = tt.split(":").map((v) => Number(v || 0));
+        return hh * 3600 + mm * 60 + ss;
+      };
+      if (toSeconds(s) >= toSeconds(e)) {
+        toast.error("L'heure de début doit être antérieure à l'heure de fin");
+        return;
+      }
+    }
+
     try {
+      // Build a sanitized payload matching backend expectations
+      const payload = sanitizePayload(formData);
+
       if (editingId) {
-        await updateMutation.mutateAsync({ id: editingId, data: formData });
+        // update expects an object with id and data
+        await updateMutation.mutateAsync({ id: editingId, data: payload });
         handleUpdateSuccess();
       } else {
-        await createMutation.mutateAsync(formData);
+        const result = await createMutation.mutateAsync(payload);
+        // Après la création on force un refetch pour s'assurer que l'élément est bien persistant en base
+        try {
+          await queryClient.invalidateQueries(["doctor-availabilities"]);
+        } catch (refetchErr) {
+          console.warn("Refetch after create failed:", refetchErr);
+        }
         handleCreateSuccess();
       }
     } catch (error) {
@@ -118,13 +205,21 @@ export default function Availabilities() {
     }
   };
 
+  // Au montage, s'assurer que le cache est synchronisé avec le serveur
+  useEffect(() => {
+    // Invalider pour obtenir l'état réel depuis le backend
+    queryClient.invalidateQueries(["doctor-availabilities"]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const handleEdit = (availability) => {
     setEditingId(availability.id);
     setFormData({
       is_recurring: availability.is_recurring,
       day_of_week: availability.day_of_week,
-      start_time: availability.start_time,
-      end_time: availability.end_time,
+      // Trim seconds for HTML time input (HH:MM)
+      start_time: availability.start_time && availability.start_time.length >= 5 ? availability.start_time.slice(0, 5) : availability.start_time,
+      end_time: availability.end_time && availability.end_time.length >= 5 ? availability.end_time.slice(0, 5) : availability.end_time,
       date: availability.date || "",
     });
   };
@@ -142,36 +237,13 @@ export default function Availabilities() {
   };
 
   const handleDelete = async (id) => {
-    toast(
-      (t) => (
-        <div className="flex flex-col gap-3">
-          <p className="text-sm font-medium">
-            Êtes-vous sûr de vouloir supprimer cette disponibilité ?
-          </p>
-          <div className="flex gap-2 justify-end">
-            <button
-              onClick={() => {
-                toast.dismiss(t.id);
-                performDelete(id);
-              }}
-              className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-xs font-medium transition-colors"
-            >
-              Supprimer
-            </button>
-            <button
-              onClick={() => toast.dismiss(t.id)}
-              className="bg-gray-500 hover:bg-gray-600 text-white px-3 py-1 rounded text-xs font-medium transition-colors"
-            >
-              Annuler
-            </button>
-          </div>
-        </div>
-      ),
-      {
-        duration: Infinity,
-        position: "top-center",
-      }
+    // useAppToast() returns an object with methods (success, error, ...)
+    // It is not a function that can render JSX. Use native confirm here.
+    const confirmed = window.confirm(
+      "Êtes-vous sûr de vouloir supprimer cette disponibilité ?"
     );
+    if (!confirmed) return;
+    await performDelete(id);
   };
 
   const performDelete = async (id) => {

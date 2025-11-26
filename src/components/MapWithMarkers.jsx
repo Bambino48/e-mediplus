@@ -181,8 +181,11 @@ export default function MapWithMarkers({
   useEffect(() => {
     isLoadingRef.current = isLoading;
     // Synchroniser l'état de chargement avec le parent
-    if (onLoadingStateUpdate) {
+    if (typeof onLoadingStateUpdate === "function") {
       onLoadingStateUpdate(isLoading);
+    } else if (onLoadingStateUpdate) {
+      // eslint-disable-next-line no-console
+      console.warn("MapWithMarkers: onLoadingStateUpdate is not a function", onLoadingStateUpdate);
     }
   }, [isLoading, onLoadingStateUpdate]); // Mise à jour de l'état de recherche (utilise searchQuery original pour la réactivité du bouton)
   useEffect(() => {
@@ -216,11 +219,17 @@ export default function MapWithMarkers({
       if (!userPosition || !userPosition.lat || !userPosition.lng) {
         console.warn("❌ Position utilisateur non disponible pour la recherche");
         setRealTimeItems([]);
-        if (onInfoMessageUpdate) {
+        if (typeof onInfoMessageUpdate === "function") {
           onInfoMessageUpdate("Veuillez activer la localisation pour effectuer une recherche.");
+        } else if (onInfoMessageUpdate) {
+          // eslint-disable-next-line no-console
+          console.warn("MapWithMarkers: onInfoMessageUpdate is not a function", onInfoMessageUpdate);
         }
-        if (onItemsUpdateRef.current) {
+        if (typeof onItemsUpdateRef.current === "function") {
           onItemsUpdateRef.current([]);
+        } else if (onItemsUpdateRef.current) {
+          // eslint-disable-next-line no-console
+          console.warn("MapWithMarkers: onItemsUpdateRef.current is not a function", onItemsUpdateRef.current);
         }
         setIsLoading(false);
         return;
@@ -250,11 +259,14 @@ export default function MapWithMarkers({
           if (establishments.length === 0) {
             const message =
               "Aucun établissement de santé trouvé dans votre zone. Essayez d'élargir votre recherche ou vérifiez votre position.";
-            if (onInfoMessageUpdate) {
+            if (typeof onInfoMessageUpdate === "function") {
               onInfoMessageUpdate(message);
+            } else if (onInfoMessageUpdate) {
+              // eslint-disable-next-line no-console
+              console.warn("MapWithMarkers: onInfoMessageUpdate is not a function", onInfoMessageUpdate);
             }
           } else {
-            if (onInfoMessageUpdate) {
+            if (typeof onInfoMessageUpdate === "function") {
               onInfoMessageUpdate("");
             }
           }
@@ -288,18 +300,27 @@ export default function MapWithMarkers({
             });
           }
           setRealTimeItems(filteredEstablishments);
-          if (onItemsUpdateRef.current) {
+          if (typeof onItemsUpdateRef.current === "function") {
             onItemsUpdateRef.current(filteredEstablishments);
+          } else if (onItemsUpdateRef.current) {
+            // eslint-disable-next-line no-console
+            console.warn("MapWithMarkers: onItemsUpdateRef.current is not a function", onItemsUpdateRef.current);
           }
         })
         .catch((error) => {
           console.error("❌ Erreur lors de la recherche d'établissements :", error);
           setRealTimeItems([]);
-          if (onInfoMessageUpdate) {
+          if (typeof onInfoMessageUpdate === "function") {
             onInfoMessageUpdate("Erreur lors de la recherche. Réessayez plus tard.");
+          } else if (onInfoMessageUpdate) {
+            // eslint-disable-next-line no-console
+            console.warn("MapWithMarkers: onInfoMessageUpdate is not a function", onInfoMessageUpdate);
           }
-          if (onItemsUpdateRef.current) {
+          if (typeof onItemsUpdateRef.current === "function") {
             onItemsUpdateRef.current([]);
+          } else if (onItemsUpdateRef.current) {
+            // eslint-disable-next-line no-console
+            console.warn("MapWithMarkers: onItemsUpdateRef.current is not a function", onItemsUpdateRef.current);
           }
         })
         .finally(() => {
@@ -308,8 +329,11 @@ export default function MapWithMarkers({
     } catch (error) {
       console.error("❌ Erreur synchrone lors de la recherche :", error);
       setIsLoading(false);
-      if (onInfoMessageUpdate) {
+      if (typeof onInfoMessageUpdate === "function") {
         onInfoMessageUpdate("Erreur lors de la recherche. Réessayez plus tard.");
+      } else if (onInfoMessageUpdate) {
+        // eslint-disable-next-line no-console
+        console.warn("MapWithMarkers: onInfoMessageUpdate is not a function", onInfoMessageUpdate);
       }
     }
   }, [

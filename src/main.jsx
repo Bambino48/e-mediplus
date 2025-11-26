@@ -8,7 +8,7 @@ window.process ||= {
 
 // Fonction pour nettoyer le localStorage corrompu
 const cleanLocalStorage = () => {
-  const keysToCheck = ["token", "cachedUser", "theme", "locale"];
+  const keysToCheck = ["token", "theme", "locale"];
 
   keysToCheck.forEach((key) => {
     let value;
@@ -17,10 +17,8 @@ const cleanLocalStorage = () => {
       if (value) {
         // Essayer de parser seulement si c'est censé être du JSON et que ça ressemble à du JSON
         if (
-          (key === "cachedUser" || key === "token") &&
-          (value.startsWith("{") ||
-            value.startsWith("[") ||
-            value.startsWith('"'))
+          key === "token" &&
+          (value.startsWith("{") || value.startsWith("[") || value.startsWith('"'))
         ) {
           JSON.parse(value);
         }

@@ -28,12 +28,10 @@ export function useCreateAvailability() {
   return useMutation({
     mutationFn: createDoctorAvailability,
     onSuccess: (newAvailability) => {
-      // Mise à jour optimiste du cache
-      queryClient.setQueryData(["doctor-availabilities"], (oldData) => {
-        const currentData = Array.isArray(oldData) ? oldData : [];
-        return [...currentData, newAvailability];
-      });
-      // Invalidation pour s'assurer de la fraîcheur des données
+      // Ne pas appliquer d'update optimiste ici : s'appuyer sur la source
+      // de vérité (backend). On invalide la query pour forcer un refetch
+      // et éviter d'afficher des disponibilités locales qui n'auraient
+      // pas été réellement persistées en base.
       queryClient.invalidateQueries(["doctor-availabilities"]);
     },
   });
@@ -46,17 +44,10 @@ export function useUpdateAvailability() {
   return useMutation({
     mutationFn: ({ id, data }) => updateDoctorAvailability(id, data),
     onSuccess: (updatedAvailability) => {
-      // Mise à jour optimiste du cache
-      queryClient.setQueryData(["doctor-availabilities"], (oldData) => {
-        const currentData = Array.isArray(oldData) ? oldData : [];
-        return currentData.map((availability) =>
-          availability.id === updatedAvailability.id
-            ? updatedAvailability
-            : availability
-        );
-      });
-      // Invalidation pour s'assurer de la fraîcheur des données
+      // Ne pas faire d'update optimiste ici : invalider les queries pour
+      // récupérer l'état réel depuis le backend (évite les fantômes).
       queryClient.invalidateQueries(["doctor-availabilities"]);
+      queryClient.invalidateQueries(["availabilities"]);
     },
   });
 }
@@ -68,15 +59,10 @@ export function useDeleteAvailability() {
   return useMutation({
     mutationFn: deleteDoctorAvailability,
     onSuccess: (_, deletedId) => {
-      // Mise à jour optimiste du cache
-      queryClient.setQueryData(["doctor-availabilities"], (oldData) => {
-        const currentData = Array.isArray(oldData) ? oldData : [];
-        return currentData.filter(
-          (availability) => availability.id !== deletedId
-        );
-      });
-      // Invalidation pour s'assurer de la fraîcheur des données
+      // Ne pas modifier le cache local directement : invalider pour forcer
+      // le refetch et afficher uniquement ce qui est réellement en base.
       queryClient.invalidateQueries(["doctor-availabilities"]);
+      queryClient.invalidateQueries(["availabilities"]);
     },
   });
 }

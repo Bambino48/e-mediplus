@@ -63,21 +63,18 @@ export default function ProfileDebugger() {
         </div>
 
         <div className="border-t border-slate-700 pt-2 mt-2">
-          <div className="font-bold text-purple-400 mb-1">
-            LocalStorage Cache:
-          </div>
+          <div className="font-bold text-purple-400 mb-1">LocalStorage</div>
           <pre className="text-xs bg-slate-800 p-2 rounded overflow-auto max-h-32">
             {(() => {
               try {
-                const cachedUser = localStorage.getItem("cachedUser") || "{}";
-                return JSON.stringify(JSON.parse(cachedUser), null, 2);
+                const data = {
+                  token: localStorage.getItem("token") || null,
+                  theme: localStorage.getItem("theme") || null,
+                  locale: localStorage.getItem("locale") || null,
+                };
+                return JSON.stringify(data, null, 2);
               } catch (error) {
-                return `Erreur de parsing JSON: ${
-                  error.message
-                }\nValeur brute: ${
-                  localStorage.getItem("cachedUser")?.substring(0, 100) ||
-                  "null"
-                }`;
+                return `Erreur lors de la lecture du localStorage: ${error.message}`;
               }
             })()}
           </pre>

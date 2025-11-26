@@ -40,8 +40,12 @@ const InlineBooking = ({ doctor, onClose, onSuccess }) => {
       clear();
       setReason(""); // Réinitialiser le motif
       setIsVisible(false);
-      if (onSuccess) {
+      if (typeof onSuccess === "function") {
         onSuccess();
+      } else if (onSuccess) {
+        // Valeur fournie mais pas une fonction -> avertir pour débogage
+        // eslint-disable-next-line no-console
+        console.warn("InlineBooking: onSuccess prop is not a function", onSuccess);
       } else {
         // Recharger la page ou mettre à jour l'état
         window.location.reload();
@@ -76,7 +80,12 @@ const InlineBooking = ({ doctor, onClose, onSuccess }) => {
     clear();
     setReason(""); // Réinitialiser le motif
     setTimeout(() => {
-      if (onClose) onClose();
+      if (typeof onClose === "function") {
+        onClose();
+      } else if (onClose) {
+        // eslint-disable-next-line no-console
+        console.warn("InlineBooking: onClose prop is not a function", onClose);
+      }
     }, 300);
   };
 

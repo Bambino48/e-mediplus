@@ -408,36 +408,8 @@ export default function Appointments({ useLayout = true }) {
   };
 
   const handleCancel = (id) => {
-    toast(
-      (t) => (
-        <div className="flex flex-col gap-3">
-          <p className="text-sm font-medium">
-            Êtes-vous sûr de vouloir annuler ce rendez-vous ?
-          </p>
-          <div className="flex gap-2 justify-end">
-            <button
-              onClick={() => {
-                toast.dismiss(t.id);
-                cancelMutation.mutate(id);
-              }}
-              className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-xs font-medium transition-colors"
-            >
-              Annuler
-            </button>
-            <button
-              onClick={() => toast.dismiss(t.id)}
-              className="bg-gray-500 hover:bg-gray-600 text-white px-3 py-1 rounded text-xs font-medium transition-colors"
-            >
-              Conserver
-            </button>
-          </div>
-        </div>
-      ),
-      {
-        duration: Infinity,
-        position: "top-center",
-      }
-    );
+    const confirmed = window.confirm("Êtes-vous sûr de vouloir annuler ce rendez-vous ?");
+    if (confirmed) cancelMutation.mutate(id);
   };
 
   if (isLoading) {
@@ -490,8 +462,8 @@ export default function Appointments({ useLayout = true }) {
         <button
           onClick={() => setFilter("upcoming")}
           className={`px-4 py-2 rounded-lg transition ${filter === "upcoming"
-              ? "bg-cyan-600 text-white"
-              : "bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700"
+            ? "bg-cyan-600 text-white"
+            : "bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700"
             }`}
         >
           À venir ({upcomingCount})
@@ -499,8 +471,8 @@ export default function Appointments({ useLayout = true }) {
         <button
           onClick={() => setFilter("past")}
           className={`px-4 py-2 rounded-lg transition ${filter === "past"
-              ? "bg-cyan-600 text-white"
-              : "bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700"
+            ? "bg-cyan-600 text-white"
+            : "bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700"
             }`}
         >
           Passés ({pastCount})
@@ -508,8 +480,8 @@ export default function Appointments({ useLayout = true }) {
         <button
           onClick={() => setFilter("all")}
           className={`px-4 py-2 rounded-lg transition ${filter === "all"
-              ? "bg-cyan-600 text-white"
-              : "bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700"
+            ? "bg-cyan-600 text-white"
+            : "bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700"
             }`}
         >
           Tous ({appointments.length})
@@ -594,10 +566,10 @@ export default function Appointments({ useLayout = true }) {
             <div className="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2">
               <div
                 className={`h-2 rounded-full transition-all duration-300 ${nextAppointment.status === "confirmed"
-                    ? "bg-green-500"
-                    : nextAppointment.status === "pending"
-                      ? "bg-yellow-500"
-                      : "bg-blue-500"
+                  ? "bg-green-500"
+                  : nextAppointment.status === "pending"
+                    ? "bg-yellow-500"
+                    : "bg-blue-500"
                   }`}
                 style={{
                   width:

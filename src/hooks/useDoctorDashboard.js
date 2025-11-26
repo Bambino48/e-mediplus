@@ -18,8 +18,14 @@ export function useDoctorStats() {
     queryKey: ["doctorStats"],
     queryFn: getDoctorStats,
     enabled: isAuthenticated(),
-    retry: 1,
-    refetchInterval: 5 * 60 * 1000, // Rafraîchissement toutes les 5 minutes
+    // Ne pas relancer agressivement en cas d'erreur serveur (backoff côté client)
+    retry: 0,
+    // Pas de rafraîchissement automatique par intervalle pour réduire la charge
+    refetchInterval: false,
+    // Considérer les stats fraîches pendant 15 minutes
+    staleTime: 15 * 60 * 1000,
+    // Eviter de refetch au focus de la fenêtre
+    refetchOnWindowFocus: false,
   });
 }
 
@@ -28,7 +34,7 @@ export function useDoctorProfile() {
   return useQuery({
     queryKey: ["doctor-profile"],
     queryFn: async () => {
-      console.log("🔄 Hook useDoctorProfile - Fetching combined profile data");
+      // Debug logs removed in production build
 
       // Récupérer les données utilisateur et professionnel en parallèle
       const [userData, profileResponse] = await Promise.all([
@@ -62,7 +68,7 @@ export function useDoctorProfile() {
         ...enrichedProfileData, // city, address, phone, fees, primary_specialty_name, specialty, etc.
       };
 
-      console.log("✅ Hook useDoctorProfile - Combined data:", combinedData);
+      // Combined data ready (debug log removed)
       return combinedData;
     },
     enabled: isAuthenticated(),

@@ -12,8 +12,13 @@ export default function QuickActions({ actions = [], onActionClick }) {
   if (!actions || actions.length === 0) return null;
 
   const handleClick = (view) => {
-    if (onActionClick) {
+    if (typeof onActionClick === "function") {
       onActionClick(view);
+    } else {
+      // Défensive: éviter d'appeler une valeur non-fonction et aider au debug
+      // (par ex. si un booléen ou un objet est passé par erreur)
+      // eslint-disable-next-line no-console
+      console.warn("QuickActions: onActionClick is not a function", onActionClick);
     }
   };
 

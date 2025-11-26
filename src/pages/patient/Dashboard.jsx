@@ -141,10 +141,7 @@ export default function PatientDashboard() {
   const handleAppointmentsClick = (e) => {
     if (!nextAppointmentData?.appointment) {
       e.preventDefault();
-      toast("Vous n'avez aucun rendez-vous prévu pour le moment", {
-        icon: "📅",
-        duration: 3000,
-      });
+      toast.info("Vous n'avez aucun rendez-vous prévu pour le moment");
     } else {
       setShowAppointmentView(true);
     }
@@ -163,10 +160,7 @@ export default function PatientDashboard() {
 
   const handlePrescriptionsClick = () => {
     if (!todayMedications?.items || todayMedications.items.length === 0) {
-      toast("Vous n'avez aucun médicament à prendre aujourd'hui", {
-        icon: "💊",
-        duration: 3000,
-      });
+      toast.info("Vous n'avez aucun médicament à prendre aujourd'hui");
       return;
     }
     setActiveView('prescriptions');
@@ -198,10 +192,7 @@ export default function PatientDashboard() {
   const handleNotificationsClick = (e) => {
     if (!notificationsData?.count || notificationsData.count === 0) {
       e.preventDefault();
-      toast("Vous n'avez aucune nouvelle notification", {
-        icon: "🔔",
-        duration: 3000,
-      });
+      toast.info("Vous n'avez aucune nouvelle notification");
     } else {
       navigate("/notifications");
     }

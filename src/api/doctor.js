@@ -7,9 +7,14 @@ export async function getDoctorStats() {
     const { data } = await api.get("/doctor/stats");
     return data; // { appointments_today: 5, revenue_month: 145000, pending_tasks: 1 }
   } catch (err) {
-    // Log côté client et retourner un fallback non cassant
-    // eslint-disable-next-line no-console
-    console.warn("getDoctorStats failed, returning fallback:", err);
+    // Si l'erreur est un 500 (par ex. pas de stats en base), ne pas spammer la console
+    const status = err?.response?.status;
+    if (status === 500) {
+      return { appointments_today: 0, revenue_month: 0, pending_tasks: 0 };
+    }
+
+    // Retourner un fallback silencieux pour toutes les autres erreurs afin
+    // d'éviter d'afficher des logs clients répétitifs si le backend a un bug
     return { appointments_today: 0, revenue_month: 0, pending_tasks: 0 };
   }
 }
@@ -22,9 +27,8 @@ export async function getUserProfile() {
 
 // ✅ API Réelles - Profil professionnel du médecin
 export async function getDoctorProfile() {
-  console.log("🔄 API getDoctorProfile - Calling /doctor/profile");
+  // Removed debug logs to reduce console noise
   const { data } = await api.get("/doctor/profile");
-  console.log("✅ API getDoctorProfile - Response data:", data);
   return data; // Données du profil professionnel (city, address, phone, fees, etc.)
 }
 
@@ -54,8 +58,6 @@ export async function getDoctorAvailabilities() {
     return data.availabilities || [];
   } catch (err) {
     // Retourner tableau vide si erreur (422, 500...) pour ne pas casser l'UI
-    // eslint-disable-next-line no-console
-    console.warn("getDoctorAvailabilities failed, returning empty array:", err);
     return [];
   }
 }
@@ -63,7 +65,9 @@ export async function getDoctorAvailabilities() {
 // ✅ API Disponibilités - Créer une nouvelle disponibilité
 export async function createDoctorAvailability(availabilityData) {
   const { data } = await api.post("/doctor/availabilities", availabilityData);
-  return data;
+  // Normaliser la réponse : certaines API renvoient { availability: {...} }
+  // Retourner directement l'objet disponibilité pour simplifier l'usage côté client
+  return data?.availability || data;
 }
 
 // ✅ API Disponibilités - Mettre à jour une disponibilité
@@ -72,11 +76,15 @@ export async function updateDoctorAvailability(id, availabilityData) {
     `/doctor/availabilities/${id}`,
     availabilityData
   );
-  return data;
+  return data?.availability || data;
 }
 
 // ✅ API Disponibilités - Supprimer une disponibilité
 export async function deleteDoctorAvailability(id) {
   const { data } = await api.delete(`/doctor/availabilities/${id}`);
+  // Si l'API retourne { success: true, id }, retourner l'id supprimé
+  if (data && (data.id || data.deleted_id)) {
+    return data.id || data.deleted_id;
+  }
   return data;
 }

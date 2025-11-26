@@ -84,7 +84,6 @@ export default function PatientMedicalProfile() {
           // Token invalide ou expiré - déconnexion automatique
           console.warn("Token invalide, déconnexion automatique");
           localStorage.removeItem("token");
-          localStorage.removeItem("cachedUser");
           toast.error("Session expirée. Veuillez vous reconnecter.");
           // Redirection vers la page de connexion
           window.location.href = "/auth/login";
@@ -134,7 +133,6 @@ export default function PatientMedicalProfile() {
         // Token invalide ou expiré - déconnexion automatique
         console.warn("Token invalide lors de la sauvegarde, déconnexion automatique");
         localStorage.removeItem("token");
-        localStorage.removeItem("cachedUser");
         toast.error("Session expirée. Veuillez vous reconnecter.");
         // Redirection vers la page de connexion
         window.location.href = "/auth/login";

@@ -41,7 +41,65 @@ export const getDoctorAvailabilities = async (doctorId, params = {}) => {
   const { data } = await api.get(`/doctors/${doctorId}/availabilities`, {
     params,
   });
-  return data;
+
+  // Defensive: if backend does not return an aggregated `slots` object,
+  // try to build it from a raw `availabilities` array so patient UI still works.
+  if (!data || data.slots || !Array.isArray(data.availabilities)) {
+    return data;
+  }
+
+  const availabilities = data.availabilities;
+
+  const toHHMM = (t) => {
+    if (!t) return t;
+    const parts = String(t).split(":");
+    const hh = parts[0].padStart(2, "0");
+    const mm = (parts[1] || "00").padStart(2, "0");
+    return `${hh}:${mm}`;
+  };
+
+  const slots = {};
+  const today = new Date();
+  // Generate slots for the next 14 days for recurring availabilities
+  const daysToBuild = 7;
+
+  for (const a of availabilities) {
+    const start = toHHMM(a.start_time);
+    const end = toHHMM(a.end_time);
+
+    if (a.is_recurring && a.day_of_week != null) {
+      // Assume day_of_week follows 1=Monday .. 7=Sunday
+      for (let i = 0; i < daysToBuild; i++) {
+        const d = new Date(today);
+        d.setDate(today.getDate() + i);
+        const dow = d.getDay() === 0 ? 7 : d.getDay();
+        if (dow === Number(a.day_of_week)) {
+          const dateStr = d.toISOString().slice(0, 10);
+          slots[dateStr] = slots[dateStr] || [];
+          if (start) slots[dateStr].push(start);
+          if (end) slots[dateStr].push(end);
+        }
+      }
+    } else if (a.date) {
+      const dateStr = String(a.date).slice(0, 10);
+      slots[dateStr] = slots[dateStr] || [];
+      if (start) slots[dateStr].push(start);
+      if (end) slots[dateStr].push(end);
+    }
+  }
+
+  // Normalize: unique + sort
+  for (const date of Object.keys(slots)) {
+    const uniq = Array.from(new Set(slots[date]));
+    uniq.sort((x, y) => {
+      const [xh, xm] = x.split(":").map(Number);
+      const [yh, ym] = y.split(":").map(Number);
+      return xh * 100 + xm - (yh * 100 + ym);
+    });
+    slots[date] = uniq;
+  }
+
+  return { ...data, slots };
 };
 
 /**

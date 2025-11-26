@@ -58,11 +58,11 @@ const DoctorCard = ({ doctor, user, userLocation, onBooking }) => {
   const distance =
     userLocation && doctorLat && doctorLng
       ? calculateDistance(
-          userLocation.lat,
-          userLocation.lng,
-          doctorLat,
-          doctorLng
-        )
+        userLocation.lat,
+        userLocation.lng,
+        doctorLat,
+        doctorLng
+      )
       : null;
 
   const distanceText = distance
@@ -98,11 +98,15 @@ const DoctorCard = ({ doctor, user, userLocation, onBooking }) => {
       e.preventDefault();
       return;
     }
-    // Si onBooking est fourni, l'utiliser au lieu de naviguer
-    if (onBooking) {
+    // Si onBooking est fourni et est une fonction, l'utiliser au lieu de naviguer
+    if (typeof onBooking === "function") {
       e.preventDefault();
       onBooking(doctor);
       return;
+    } else if (onBooking) {
+      // Valeur fournie mais pas une fonction -> avertir pour débogage
+      // eslint-disable-next-line no-console
+      console.warn("DoctorCard: onBooking prop is not a function", onBooking);
     }
   };
 
@@ -297,11 +301,10 @@ const DoctorCard = ({ doctor, user, userLocation, onBooking }) => {
         </Link>
         {onBooking ? (
           <button
-            className={`flex-1 text-sm sm:text-base py-2 px-3 sm:px-4 rounded-lg font-medium transition-all duration-200 hover:scale-105 hover:shadow-md active:scale-95 group ${
-              nextSlot
+            className={`flex-1 text-sm sm:text-base py-2 px-3 sm:px-4 rounded-lg font-medium transition-all duration-200 hover:scale-105 hover:shadow-md active:scale-95 group ${nextSlot
                 ? "btn-primary hover:bg-cyan-600 dark:hover:bg-cyan-500"
                 : "bg-slate-300 dark:bg-slate-600 text-slate-500 dark:text-slate-400 cursor-not-allowed"
-            }`}
+              }`}
             onClick={handleBookingClick}
             disabled={!nextSlot}
             title={
@@ -320,11 +323,10 @@ const DoctorCard = ({ doctor, user, userLocation, onBooking }) => {
           </button>
         ) : (
           <Link
-            className={`flex-1 text-sm sm:text-base py-2 px-3 sm:px-4 rounded-lg font-medium transition-all duration-200 hover:scale-105 hover:shadow-md active:scale-95 group ${
-              nextSlot
+            className={`flex-1 text-sm sm:text-base py-2 px-3 sm:px-4 rounded-lg font-medium transition-all duration-200 hover:scale-105 hover:shadow-md active:scale-95 group ${nextSlot
                 ? "btn-primary hover:bg-cyan-600 dark:hover:bg-cyan-500"
                 : "bg-slate-300 dark:bg-slate-600 text-slate-500 dark:text-slate-400 cursor-not-allowed"
-            }`}
+              }`}
             to={nextSlot ? `/booking/${doctor.id}` : "#"}
             onClick={handleBookingClick}
             title={

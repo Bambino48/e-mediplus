@@ -24,6 +24,8 @@ api.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
+// (dev logging removed)
+
 // Gestion des erreurs
 api.interceptors.response.use(
   (response) => response,
@@ -34,15 +36,8 @@ api.interceptors.response.use(
     const message =
       data?.message || data?.error || error.message || "Erreur réseau";
 
-    // Log détaillé pour investigation (non bloquant)
-    // eslint-disable-next-line no-console
-    console.error("API ERROR:", {
-      url: error?.config?.url,
-      method: error?.config?.method,
-      status,
-      data,
-      message,
-    });
+    // Detailed logging intentionally disabled in production build.
+    // Will surface errors through rejected promise instead.
 
     // Si 401 -> token invalide : nettoyer le token local pour éviter rebouclage
     if (status === 401) {

@@ -142,9 +142,8 @@ export default function PatientPrescriptions() {
   };
 
   const handleRenewPrescription = () => {
-    toast(
-      "Pour renouveler cette ordonnance, consultez un médecin en téléconsultation",
-      { icon: "💊", duration: 4000 }
+    toast.info(
+      "Pour renouveler cette ordonnance, consultez un médecin en téléconsultation"
     );
     setTimeout(() => navigate("/teleconsult"), 1500);
   };

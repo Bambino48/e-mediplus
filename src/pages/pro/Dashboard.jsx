@@ -161,8 +161,15 @@ export default function ProDashboard() {
     setEditFormData({
       is_recurring: availability.is_recurring,
       day_of_week: availability.day_of_week,
-      start_time: availability.start_time,
-      end_time: availability.end_time,
+      // Trim seconds for HTML time input (HH:MM)
+      start_time:
+        availability.start_time && availability.start_time.length >= 5
+          ? availability.start_time.slice(0, 5)
+          : availability.start_time,
+      end_time:
+        availability.end_time && availability.end_time.length >= 5
+          ? availability.end_time.slice(0, 5)
+          : availability.end_time,
       date: availability.date || "",
     });
   };
@@ -208,7 +215,25 @@ export default function ProDashboard() {
     }
 
     try {
-      await updateMutation.mutateAsync({ id: editingId, data: editFormData });
+      // Sanitize payload similar to Availabilities page
+      const payload = { ...editFormData };
+      payload.is_recurring = Boolean(payload.is_recurring);
+      if (payload.is_recurring) {
+        delete payload.date;
+        payload.day_of_week = payload.day_of_week ? Number(payload.day_of_week) : null;
+      } else {
+        delete payload.day_of_week;
+      }
+
+      const ensureSeconds = (t) => {
+        if (!t) return t;
+        if (/^\d{2}:\d{2}$/.test(t)) return `${t}:00`;
+        return t;
+      };
+      payload.start_time = ensureSeconds(payload.start_time);
+      payload.end_time = ensureSeconds(payload.end_time);
+
+      await updateMutation.mutateAsync({ id: editingId, data: payload });
       toast.success("Disponibilité mise à jour avec succès");
       setEditingId(null);
     } catch (error) {
@@ -217,36 +242,14 @@ export default function ProDashboard() {
   };
 
   const handleDeleteAvailability = async (id) => {
-    toast(
-      (t) => (
-        <div className="flex flex-col gap-3">
-          <p className="text-sm font-medium">
-            Êtes-vous sûr de vouloir supprimer cette disponibilité ?
-          </p>
-          <div className="flex gap-2 justify-end">
-            <button
-              onClick={() => {
-                toast.dismiss(t.id);
-                performDelete(id);
-              }}
-              className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-xs font-medium transition-colors"
-            >
-              Supprimer
-            </button>
-            <button
-              onClick={() => toast.dismiss(t.id)}
-              className="bg-gray-500 hover:bg-gray-600 text-white px-3 py-1 rounded text-xs font-medium transition-colors"
-            >
-              Annuler
-            </button>
-          </div>
-        </div>
-      ),
-      {
-        duration: Infinity,
-        position: "top-center",
-      }
+    // Utiliser une confirmation native pour éviter d'appeler `toast` comme fonction
+    // (le hook `useAppToast` expose des méthodes comme `toast.success`, `toast.error`,
+    // mais n'est pas une fonction pour afficher du JSX interactif).
+    const confirmed = window.confirm(
+      "Êtes-vous sûr de vouloir supprimer cette disponibilité ?"
     );
+    if (!confirmed) return;
+    performDelete(id);
   };
 
   const performDelete = async (id) => {
