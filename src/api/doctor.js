@@ -3,8 +3,15 @@ import api from "./axiosInstance.js";
 
 // ✅ API Réelles - Statistiques du médecin
 export async function getDoctorStats() {
-  const { data } = await api.get("/doctor/stats");
-  return data; // { appointments_today: 5, revenue_month: 145000, pending_tasks: 1 }
+  try {
+    const { data } = await api.get("/doctor/stats");
+    return data; // { appointments_today: 5, revenue_month: 145000, pending_tasks: 1 }
+  } catch (err) {
+    // Log côté client et retourner un fallback non cassant
+    // eslint-disable-next-line no-console
+    console.warn("getDoctorStats failed, returning fallback:", err);
+    return { appointments_today: 0, revenue_month: 0, pending_tasks: 0 };
+  }
 }
 
 // ✅ API Réelles - Données utilisateur de base
@@ -41,9 +48,16 @@ export async function getDoctorPendingTasks() {
 
 // ✅ API Disponibilités - Récupérer toutes les disponibilités du médecin
 export async function getDoctorAvailabilities() {
-  const { data } = await api.get("/doctor/availabilities");
-  // L'API retourne {availabilities: [...]}, on extrait le tableau
-  return data.availabilities || [];
+  try {
+    const { data } = await api.get("/doctor/availabilities");
+    // L'API retourne {availabilities: [...]}, on extrait le tableau
+    return data.availabilities || [];
+  } catch (err) {
+    // Retourner tableau vide si erreur (422, 500...) pour ne pas casser l'UI
+    // eslint-disable-next-line no-console
+    console.warn("getDoctorAvailabilities failed, returning empty array:", err);
+    return [];
+  }
 }
 
 // ✅ API Disponibilités - Créer une nouvelle disponibilité

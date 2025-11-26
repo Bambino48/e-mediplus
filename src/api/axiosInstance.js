@@ -28,12 +28,39 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => response,
   (error) => {
+    // Enrichir l'erreur pour faciliter le debug côté frontend
+    const status = error?.response?.status;
+    const data = error?.response?.data;
     const message =
-      error?.response?.data?.message ||
-      error?.response?.data?.error ||
-      error.message ||
-      "Erreur réseau";
-    return Promise.reject({ ...error, message });
+      data?.message || data?.error || error.message || "Erreur réseau";
+
+    // Log détaillé pour investigation (non bloquant)
+    // eslint-disable-next-line no-console
+    console.error("API ERROR:", {
+      url: error?.config?.url,
+      method: error?.config?.method,
+      status,
+      data,
+      message,
+    });
+
+    // Si 401 -> token invalide : nettoyer le token local pour éviter rebouclage
+    if (status === 401) {
+      try {
+        localStorage.removeItem("token");
+      } catch (e) {
+        /* silent */
+      }
+    }
+
+    // Construire un objet erreur plus lisible
+    const enriched = {
+      original: error,
+      status,
+      data,
+      message,
+    };
+    return Promise.reject(enriched);
   }
 );
 
