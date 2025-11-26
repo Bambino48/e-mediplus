@@ -73,9 +73,8 @@ export default function Sidebar({
     if (user?.photo && user.photo.trim() !== "") {
       if (user.photo.startsWith("http")) return user.photo;
       if (user.photo.startsWith("data:image")) return user.photo;
-      return `${
-        import.meta.env.VITE_API_URL || "http://localhost:8000"
-      }/storage/${user.photo}`;
+      return `${import.meta.env.VITE_API_URL || "http://localhost:8000"
+        }/storage/${user.photo}`;
     }
 
     return "https://cdn-icons-png.flaticon.com/512/847/847969.png";
@@ -85,9 +84,8 @@ export default function Sidebar({
 
   return (
     <aside
-      className={`sticky top-0 flex flex-col justify-between bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 shadow-sm transition-all duration-300 h-screen ${
-        sidebarOpen ? "min-w-64 w-64" : "w-20"
-      } ${className}`}
+      className={`sticky top-0 flex flex-col justify-between bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 shadow-sm transition-all duration-300 h-screen ${sidebarOpen ? "min-w-64 w-64" : "w-20"
+        } ${className}`}
     >
       {/* === Haut : Photo (toujours visible) === */}
       <div className="p-3 shrink-0">
@@ -97,9 +95,8 @@ export default function Sidebar({
             <img
               src={photoUrl}
               alt="Profil"
-              className={`rounded-full object-cover border-4 border-cyan-500 shadow-lg transition-all duration-300 hover:scale-105 ${
-                sidebarOpen ? "h-24 w-24" : "h-12 w-12"
-              }`}
+              className={`rounded-full object-cover border-4 border-cyan-500 shadow-lg transition-all duration-300 hover:scale-105 ${sidebarOpen ? "h-24 w-24" : "h-12 w-12"
+                }`}
               onError={(e) => {
                 console.log("Erreur chargement photo:", photoUrl);
                 e.target.src =
@@ -150,13 +147,11 @@ export default function Sidebar({
                     <div
                       key={it.key}
                       onClick={() => handleClick(it)}
-                      className={`${baseLink} ${
-                        isActive ? active : "text-slate-700 dark:text-slate-200"
-                      } ${
-                        it.key === "appointments" && section === "patient"
+                      className={`${baseLink} ${isActive ? active : "text-slate-700 dark:text-slate-200"
+                        } ${it.key === "appointments" && section === "patient"
                           ? "relative"
                           : ""
-                      }`}
+                        }`}
                       title={it.label}
                     >
                       <span className="text-lg relative">
@@ -176,14 +171,12 @@ export default function Sidebar({
                       key={it.to}
                       to={it.to}
                       className={({ isActive }) =>
-                        `${baseLink} ${
-                          isActive
-                            ? active
-                            : "text-slate-700 dark:text-slate-200"
-                        } ${
-                          it.key === "appointments" && section === "patient"
-                            ? "relative"
-                            : ""
+                        `${baseLink} ${isActive
+                          ? active
+                          : "text-slate-700 dark:text-slate-200"
+                        } ${it.key === "appointments" && section === "patient"
+                          ? "relative"
+                          : ""
                         }`
                       }
                       title={it.label}
