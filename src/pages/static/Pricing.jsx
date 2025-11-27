@@ -17,7 +17,14 @@ export default function Pricing() {
                         <ul className="text-sm text-slate-600 dark:text-slate-300 space-y-1">
                             {p.features.map((f) => <li key={f}>• {f}</li>)}
                         </ul>
-                        <button className="btn-primary mt-4">Choisir</button>
+                        <a
+                            href="https://lightsalmon-elk-292300.hostingersite.com/paiement-de-la-consultation"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="btn-primary mt-4 inline-block"
+                        >
+                            Choisir
+                        </a>
                     </div>
                 ))}
             </div>
